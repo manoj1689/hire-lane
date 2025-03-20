@@ -562,336 +562,267 @@ document.querySelectorAll('input[name="format"]').forEach(radio => {
 </div>
 </div>
 <script>
-const recentActivities = [
-{
-type: 'application',
-title: 'New application received',
-description: 'Sarah Wilson applied for Senior Product Designer position',
-time: '10 minutes ago',
-icon: 'ri-user-add-line',
-iconBg: 'bg-blue-100',
-iconColor: 'text-blue-600'
-},
-{
-type: 'interview',
-title: 'Interview scheduled',
-description: 'Technical interview with Michael Chen for Frontend Developer role',
-time: '1 hour ago',
-icon: 'ri-calendar-check-line',
-iconBg: 'bg-green-100',
-iconColor: 'text-green-600'
-},
-{
-type: 'offer',
-title: 'Offer accepted',
-description: 'Jessica Parker accepted the Marketing Manager position',
-time: '2 hours ago',
-icon: 'ri-check-double-line',
-iconBg: 'bg-primary/10',
-iconColor: 'text-primary'
-},
-{
-type: 'job',
-title: 'New job posted',
-description: 'Senior Backend Engineer position is now live',
-time: '3 hours ago',
-icon: 'ri-briefcase-4-line',
-iconBg: 'bg-purple-100',
-iconColor: 'text-purple-600'
-}
-];
-function addNewActivity(activity) {
-recentActivities.unshift(activity);
-if(recentActivities.length > 10) {
-recentActivities.pop();
-}
-renderRecentActivities();
-}
-document.getElementById('createJobForm').addEventListener('submit', function(e) {
-e.preventDefault();
-const form = e.target;
-const title = form.querySelector('input[type="text"]').value;
-const department = form.querySelector('select').value;
-const newActivity = {
-type: 'job',
-title: 'New job posted',
-description: `${title} position is now live in ${department} department`,
-time: 'Just now',
-icon: 'ri-briefcase-4-line',
-iconBg: 'bg-purple-100',
-iconColor: 'text-purple-600'
-};
-addNewActivity(newActivity);
-hideCreateJobModal();
-form.reset();
-});
-function renderRecentActivities() {
-const container = document.getElementById('recentActivities');
-container.innerHTML = recentActivities.map(activity => `
-<div class="flex items-start space-x-4">
-<div class="w-8 h-8 ${activity.iconBg} rounded-full flex items-center justify-center flex-shrink-0">
-<i class="${activity.icon} ${activity.iconColor}"></i>
-</div>
-<div class="flex-1">
-<h4 class="text-sm font-medium text-gray-900">${activity.title}</h4>
-<p class="text-sm text-gray-600">${activity.description}</p>
-<span class="text-xs text-gray-500">${activity.time}</span>
-</div>
-<button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600">
-<i class="ri-more-2-fill"></i>
-</button>
-</div>
-`).join('');
-}
-function initRecruitmentTrendsChart() {
-const chart = echarts.init(document.getElementById('recruitmentTrendsChart'));
-const option = {
-animation: false,
-grid: {
-top: 10,
-right: 30,
-bottom: 30,
-left: 40
-},
-xAxis: {
-type: 'category',
-data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-axisLine: {
-lineStyle: {
-color: '#E5E7EB'
-}
-},
-axisLabel: {
-color: '#6B7280'
-}
-},
-yAxis: {
-type: 'value',
-splitLine: {
-lineStyle: {
-color: '#E5E7EB'
-}
-},
-axisLabel: {
-color: '#6B7280'
-}
-},
-series: [
-{
-name: 'Applications',
-type: 'line',
-smooth: true,
-data: [150, 230, 224, 218, 135, 147],
-lineStyle: {
-color: '#15B8A6'
-},
-itemStyle: {
-color: '#15B8A6'
-},
-areaStyle: {
-color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-{
-offset: 0,
-color: 'rgba(21, 184, 166, 0.3)'
-},
-{
-offset: 1,
-color: 'rgba(21, 184, 166, 0.05)'
-}
-])
-}
-}
-]
-};
-chart.setOption(option);
-window.addEventListener('resize', () => chart.resize());
-}
-function initDepartmentChart() {
-const chart = echarts.init(document.getElementById('departmentChart'));
-const option = {
-animation: false,
-tooltip: {
-trigger: 'item'
-},
-series: [
-{
-type: 'pie',
-radius: ['40%', '70%'],
-itemStyle: {
-borderRadius: 8
-},
-label: {
-show: true,
-position: 'outside',
-formatter: '{b}: {c}'
-},
-data: [
-{ value: 42, name: 'Engineering', itemStyle: { color: '#15B8A6' } },
-{ value: 28, name: 'Sales', itemStyle: { color: '#6366F1' } },
-{ value: 24, name: 'Marketing', itemStyle: { color: '#10B981' } },
-{ value: 18, name: 'Design', itemStyle: { color: '#F59E0B' } }
-]
-}
-]
-};
-chart.setOption(option);
-window.addEventListener('resize', () => chart.resize());
-}
-function showCreateJobModal() {
-document.getElementById('createJobModal').classList.add('show');
-}
-function hideCreateJobModal() {
-document.getElementById('createJobModal').classList.remove('show');
-}
-function toggleUserMenu() {
-const menu = document.getElementById('userMenu');
-menu.classList.toggle('hidden');
-}
-document.getElementById('createJobForm').addEventListener('submit', function(e) {
-e.preventDefault();
-hideCreateJobModal();
-});
-const aiInterviewResults = [
-{
-id: 1,
-candidate: 'Emma Thompson',
-position: 'Senior Product Designer',
-score: 92,
-status: 'Passed',
-date: '2025-03-19',
-avatar: 'https://public.readdy.ai/ai/img_res/0d84d5efd76c295fcffcd2f1bfdbf4c0.jpg'
-},
-{
-id: 2,
-candidate: 'David Chen',
-position: 'Frontend Developer',
-score: 88,
-status: 'Passed',
-date: '2025-03-19',
-avatar: 'https://public.readdy.ai/ai/img_res/b29d0cfe92a68757dcd1c239ffbba62f.jpg'
-},
-{
-id: 3,
-candidate: 'Maria Garcia',
-position: 'Marketing Manager',
-score: 78,
-status: 'Under Review',
-date: '2025-03-18',
-avatar: 'https://public.readdy.ai/ai/img_res/4de83e8694b624a0ec7f2921bbdc87c4.jpg'
-},
-{
-id: 4,
-candidate: 'James Wilson',
-position: 'Sales Director',
-score: 65,
-status: 'Failed',
-date: '2025-03-18',
-avatar: 'https://public.readdy.ai/ai/img_res/309d2c3d71ec321d7a49c03c09518de9.jpg'
-}
-];
-function renderAIInterviewResults() {
-const container = document.getElementById('aiInterviewResults');
-container.innerHTML = aiInterviewResults.map(result => `
-<tr class="border-b border-gray-200 hover:bg-gray-50">
-<td class="py-3 px-4">
-<div class="flex items-center space-x-3">
-<img src="${result.avatar}" class="w-8 h-8 rounded-full object-cover">
-<span class="text-sm font-medium text-gray-900">${result.candidate}</span>
-</div>
-</td>
-<td class="py-3 px-4 text-sm text-gray-600">${result.position}</td>
-<td class="py-3 px-4">
-<div class="flex items-center space-x-2">
-<div class="w-8 h-8 rounded-full flex items-center justify-center ${
-result.score >= 85 ? 'bg-green-100 text-green-600' :
-result.score >= 70 ? 'bg-yellow-100 text-yellow-600' :
-'bg-red-100 text-red-600'
-}">${result.score}</div>
-</div>
-</td>
-<td class="py-3 px-4">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-result.status === 'Passed' ? 'bg-green-100 text-green-600' :
-result.status === 'Under Review' ? 'bg-yellow-100 text-yellow-600' :
-'bg-red-100 text-red-600'
-}">${result.status}</span>
-</td>
-<td class="py-3 px-4 text-sm text-gray-600">${result.date}</td>
-<td class="py-3 px-4 text-right">
-<button onclick="viewInterviewDetails(${result.id})" class="text-primary hover:text-primary/80 text-sm font-medium">View Details</button>
-</td>
-</tr>
-`).join('');
-}
-function showResultsModal() {
-document.getElementById('resultsModal').classList.add('show');
-renderAIInterviewResults();
-}
-function hideResultsModal() {
-document.getElementById('resultsModal').classList.remove('show');
-}
-function viewInterviewDetails(id) {
-const result = aiInterviewResults.find(r => r.id === id);
-if (!result) return;
-const detailsHTML = `
-<div class="space-y-4">
-<div class="flex items-center space-x-3 mb-6">
-<img src="${result.avatar}" class="w-12 h-12 rounded-full object-cover">
-<div>
-<h4 class="text-lg font-medium text-gray-900">${result.candidate}</h4>
-<p class="text-sm text-gray-600">${result.position}</p>
-</div>
-</div>
-<div class="grid grid-cols-2 gap-4">
-<div class="p-4 bg-gray-50 rounded-lg">
-<p class="text-sm text-gray-600 mb-1">Technical Skills</p>
-<div class="text-2xl font-semibold text-gray-900">${Math.round(result.score * 0.6)}/60</div>
-</div>
-<div class="p-4 bg-gray-50 rounded-lg">
-<p class="text-sm text-gray-600 mb-1">Soft Skills</p>
-<div class="text-2xl font-semibold text-gray-900">${Math.round(result.score * 0.4)}/40</div>
-</div>
-</div>
-<div class="mt-6">
-<h5 class="text-sm font-medium text-gray-900 mb-2">Interview Summary</h5>
-<p class="text-sm text-gray-600">
-The candidate demonstrated ${result.score >= 85 ? 'excellent' : result.score >= 70 ? 'good' : 'fair'}
-understanding of the required technical skills and showed
-${result.score >= 85 ? 'strong' : result.score >= 70 ? 'adequate' : 'limited'}
-communication abilities during the AI interview process.
-</p>
-</div>
-</div>
-`;
-const currentModal = document.getElementById('resultsModal');
-const modalContent = currentModal.querySelector('.bg-white');
-modalContent.innerHTML = `
-<div class="flex justify-between items-center mb-6">
-<h3 class="text-lg font-semibold text-gray-900">Interview Details</h3>
-<div class="flex items-center space-x-4">
-<button onclick="showResultsModal()" class="text-gray-600 hover:text-gray-800">
-<i class="ri-arrow-left-line text-xl"></i>
-</button>
-<button onclick="hideResultsModal()" class="text-gray-400 hover:text-gray-600">
-<i class="ri-close-line text-xl"></i>
-</button>
-</div>
-</div>
-${detailsHTML}
-`;
-}
-window.addEventListener('load', () => {
-renderRecentActivities();
-initRecruitmentTrendsChart();
-initDepartmentChart();
-});
-document.addEventListener('click', function(e) {
-const userMenu = document.getElementById('userMenu');
-const userMenuButton = document.querySelector('[onclick="toggleUserMenu()"]');
-if (!userMenu.contains(e.target) && !userMenuButton.contains(e.target)) {
-userMenu.classList.add('hidden');
-}
-});
+  const recentActivities = [
+    {
+      type: "application",
+      title: "New application received",
+      description: "Sarah Wilson applied for Senior Product Designer position",
+      time: "10 minutes ago",
+      icon: "ri-user-add-line",
+      iconBg: "bg-blue-100",
+      iconColor: "text-blue-600",
+    },
+    {
+      type: "interview",
+      title: "Interview scheduled",
+      description:
+        "Technical interview with Michael Chen for Frontend Developer role",
+      time: "1 hour ago",
+      icon: "ri-calendar-check-line",
+      iconBg: "bg-green-100",
+      iconColor: "text-green-600",
+    },
+    {
+      type: "offer",
+      title: "Offer accepted",
+      description: "Jessica Parker accepted the Marketing Manager position",
+      time: "2 hours ago",
+      icon: "ri-check-double-line",
+      iconBg: "bg-primary/10",
+      iconColor: "text-primary",
+    },
+    {
+      type: "job",
+      title: "New job posted",
+      description: "Senior Backend Engineer position is now live",
+      time: "3 hours ago",
+      icon: "ri-briefcase-4-line",
+      iconBg: "bg-purple-100",
+      iconColor: "text-purple-600",
+    },
+  ];
+  function addNewActivity(activity) {
+    recentActivities.unshift(activity);
+    if (recentActivities.length > 10) {
+      recentActivities.pop();
+    }
+    renderRecentActivities();
+  }
+  document
+    .getElementById("createJobForm")
+    .addEventListener("submit", function (e) {
+      e.preventDefault();
+      const form = e.target;
+      const title = form.querySelector('input[type="text"]').value;
+      const department = form.querySelector("select").value;
+      const newActivity = {
+        type: "job",
+        title: "New job posted",
+        description: `${title} position is now live in ${department} department`,
+        time: "Just now",
+        icon: "ri-briefcase-4-line",
+        iconBg: "bg-purple-100",
+        iconColor: "text-purple-600",
+      };
+      addNewActivity(newActivity);
+      hideCreateJobModal();
+      form.reset();
+    });
+  function renderRecentActivities() {
+    const container = document.getElementById("recentActivities");
+    container.innerHTML = recentActivities
+      .map(
+        (activity, index) => `
+  <div class="flex items-start space-x-4">
+  <div class="w-8 h-8 ${activity.iconBg} rounded-full flex items-center justify-center flex-shrink-0">
+  <i class="${activity.icon} ${activity.iconColor}"></i>
+  </div>
+  <div class="flex-1">
+  <h4 class="text-sm font-medium text-gray-900">${activity.title}</h4>
+  <p class="text-sm text-gray-600">${activity.description}</p>
+  <span class="text-xs text-gray-500">${activity.time}</span>
+  </div>
+  <div class="relative">
+  <button onclick="toggleActivityMenu(event, ${index})" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600">
+  <i class="ri-more-2-fill"></i>
+  </button>
+  <div id="activityMenu${index}" class="hidden absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg py-2 z-10">
+  <a href="/pages/Application-Details---Sarah-Wilson.html" data-readdy="true" class="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 text-left">
+  <i class="ri-eye-line mr-2"></i>View Details
+  </a>
+  <button onclick="editActivity(${index})" class="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 text-left">
+  <i class="ri-edit-line mr-2"></i>Edit
+  </button>
+  <button onclick="confirmDeleteActivity(${index})" class="w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 text-left">
+  <i class="ri-delete-bin-line mr-2"></i>Delete
+  </button>
+  </div>
+  </div>
+  </div>
+  `,
+      )
+      .join("");
+  }
+  function initRecruitmentTrendsChart() {
+    const chart = echarts.init(document.getElementById("recruitmentTrendsChart"));
+    const option = {
+      animation: false,
+      grid: {
+        top: 10,
+        right: 30,
+        bottom: 30,
+        left: 40,
+      },
+      xAxis: {
+        type: "category",
+        data: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+        axisLine: {
+          lineStyle: {
+            color: "#E5E7EB",
+          },
+        },
+        axisLabel: {
+          color: "#6B7280",
+        },
+      },
+      yAxis: {
+        type: "value",
+        splitLine: {
+          lineStyle: {
+            color: "#E5E7EB",
+          },
+        },
+        axisLabel: {
+          color: "#6B7280",
+        },
+      },
+      series: [
+        {
+          name: "Applications",
+          type: "line",
+          smooth: true,
+          data: [150, 230, 224, 218, 135, 147],
+          lineStyle: {
+            color: "#15B8A6",
+          },
+          itemStyle: {
+            color: "#15B8A6",
+          },
+          areaStyle: {
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              {
+                offset: 0,
+                color: "rgba(21, 184, 166, 0.3)",
+              },
+              {
+                offset: 1,
+                color: "rgba(21, 184, 166, 0.05)",
+              },
+            ]),
+          },
+        },
+      ],
+    };
+    chart.setOption(option);
+    window.addEventListener("resize", () => chart.resize());
+  }
+  function initDepartmentChart() {
+    const chart = echarts.init(document.getElementById("departmentChart"));
+    const option = {
+      animation: false,
+      tooltip: {
+        trigger: "item",
+      },
+      series: [
+        {
+          type: "pie",
+          radius: ["40%", "70%"],
+          itemStyle: {
+            borderRadius: 8,
+          },
+          label: {
+            show: true,
+            position: "outside",
+            formatter: "{b}: {c}",
+          },
+          data: [
+            { value: 42, name: "Engineering", itemStyle: { color: "#15B8A6" } },
+            { value: 28, name: "Sales", itemStyle: { color: "#6366F1" } },
+            { value: 24, name: "Marketing", itemStyle: { color: "#10B981" } },
+            { value: 18, name: "Design", itemStyle: { color: "#F59E0B" } },
+          ],
+        },
+      ],
+    };
+    chart.setOption(option);
+    window.addEventListener("resize", () => chart.resize());
+  }
+  function showCreateJobModal() {
+    document.getElementById("createJobModal").classList.add("show");
+  }
+  function hideCreateJobModal() {
+    document.getElementById("createJobModal").classList.remove("show");
+  }
+  function toggleUserMenu() {
+    const menu = document.getElementById("userMenu");
+    menu.classList.toggle("hidden");
+  }
+  document
+    .getElementById("createJobForm")
+    .addEventListener("submit", function (e) {
+      e.preventDefault();
+      hideCreateJobModal();
+    });
+  let activeActivityMenu = null;
+  let activityToDelete = null;
+  function toggleActivityMenu(event, index) {
+    event.stopPropagation();
+    const menuId = `activityMenu${index}`;
+    const menu = document.getElementById(menuId);
+    if (activeActivityMenu && activeActivityMenu !== menu) {
+      activeActivityMenu.classList.add("hidden");
+    }
+    menu.classList.toggle("hidden");
+    activeActivityMenu = menu;
+  }
+
+  function editActivity(index) {
+    const activity = recentActivities[index];
+    console.log("Edit activity:", activity);
+  }
+  function confirmDeleteActivity(index) {
+    activityToDelete = index;
+    document.getElementById("deleteConfirmModal").classList.add("show");
+  }
+  function hideDeleteConfirmModal() {
+    document.getElementById("deleteConfirmModal").classList.remove("show");
+    activityToDelete = null;
+  }
+  function deleteActivity() {
+    if (activityToDelete !== null) {
+      recentActivities.splice(activityToDelete, 1);
+      renderRecentActivities();
+      hideDeleteConfirmModal();
+    }
+  }
+  document.addEventListener("click", function (e) {
+    if (activeActivityMenu && !e.target.closest(".relative")) {
+      activeActivityMenu.classList.add("hidden");
+      activeActivityMenu = null;
+    }
+  });
+  window.addEventListener("load", () => {
+    renderRecentActivities();
+    initRecruitmentTrendsChart();
+    initDepartmentChart();
+  });
+  document.addEventListener("click", function (e) {
+    const userMenu = document.getElementById("userMenu");
+    const userMenuButton = document.querySelector('[onclick="toggleUserMenu()"]');
+    if (!userMenu.contains(e.target) && !userMenuButton.contains(e.target)) {
+      userMenu.classList.add("hidden");
+    }
+  });
 </script>
 </body>
 </html>

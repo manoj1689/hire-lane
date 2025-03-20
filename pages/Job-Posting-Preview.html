@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preview & Publish Job - AI Recruitment Tools</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#15B8A6',
+secondary: '#6366F1'
+},
+borderRadius: {
+'none': '0px',
+'sm': '4px',
+DEFAULT: '8px',
+'md': '12px',
+'lg': '16px',
+'xl': '20px',
+'2xl': '24px',
+'3xl': '32px',
+'full': '9999px',
+'button': '8px'
+}
+}
+}
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+.transition-height { transition: max-height 0.3s ease-out; }
+.preview-panel::-webkit-scrollbar { width: 4px; }
+.preview-panel::-webkit-scrollbar-track { background: #f1f1f1; }
+.preview-panel::-webkit-scrollbar-thumb { background: #15B8A6; border-radius: 4px; }
+</style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+<nav class="bg-white shadow-sm fixed w-full z-10">
+<div class="max-w-7xl mx-auto px-4">
+<div class="flex justify-between items-center h-16">
+<div class="flex items-center space-x-8">
+<a href="#" class="text-2xl font-['Pacifico'] text-primary">logo</a>
+<div class="hidden md:flex space-x-4">
+<a href="#" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
+<a href="#" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Jobs</a>
+<a href="#" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Candidates</a>
+<a href="#" class="text-primary px-3 py-2 rounded-md text-sm font-medium">AI Tools</a>
+</div>
+</div>
+<div class="flex items-center space-x-4">
+<button class="relative w-8 h-8 flex items-center justify-center">
+<i class="ri-notification-3-line text-gray-600 text-xl"></i>
+<span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">2</span>
+</button>
+<div class="relative">
+<button class="flex items-center space-x-2">
+<img src="https://public.readdy.ai/ai/img_res/55fea4f0b125f29300b0fae5ec5db4f5.jpg" class="w-8 h-8 rounded-full object-cover">
+<span class="text-gray-700 text-sm font-medium">Emily Johnson</span>
+<i class="ri-arrow-down-s-line text-gray-600"></i>
+</button>
+</div>
+</div>
+</div>
+</div>
+</nav>
+<div class="pt-16">
+<div class="max-w-7xl mx-auto px-4 py-8">
+<nav class="flex mb-8" aria-label="Breadcrumb">
+<ol class="inline-flex items-center space-x-1 md:space-x-3">
+<li class="inline-flex items-center">
+<a href="#" class="text-gray-600 hover:text-primary text-sm">Dashboard</a>
+</li>
+<li>
+<div class="flex items-center">
+<i class="ri-arrow-right-s-line text-gray-400"></i>
+<a href="https://readdy.ai/home/c1ab65b2-3f7a-433a-ad12-465e225e1630/d30adc77-551b-4431-8b65-65801e61e182" data-readdy="true" class="ml-1 text-gray-600 hover:text-primary text-sm">AI Tools</a>
+</div>
+</li>
+<li>
+<div class="flex items-center">
+<i class="ri-arrow-right-s-line text-gray-400"></i>
+<a href="https://readdy.ai/home/c1ab65b2-3f7a-433a-ad12-465e225e1630/5ddd325b-6a82-47b7-b76a-41f4b578b35d" data-readdy="true" class="ml-1 text-gray-600 hover:text-primary text-sm">Job Description Writer</a>
+</div>
+</li>
+<li>
+<div class="flex items-center">
+<i class="ri-arrow-right-s-line text-gray-400"></i>
+<span class="ml-1 text-gray-600 text-sm">Preview & Publish</span>
+</div>
+</li>
+</ol>
+</nav>
+<div class="flex justify-between items-start mb-8">
+<div>
+<h1 class="text-3xl font-bold text-gray-900 mb-2">Preview & Publish Job</h1>
+<p class="text-gray-600">Review and configure your job posting settings before publishing</p>
+</div>
+</div>
+<div class="flex space-x-8">
+<div class="flex-1">
+<div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+<div class="prose max-w-none">
+<h2 class="text-2xl font-bold text-gray-900 mb-4">Senior Software Engineer</h2>
+<div class="space-y-6">
+<div>
+<h3 class="text-lg font-semibold text-gray-900">Company Overview</h3>
+<p class="text-gray-600">We are a fast-growing technology company dedicated to revolutionizing the way businesses handle their data. Our team is passionate about creating innovative solutions that make a real impact.</p>
+</div>
+<div>
+<h3 class="text-lg font-semibold text-gray-900">Requirements</h3>
+<ul class="list-disc list-inside text-gray-600">
+<li>5+ years of experience in software development</li>
+<li>Strong proficiency in JavaScript and modern frameworks</li>
+<li>Experience with cloud services (AWS, Azure, or GCP)</li>
+<li>Excellent problem-solving and analytical skills</li>
+</ul>
+</div>
+<div>
+<h3 class="text-lg font-semibold text-gray-900">Responsibilities</h3>
+<ul class="list-disc list-inside text-gray-600">
+<li>Design and implement scalable software solutions</li>
+<li>Lead technical projects and mentor junior developers</li>
+<li>Collaborate with cross-functional teams</li>
+<li>Participate in code reviews and architecture discussions</li>
+</ul>
+</div>
+<div>
+<h3 class="text-lg font-semibold text-gray-900">Qualifications</h3>
+<ul class="list-disc list-inside text-gray-600">
+<li>Bachelor's degree in Computer Science or related field</li>
+<li>Strong understanding of software design patterns</li>
+<li>Experience with agile development methodologies</li>
+<li>Excellent communication and leadership skills</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="w-96 flex-shrink-0">
+<div class="sticky top-24 space-y-6">
+<div class="bg-white rounded-lg shadow-sm p-6">
+<h3 class="text-lg font-semibold text-gray-900 mb-4">Publishing Channels</h3>
+<div class="space-y-4">
+<label class="flex items-center space-x-3">
+<input type="checkbox" class="form-checkbox text-primary rounded" checked>
+<span class="text-gray-700">Company Website</span>
+</label>
+<label class="flex items-center space-x-3">
+<input type="checkbox" class="form-checkbox text-primary rounded" checked>
+<span class="flex items-center space-x-2">
+<i class="ri-linkedin-fill text-[#0A66C2]"></i>
+<span class="text-gray-700">LinkedIn</span>
+</span>
+</label>
+<label class="flex items-center space-x-3">
+<input type="checkbox" class="form-checkbox text-primary rounded">
+<span class="text-gray-700">Indeed</span>
+</label>
+<label class="flex items-center space-x-3">
+<input type="checkbox" class="form-checkbox text-primary rounded">
+<span class="text-gray-700">Glassdoor</span>
+</label>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-sm p-6">
+<h3 class="text-lg font-semibold text-gray-900 mb-4">Posting Duration</h3>
+<div class="space-y-4">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Start Date</label>
+<input type="date" class="w-full px-4 py-2 text-sm border border-gray-200 rounded-lg" value="2025-03-19">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Duration</label>
+<select class="w-full px-4 py-2 text-sm border border-gray-200 rounded-lg">
+<option>30 days</option>
+<option>60 days</option>
+<option>90 days</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Application Deadline</label>
+<input type="date" class="w-full px-4 py-2 text-sm border border-gray-200 rounded-lg" value="2025-04-18">
+</div>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-sm p-6">
+<h3 class="text-lg font-semibold text-gray-900 mb-4">Application Requirements</h3>
+<div class="space-y-4">
+<label class="flex items-center space-x-3">
+<input type="checkbox" class="form-checkbox text-primary rounded" checked>
+<span class="text-gray-700">Resume Required</span>
+</label>
+<label class="flex items-center space-x-3">
+<input type="checkbox" class="form-checkbox text-primary rounded">
+<span class="text-gray-700">Cover Letter Required</span>
+</label>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Required Fields</label>
+<div class="space-y-2">
+<label class="flex items-center space-x-3">
+<input type="checkbox" class="form-checkbox text-primary rounded" checked>
+<span class="text-gray-700">Phone Number</span>
+</label>
+<label class="flex items-center space-x-3">
+<input type="checkbox" class="form-checkbox text-primary rounded" checked>
+<span class="text-gray-700">Work Experience</span>
+</label>
+<label class="flex items-center space-x-3">
+<input type="checkbox" class="form-checkbox text-primary rounded">
+<span class="text-gray-700">Portfolio URL</span>
+</label>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-sm p-6">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-lg font-semibold text-gray-900">Screening Questions</h3>
+<button type="button" class="text-sm text-primary hover:text-primary/80" onclick="addScreeningQuestion()">
+<i class="ri-add-line"></i> Add Question
+</button>
+</div>
+<div id="screening-questions" class="space-y-4">
+<div class="p-4 border border-gray-200 rounded-lg">
+<div class="flex items-start justify-between">
+<div class="flex-1">
+<p class="text-sm font-medium text-gray-900">Do you have 5+ years of experience with JavaScript?</p>
+<p class="text-sm text-gray-600 mt-1">Yes/No</p>
+</div>
+<button type="button" class="p-1 text-gray-400 hover:text-red-500">
+<i class="ri-delete-bin-line"></i>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-4">
+<div class="max-w-7xl mx-auto flex items-center justify-between">
+<a href="https://readdy.ai/home/c1ab65b2-3f7a-433a-ad12-465e225e1630/5ddd325b-6a82-47b7-b76a-41f4b578b35d" data-readdy="true" class="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 flex items-center">
+<i class="ri-arrow-left-line mr-2"></i>Back to Editor
+</a>
+<button type="button" class="px-6 py-2 bg-primary text-white text-sm font-medium !rounded-button hover:bg-primary/90 flex items-center whitespace-nowrap" onclick="confirmPublish()">
+<i class="ri-send-plane-line mr-2"></i>Confirm & Publish
+</button>
+</div>
+</div>
+<div id="publish-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+<div class="bg-white rounded-lg shadow-xl p-6 w-[400px]">
+<div class="text-center">
+<div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+<i class="ri-check-line text-primary text-2xl"></i>
+</div>
+<h3 class="text-lg font-semibold text-gray-900 mb-2">Ready to Publish</h3>
+<p class="text-gray-600 mb-6">Your job posting will be published to the selected channels. Would you like to proceed?</p>
+<div class="flex space-x-4">
+<button type="button" class="flex-1 px-4 py-2 border border-gray-200 text-gray-600 text-sm font-medium !rounded-button hover:bg-gray-50" onclick="closeModal()">Cancel</button>
+<button type="button" class="flex-1 px-4 py-2 bg-primary text-white text-sm font-medium !rounded-button hover:bg-primary/90" onclick="publishJob()">Publish Now</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+function addScreeningQuestion() {
+const container = document.getElementById('screening-questions');
+const question = document.createElement('div');
+question.className = 'p-4 border border-gray-200 rounded-lg';
+question.innerHTML = `
+<div class="flex items-start justify-between">
+<div class="flex-1">
+<input type="text" class="w-full text-sm text-gray-900 border-none p-0 focus:ring-0" placeholder="Enter your question">
+<select class="mt-2 text-sm text-gray-600 border-none p-0 focus:ring-0">
+<option>Yes/No</option>
+<option>Multiple Choice</option>
+<option>Text Answer</option>
+</select>
+</div>
+<button type="button" class="p-1 text-gray-400 hover:text-red-500" onclick="this.closest('.p-4').remove()">
+<i class="ri-delete-bin-line"></i>
+</button>
+</div>
+`;
+container.appendChild(question);
+}
+function confirmPublish() {
+document.getElementById('publish-modal').classList.remove('hidden');
+}
+function closeModal() {
+document.getElementById('publish-modal').classList.add('hidden');
+}
+function publishJob() {
+closeModal();
+const toast = document.createElement('div');
+toast.className = 'fixed bottom-4 right-4 bg-primary text-white px-6 py-3 rounded-lg shadow-lg z-50 flex items-center space-x-2 animate-fade-in';
+toast.innerHTML = `
+<i class="ri-check-line"></i>
+<span>Job successfully published!</span>
+`;
+document.body.appendChild(toast);
+setTimeout(() => {
+toast.remove();
+}, 3000);
+}
+document.addEventListener('DOMContentLoaded', function() {
+const today = new Date();
+const deadline = new Date();
+deadline.setDate(today.getDate() + 30);
+document.querySelector('input[type="date"]').value = today.toISOString().split('T')[0];
+document.querySelectorAll('input[type="date"]')[1].value = deadline.toISOString().split('T')[0];
+});
+</script>
+<style>
+@keyframes fade-in {
+from { opacity: 0; transform: translateY(1rem); }
+to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+animation: fade-in 0.3s ease-out forwards;
+}
+</style>
+</body>
+</html>

@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HireIn - Transform Your Hiring with AI Intelligence</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#15B8A6',
+secondary: '#6366F1'
+},
+borderRadius: {
+'none': '0px',
+'sm': '4px',
+DEFAULT: '8px',
+'md': '12px',
+'lg': '16px',
+'xl': '20px',
+'2xl': '24px',
+'3xl': '32px',
+'full': '9999px',
+'button': '8px'
+}
+}
+}
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+.gradient-bg {
+background: linear-gradient(135deg, rgba(21, 184, 166, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%);
+}
+.stats-card {
+background: rgba(255, 255, 255, 0.9);
+backdrop-filter: blur(10px);
+}
+.feature-card:hover {
+transform: translateY(-5px);
+transition: all 0.3s ease;
+}
+.modal {
+display: none;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.5);
+z-index: 1000;
+}
+.modal-content {
+background: white;
+margin: 15% auto;
+padding: 20px;
+width: 80%;
+max-width: 500px;
+border-radius: 8px;
+position: relative;
+}
+</style>
+</head>
+<body class="bg-white">
+<nav class="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-16">
+<div class="flex items-center">
+<a href="#" class="text-2xl font-['Pacifico'] text-primary">logo</a>
+</div>
+<div class="hidden md:flex items-center space-x-8">
+<a href="#features" class="text-gray-700 hover:text-primary">Features</a>
+<a href="#how-it-works" class="text-gray-700 hover:text-primary">How it Works</a>
+<a href="#pricing" class="text-gray-700 hover:text-primary">Pricing</a>
+<a href="#testimonials" class="text-gray-700 hover:text-primary">Testimonials</a>
+<a href="/pages/AI-Hiring-Platform-Sign-Up.html" data-readdy="true">
+<button class="bg-primary text-white px-6 py-2 !rounded-button hover:bg-opacity-90 cursor-pointer whitespace-nowrap">Get Started</button>
+</a>
+</div>
+</div>
+</div>
+</nav>
+<main class="pt-16">
+<section class="relative overflow-hidden bg-gradient-to-r from-primary/5 to-secondary/5 min-h-[600px]">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<div class="space-y-8">
+<h1 class="text-5xl font-bold text-gray-900 leading-tight">
+Transform Your Hiring with AI Intelligence
+</h1>
+<p class="text-xl text-gray-600">
+Revolutionize your recruitment process with our AI-powered platform. Screen candidates, conduct interviews, and make data-driven decisions - all automated and efficient.
+</p>
+<div class="flex flex-wrap gap-4">
+<a href="./pages/AI-Hiring-Platform-Sign-Up.html" data-readdy="true">
+<button class="bg-primary text-white px-8 py-3 !rounded-button hover:bg-opacity-90 cursor-pointer whitespace-nowrap text-lg">
+Start Free Trial
+</button>
+</a>
+<button onclick="openModal()" class="border-2 border-primary text-primary px-8 py-3 !rounded-button hover:bg-primary/5 cursor-pointer whitespace-nowrap text-lg">
+<i class="ri-play-circle-line mr-2"></i>
+Watch Demo
+</button>
+</div>
+<div class="flex gap-8">
+<div class="stats-card p-4 rounded shadow-lg">
+<div class="text-3xl font-bold text-primary">85%</div>
+<div class="text-gray-600">Faster Hiring</div>
+</div>
+<div class="stats-card p-4 rounded shadow-lg">
+<div class="text-3xl font-bold text-primary">95%</div>
+<div class="text-gray-600">Accuracy Rate</div>
+</div>
+<div class="stats-card p-4 rounded shadow-lg">
+<div class="text-3xl font-bold text-primary">60%</div>
+<div class="text-gray-600">Cost Reduction</div>
+</div>
+</div>
+</div>
+<div class="relative">
+<img src="https://public.readdy.ai/ai/img_res/06a97b22a7748bd70708936f6aa1682d.jpg"
+alt="AI Hiring Platform Interface"
+class="rounded-lg shadow-2xl">
+</div>
+</div>
+</div>
+</section>
+<section id="features" class="py-20 bg-gray-50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-bold text-gray-900 mb-4">Feature Overview</h2>
+<p class="text-xl text-gray-600">Advanced AI tools to revolutionize your recruitment</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<div class="bg-white p-8 rounded-lg shadow-lg feature-card">
+<div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+<i class="ri-ai-generate text-primary text-2xl"></i>
+</div>
+<h3 class="text-xl font-bold text-gray-900 mb-3">AI Resume Analysis</h3>
+<p class="text-gray-600 mb-4">Advanced ML algorithms scan and evaluate resumes with 95% accuracy</p>
+<ul class="space-y-2">
+<li class="flex items-center text-gray-600">
+<i class="ri-check-line text-primary mr-2"></i>
+Skill matching
+</li>
+<li class="flex items-center text-gray-600">
+<i class="ri-check-line text-primary mr-2"></i>
+Experience validation
+</li>
+<li class="flex items-center text-gray-600">
+<i class="ri-check-line text-primary mr-2"></i>
+Culture fit assessment
+</li>
+</ul>
+</div>
+<div class="bg-white p-8 rounded-lg shadow-lg feature-card">
+<div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+<i class="ri-video-chat-line text-primary text-2xl"></i>
+</div>
+<h3 class="text-xl font-bold text-gray-900 mb-3">Virtual Interviews</h3>
+<p class="text-gray-600 mb-4">Automated video interviews with real-time analysis</p>
+<ul class="space-y-2">
+<li class="flex items-center text-gray-600">
+<i class="ri-check-line text-primary mr-2"></i>
+Speech analysis
+</li>
+<li class="flex items-center text-gray-600">
+<i class="ri-check-line text-primary mr-2"></i>
+Behavioral assessment
+</li>
+<li class="flex items-center text-gray-600">
+<i class="ri-check-line text-primary mr-2"></i>
+Personality insights
+</li>
+</ul>
+</div>
+<div class="bg-white p-8 rounded-lg shadow-lg feature-card">
+<div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+<i class="ri-database-2-line text-primary text-2xl"></i>
+</div>
+<h3 class="text-xl font-bold text-gray-900 mb-3">Smart Analytics</h3>
+<p class="text-gray-600 mb-4">Comprehensive hiring insights and predictions</p>
+<ul class="space-y-2">
+<li class="flex items-center text-gray-600">
+<i class="ri-check-line text-primary mr-2"></i>
+Performance metrics
+</li>
+<li class="flex items-center text-gray-600">
+<i class="ri-check-line text-primary mr-2"></i>
+Success prediction
+</li>
+<li class="flex items-center text-gray-600">
+<i class="ri-check-line text-primary mr-2"></i>
+ROI tracking
+</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="top-candidates" class="py-20">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-bold text-gray-900 mb-4">Top Hiring Candidates</h2>
+<p class="text-xl text-gray-600">Recently matched candidates through our AI platform</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<div class="bg-white p-6 rounded-lg shadow-lg">
+<div class="flex items-center mb-4">
+<img src="https://public.readdy.ai/ai/img_res/a6708fbdea8a355f6186138039181fa6.jpg"
+class="w-12 h-12 rounded-full object-cover mr-4">
+<div>
+<h3 class="font-bold text-gray-900">Sarah Chen</h3>
+<p class="text-gray-600">Senior Software Engineer</p>
+</div>
+</div>
+<div class="space-y-2 mb-4">
+<div class="flex items-center">
+<i class="ri-graduation-cap-line mr-2 text-primary"></i>
+<span class="text-gray-600">Master's in Computer Science</span>
+</div>
+<div class="flex items-center">
+<i class="ri-briefcase-line mr-2 text-primary"></i>
+<span class="text-gray-600">8 years experience</span>
+</div>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-primary/10 text-primary text-sm rounded">React</span>
+<span class="px-2 py-1 bg-primary/10 text-primary text-sm rounded">Node.js</span>
+<span class="px-2 py-1 bg-primary/10 text-primary text-sm rounded">Cloud</span>
+</div>
+</div>
+<div class="bg-white p-6 rounded-lg shadow-lg">
+<div class="flex items-center mb-4">
+<img src="https://public.readdy.ai/ai/img_res/5f8e9cbe0b19d02ff84fb272e81b54b0.jpg"
+class="w-12 h-12 rounded-full object-cover mr-4">
+<div>
+<h3 class="font-bold text-gray-900">Marcus Johnson</h3>
+<p class="text-gray-600">Product Manager</p>
+</div>
+</div>
+<div class="space-y-2 mb-4">
+<div class="flex items-center">
+<i class="ri-graduation-cap-line mr-2 text-primary"></i>
+<span class="text-gray-600">MBA, Product Management</span>
+</div>
+<div class="flex items-center">
+<i class="ri-briefcase-line mr-2 text-primary"></i>
+<span class="text-gray-600">6 years experience</span>
+</div>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-primary/10 text-primary text-sm rounded">Agile</span>
+<span class="px-2 py-1 bg-primary/10 text-primary text-sm rounded">Strategy</span>
+<span class="px-2 py-1 bg-primary/10 text-primary text-sm rounded">Leadership</span>
+</div>
+</div>
+<div class="bg-white p-6 rounded-lg shadow-lg">
+<div class="flex items-center mb-4">
+<img src="https://public.readdy.ai/ai/img_res/90f7463d98d9e6da09795d01ca0079c1.jpg"
+class="w-12 h-12 rounded-full object-cover mr-4">
+<div>
+<h3 class="font-bold text-gray-900">Emily Rodriguez</h3>
+<p class="text-gray-600">Marketing Director</p>
+</div>
+</div>
+<div class="space-y-2 mb-4">
+<div class="flex items-center">
+<i class="ri-graduation-cap-line mr-2 text-primary"></i>
+<span class="text-gray-600">BS in Marketing</span>
+</div>
+<div class="flex items-center">
+<i class="ri-briefcase-line mr-2 text-primary"></i>
+<span class="text-gray-600">5 years experience</span>
+</div>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-primary/10 text-primary text-sm rounded">Digital</span>
+<span class="px-2 py-1 bg-primary/10 text-primary text-sm rounded">Growth</span>
+<span class="px-2 py-1 bg-primary/10 text-primary text-sm rounded">Content</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="how-it-works" class="py-20 bg-gray-50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-bold text-gray-900 mb-4">Your New Hires, Ready in 3 Simple Steps</h2>
+<p class="text-xl text-gray-600">Experience the future of hiring with our streamlined AI-powered process</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="feature-card p-6 rounded-lg shadow-lg bg-white">
+<div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+<i class="ri-user-search-line text-primary text-2xl"></i>
+</div>
+<h3 class="text-xl font-bold text-gray-900 mb-2">AI Candidate Screening</h3>
+<p class="text-gray-600">Smart algorithms analyze resumes and match candidates to your requirements instantly</p>
+</div>
+<div class="feature-card p-6 rounded-lg shadow-lg bg-white">
+<div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+<i class="ri-video-chat-line text-primary text-2xl"></i>
+</div>
+<h3 class="text-xl font-bold text-gray-900 mb-2">Automated Interviews & Evaluation</h3>
+<p class="text-gray-600">AI-powered interviews assess candidates 24/7, providing comprehensive evaluation reports</p>
+</div>
+<div class="feature-card p-6 rounded-lg shadow-lg bg-white">
+<div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+<i class="ri-line-chart-line text-primary text-2xl"></i>
+</div>
+<h3 class="text-xl font-bold text-gray-900 mb-2">Predictive Hiring & Onboarding</h3>
+<p class="text-gray-600">Data-driven insights help predict candidate success and streamline onboarding</p>
+</div>
+</div>
+</div>
+</section>
+<section class="py-20 bg-gray-50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-bold text-gray-900 mb-4">AI-Powered Hiring Solutions</h2>
+<p class="text-xl text-gray-600">Comprehensive tools to transform your recruitment process</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="bg-white p-6 rounded-lg shadow-lg">
+<div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+<i class="ri-search-2-line text-primary text-2xl"></i>
+</div>
+<h3 class="text-xl font-bold text-gray-900 mb-2">Efficient Screening</h3>
+<p class="text-gray-600">Quickly identify top talent with AI-powered resume analysis and matching</p>
+</div>
+<div class="bg-white p-6 rounded-lg shadow-lg">
+<div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+<i class="ri-computer-line text-primary text-2xl"></i>
+</div>
+<h3 class="text-xl font-bold text-gray-900 mb-2">Comprehensive Interface</h3>
+<p class="text-gray-600">Complete assessment tools and candidate management in one platform</p>
+</div>
+<div class="bg-white p-6 rounded-lg shadow-lg">
+<div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+<i class="ri-bar-chart-line text-primary text-2xl"></i>
+</div>
+<h3 class="text-xl font-bold text-gray-900 mb-2">In-Depth Analytics</h3>
+<p class="text-gray-600">Detailed insights and predictive analytics for informed decisions</p>
+</div>
+</div>
+</div>
+</section>
+<section class="py-20">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<div>
+<h2 class="text-4xl font-bold text-gray-900 mb-6">Traditional Hiring Methods Can't Keep Up</h2>
+<p class="text-xl text-gray-600 mb-8">See how our AI-powered solution outperforms traditional hiring processes</p>
+<div class="grid grid-cols-2 gap-8">
+<div>
+<h3 class="text-lg font-semibold text-gray-900 mb-4">Traditional</h3>
+<ul class="space-y-3 text-gray-600">
+<li class="flex items-center">
+<i class="ri-close-circle-line text-red-500 mr-2"></i>
+Manual screening
+</li>
+<li class="flex items-center">
+<i class="ri-close-circle-line text-red-500 mr-2"></i>
+Time-consuming interviews
+</li>
+<li class="flex items-center">
+<i class="ri-close-circle-line text-red-500 mr-2"></i>
+Subjective decisions
+</li>
+</ul>
+</div>
+<div>
+<h3 class="text-lg font-semibold text-gray-900 mb-4">HireIn</h3>
+<ul class="space-y-3 text-gray-600">
+<li class="flex items-center">
+<i class="ri-check-line text-primary mr-2"></i>
+AI-powered screening
+</li>
+<li class="flex items-center">
+<i class="ri-check-line text-primary mr-2"></i>
+Automated interviews
+</li>
+<li class="flex items-center">
+<i class="ri-check-line text-primary mr-2"></i>
+Data-driven decisions
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div>
+<img src="https://public.readdy.ai/ai/img_res/ec220a4d6a9a885b539a97e4d41a659f.jpg"
+alt="Traditional vs AI Hiring"
+class="rounded-lg shadow-xl">
+</div>
+</div>
+</div>
+</section>
+<section class="py-20 bg-gray-50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-bold text-gray-900 mb-4">Explore AI-Powered Hiring Insights</h2>
+<p class="text-xl text-gray-600">Discover how AI is transforming recruitment</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="bg-white rounded-lg shadow-lg overflow-hidden">
+<img src="https://public.readdy.ai/ai/img_res/08779c20c83ba02dbb37a554ab0a11e3.jpg"
+alt="Hiring Analytics"
+class="w-full h-48 object-cover">
+<div class="p-6">
+<h3 class="text-xl font-bold text-gray-900 mb-2">Data-Driven Hiring Success</h3>
+<p class="text-gray-600 mb-4">Learn how AI analytics improve hiring decisions</p>
+<a href="#" class="text-primary font-semibold hover:text-primary/80">Read More →</a>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-lg overflow-hidden">
+<img src="https://public.readdy.ai/ai/img_res/c8686b8ec659058c56483cf04683876a.jpg"
+alt="AI Interviews"
+class="w-full h-48 object-cover">
+<div class="p-6">
+<h3 class="text-xl font-bold text-gray-900 mb-2">AI Interview Revolution</h3>
+<p class="text-gray-600 mb-4">Discover the future of candidate assessment</p>
+<a href="#" class="text-primary font-semibold hover:text-primary/80">Read More →</a>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-lg overflow-hidden">
+<img src="https://public.readdy.ai/ai/img_res/aaebc4584a9a27b1e301ce3c76bf5b99.jpg"
+alt="Team Success"
+class="w-full h-48 object-cover">
+<div class="p-6">
+<h3 class="text-xl font-bold text-gray-900 mb-2">Building Better Teams</h3>
+<p class="text-gray-600 mb-4">See how AI helps build stronger teams</p>
+<a href="#" class="text-primary font-semibold hover:text-primary/80">Read More →</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-20">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-bold text-gray-900 mb-4">Trusted by Industry Leaders</h2>
+<p class="text-xl text-gray-600">Join thousands of companies transforming their hiring process</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center">
+<div class="w-40 h-40 flex items-center justify-center">
+<i class="ri-google-fill text-6xl text-gray-400"></i>
+</div>
+<div class="w-40 h-40 flex items-center justify-center">
+<i class="ri-microsoft-fill text-6xl text-gray-400"></i>
+</div>
+<div class="w-40 h-40 flex items-center justify-center">
+<i class="ri-amazon-fill text-6xl text-gray-400"></i>
+</div>
+<div class="w-40 h-40 flex items-center justify-center">
+<i class="ri-apple-fill text-6xl text-gray-400"></i>
+</div>
+</div>
+</div>
+</section>
+<section id="pricing" class="py-20">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-bold text-gray-900 mb-4">Pricing Plans</h2>
+<p class="text-xl text-gray-600">Choose the perfect plan for your hiring needs</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="bg-white p-8 rounded-lg shadow-lg">
+<h3 class="text-xl font-bold text-gray-900 mb-4">Starter</h3>
+<div class="mb-6">
+<span class="text-4xl font-bold">$99</span>
+<span class="text-gray-600">/month</span>
+</div>
+<ul class="space-y-3 mb-8">
+<li class="flex items-center text-gray-600">
+<i class="ri-check-line text-primary mr-2"></i>
+Up to 5 job postings
+</li>
+<li class="flex items-center text-gray-600">
+<i class="ri-check-line text-primary mr-2"></i>
+Basic AI screening
+</li>
+<li class="flex items-center text-gray-600">
+<i class="ri-check-line text-primary mr-2"></i>
+Email support
+</li>
+</ul>
+
+    <button class="w-full bg-white border-2 border-primary text-primary py-2 !rounded-button hover:bg-primary/5">Get Started</button>
+
+
+</div>
+<div class="bg-white p-8 rounded-lg shadow-lg border-2 border-primary relative">
+<div class="absolute top-0 right-0 bg-primary text-white px-4 py-1 text-sm rounded-bl-lg">Popular</div>
+<h3 class="text-xl font-bold text-gray-900 mb-4">Professional</h3>
+<div class="mb-6">
+<span class="text-4xl font-bold">$299</span>
+<span class="text-gray-600">/month</span>
+</div>
+<ul class="space-y-3 mb-8">
+<li class="flex items-center text-gray-600">
+<i class="ri-check-line text-primary mr-2"></i>
+Unlimited job postings
+</li>
+<li class="flex items-center text-gray-600">
+<i class="ri-check-line text-primary mr-2"></i>
+Advanced AI screening
+</li>
+<li class="flex items-center text-gray-600">
+<i class="ri-check-line text-primary mr-2"></i>
+Video interviews
+</li>
+<li class="flex items-center text-gray-600">
+<i class="ri-check-line text-primary mr-2"></i>
+Priority support
+</li>
+</ul>
+<a href="/pages/Professional-Plan-Checkout.html">
+    <button class="w-full bg-white border-2 border-primary text-primary py-2 !rounded-button hover:bg-primary/5">Get Started</button>
+</a>
+</div>
+<div class="bg-white p-8 rounded-lg shadow-lg">
+<h3 class="text-xl font-bold text-gray-900 mb-4">Enterprise</h3>
+<div class="mb-6">
+<span class="text-4xl font-bold">Custom</span>
+</div>
+<ul class="space-y-3 mb-8">
+<li class="flex items-center text-gray-600">
+<i class="ri-check-line text-primary mr-2"></i>
+Custom AI solutions
+</li>
+<li class="flex items-center text-gray-600">
+<i class="ri-check-line text-primary mr-2"></i>
+API integration
+</li>
+<li class="flex items-center text-gray-600">
+<i class="ri-check-line text-primary mr-2"></i>
+Dedicated support
+</li>
+<li class="flex items-center text-gray-600">
+<i class="ri-check-line text-primary mr-2"></i>
+Custom analytics
+</li>
+</ul>
+<button class="w-full bg-white border-2 border-primary text-primary py-2 !rounded-button hover:bg-primary/5">Contact Sales</button>
+</div>
+</div>
+</div>
+</section>
+<section id="success-stories" class="py-20 bg-gray-50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-bold text-gray-900 mb-4">Success Stories</h2>
+<p class="text-xl text-gray-600">See how companies are transforming their hiring with AI</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="bg-white p-8 rounded-lg shadow-lg">
+<div class="flex items-center mb-6">
+<img src="https://public.readdy.ai/ai/img_res/04ff5323ea2353127381e3878e3a5cf7.jpg"
+class="w-16 h-16 rounded-full object-cover mr-4">
+<div>
+<h3 class="font-bold text-gray-900">Jennifer Blakely</h3>
+<p class="text-gray-600">CEO, TechStart Inc.</p>
+</div>
+</div>
+<p class="text-gray-600 mb-6">"HireIn's AI platform has revolutionized our hiring process. We've reduced our time-to-hire by 70% while finding better-qualified candidates. The predictive analytics have been incredibly accurate."</p>
+<div class="flex items-center">
+<div class="flex text-primary">
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+</div>
+</div>
+</div>
+<div class="bg-white p-8 rounded-lg shadow-lg">
+<div class="flex items-center mb-6">
+<img src="https://public.readdy.ai/ai/img_res/4e90d24ca8a17a833e162813e0658a7a.jpg"
+class="w-16 h-16 rounded-full object-cover mr-4">
+<div>
+<h3 class="font-bold text-gray-900">Michael Thompson</h3>
+<p class="text-gray-600">HR Director, Global Solutions</p>
+</div>
+</div>
+<p class="text-gray-600 mb-6">"The AI-powered screening has eliminated hours of manual resume review. We're now able to focus on strategic hiring decisions while the platform handles the initial evaluation process."</p>
+<div class="flex items-center">
+<div class="flex text-primary">
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-half-fill"></i>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-12 text-center">
+<div class="inline-flex items-center justify-center bg-white rounded-lg shadow-lg p-4 space-x-8">
+<div class="text-center">
+<div class="text-4xl font-bold text-primary mb-2">500+</div>
+<p class="text-gray-600">Companies</p>
+</div>
+<div class="text-center">
+<div class="text-4xl font-bold text-primary mb-2">10k+</div>
+<p class="text-gray-600">Hires</p>
+</div>
+<div class="text-center">
+<div class="text-4xl font-bold text-primary mb-2">95%</div>
+<p class="text-gray-600">Success Rate</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-20 gradient-bg">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<div>
+<h2 class="text-4xl font-bold text-gray-900 mb-6">Ready to Transform Your Hiring Process?</h2>
+<p class="text-xl text-gray-600 mb-8">Let's discuss how our AI-powered platform can revolutionize your recruitment strategy.</p>
+<div class="space-y-8">
+<div class="flex items-center">
+<div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md mr-4">
+<i class="ri-map-pin-line text-primary text-2xl"></i>
+</div>
+<div>
+<p class="text-gray-900 font-medium">Visit Our Office</p>
+<p class="text-gray-600">123 AI Street, San Francisco, CA 94105</p>
+</div>
+</div>
+<div class="flex items-center">
+<div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md mr-4">
+<i class="ri-phone-line text-primary text-2xl"></i>
+</div>
+<div>
+<p class="text-gray-900 font-medium">Call Us Anytime</p>
+<p class="text-gray-600">+1 (555) 123-4567</p>
+</div>
+</div>
+<div class="flex items-center">
+<div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md mr-4">
+<i class="ri-mail-line text-primary text-2xl"></i>
+</div>
+<div>
+<p class="text-gray-900 font-medium">Email Us</p>
+<p class="text-gray-600">contact@hirein.com</p>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-xl shadow-xl p-8">
+<form class="space-y-6">
+<h3 class="text-2xl font-bold text-gray-900 mb-6">Get in Touch</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+<input type="text" placeholder="John" class="w-full px-4 py-3 rounded-lg bg-gray-50 border-none focus:outline-none focus:ring-2 focus:ring-primary/20">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+<input type="text" placeholder="Doe" class="w-full px-4 py-3 rounded-lg bg-gray-50 border-none focus:outline-none focus:ring-2 focus:ring-primary/20">
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Work Email</label>
+<input type="email" placeholder="john@company.com" class="w-full px-4 py-3 rounded-lg bg-gray-50 border-none focus:outline-none focus:ring-2 focus:ring-primary/20">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Company</label>
+<input type="text" placeholder="Your company name" class="w-full px-4 py-3 rounded-lg bg-gray-50 border-none focus:outline-none focus:ring-2 focus:ring-primary/20">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+<textarea placeholder="How can we help you?" rows="4" class="w-full px-4 py-3 rounded-lg bg-gray-50 border-none focus:outline-none focus:ring-2 focus:ring-primary/20"></textarea>
+</div>
+<button type="submit" class="w-full bg-primary text-white py-3 !rounded-button hover:bg-opacity-90 cursor-pointer whitespace-nowrap text-lg font-medium shadow-lg shadow-primary/20">
+Send Message
+</button>
+</form>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-gray-900 text-white py-12">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+<div>
+<a href="#" class="text-2xl font-['Pacifico'] text-white mb-4 block">logo</a>
+<p class="text-gray-400">Transform your hiring process with AI intelligence</p>
+</div>
+<div>
+<h3 class="text-lg font-semibold mb-4">Product</h3>
+<ul class="space-y-2">
+<li><a href="#" class="text-gray-400 hover:text-white">Features</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white">Pricing</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white">Enterprise</a></li>
+</ul>
+</div>
+<div>
+<h3 class="text-lg font-semibold mb-4">Company</h3>
+<ul class="space-y-2">
+<li><a href="/pages/About-Us.html" class="text-gray-400 hover:text-white">About</a></li>
+<li><a href="/pages/Careers.html" class="text-gray-400 hover:text-white">Careers</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+</ul>
+</div>
+<div>
+<h3 class="text-lg font-semibold mb-4">Connect</h3>
+<div class="flex space-x-4">
+<a href="#" class="text-gray-400 hover:text-white">
+<i class="ri-twitter-fill text-xl"></i>
+</a>
+<a href="#" class="text-gray-400 hover:text-white">
+<i class="ri-linkedin-fill text-xl"></i>
+</a>
+<a href="#" class="text-gray-400 hover:text-white">
+<i class="ri-facebook-fill text-xl"></i>
+</a>
+</div>
+</div>
+</div>
+<div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+<p>&copy; 2025 HireIn. All rights reserved.</p>
+</div>
+</div>
+</footer>
+<div id="demo-modal" class="modal">
+<div class="modal-content">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-xl font-bold text-gray-900">Schedule a Demo</h3>
+<button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">
+<i class="ri-close-line text-xl"></i>
+</button>
+</div>
+<form class="space-y-4">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+<input type="email" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Company</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary">
+</div>
+<button type="submit" class="w-full bg-primary text-white py-2 !rounded-button hover:bg-opacity-90 cursor-pointer whitespace-nowrap">
+Schedule Demo
+</button>
+</form>
+</div>
+</div>
+<script>
+function openModal() {
+document.getElementById('demo-modal').style.display = 'block';
+document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+const modal = document.getElementById('demo-modal');
+const video = document.getElementById('demo-video');
+modal.style.display = 'none';
+document.body.style.overflow = 'auto';
+// Pause video when modal is closed
+video.src = video.src;
+}
+window.onclick = function(event) {
+if (event.target == document.getElementById('demo-modal')) {
+closeModal();
+}
+}
+// Add click handler to Watch Demo button
+document.querySelector('button:contains("Watch Demo")').onclick = openModal;
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+anchor.addEventListener('click', function (e) {
+e.preventDefault();
+document.querySelector(this.getAttribute('href')).scrollIntoView({
+behavior: 'smooth'
+});
+});
+});
+</script>
+</body>
+</html>

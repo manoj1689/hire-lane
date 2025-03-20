@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - HireIn</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#15B8A6',
+secondary: '#6366F1'
+},
+borderRadius: {
+'none': '0px',
+'sm': '4px',
+DEFAULT: '8px',
+'md': '12px',
+'lg': '16px',
+'xl': '20px',
+'2xl': '24px',
+'3xl': '32px',
+'full': '9999px',
+'button': '8px'
+}
+}
+}
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+</style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <nav class="bg-white shadow-sm fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between items-center h-16">
+        <div class="flex items-center space-x-8">
+        <a href="#" class="text-2xl font-['Pacifico'] text-primary">logo</a>
+        <div class="hidden md:flex space-x-4">
+        <a href="/pages/Recruitment-Dashboard-Overview.html" class="text-primary px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
+        <a href="/pages/AI-Assisted-Job-Posting-Form.html" data-readdy="true" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Jobs</a>
+        <a href="/pages/Candidates-Management.html" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Candidates</a>
+        <a href="/pages/AI-Recruitment-Tools.html" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">AI Tools</a>
+        </div>
+        </div>
+        <div class="flex items-center space-x-4">
+        <div class="relative">
+        <button onclick="toggleNotificationMenu()" class="relative w-8 h-8 flex items-center justify-center">
+        <i class="ri-notification-3-line text-gray-600 text-xl"></i>
+        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center" id="notificationCount">5</span>
+        </button>
+        <div id="notificationMenu" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg py-2 z-50">
+        <div class="px-4 py-2 border-b border-gray-100">
+        <div class="flex justify-between items-center">
+        <h3 class="text-sm font-semibold text-gray-900">Notifications</h3>
+        <button onclick="markAllAsRead()" class="text-xs text-primary hover:underline">Mark all as read</button>
+        </div>
+        </div>
+        <div class="max-h-96 overflow-y-auto" id="notificationList">
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer" onclick="markAsRead(this, 1)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-primary rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">New candidate application for Senior Product Designer position</p>
+        <span class="text-xs text-gray-500">10 minutes ago</span>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer" onclick="markAsRead(this, 2)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-primary rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">Interview scheduled with Michael Chen</p>
+        <span class="text-xs text-gray-500">1 hour ago</span>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer" onclick="markAsRead(this, 3)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-primary rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">Jessica Parker accepted the job offer</p>
+        <span class="text-xs text-gray-500">2 hours ago</span>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer opacity-60" onclick="markAsRead(this, 4)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-gray-300 rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">New job posting is now live</p>
+        <span class="text-xs text-gray-500">3 hours ago</span>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer opacity-60" onclick="markAsRead(this, 5)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-gray-300 rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">Monthly recruitment report is ready</p>
+        <span class="text-xs text-gray-500">1 day ago</span>
+        </div>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-2 border-t border-gray-100">
+        <a href="/pages/Full-Notifications-List.html" data-readdy="true" class="block text-center text-sm text-primary hover:underline">View all notifications</a>
+        </div>
+        </div>
+        </div>
+        <script>
+        function toggleNotificationMenu() {
+        const menu = document.getElementById('notificationMenu');
+        menu.classList.toggle('hidden');
+        }
+        function markAsRead(element, id) {
+        const dot = element.querySelector('.bg-primary');
+        if (dot) {
+        dot.classList.remove('bg-primary');
+        dot.classList.add('bg-gray-300');
+        element.classList.add('opacity-60');
+        updateNotificationCount();
+        }
+        }
+        function markAllAsRead() {
+        const unreadDots = document.querySelectorAll('.bg-primary');
+        unreadDots.forEach(dot => {
+        dot.classList.remove('bg-primary');
+        dot.classList.add('bg-gray-300');
+        dot.closest('.px-4').classList.add('opacity-60');
+        });
+        updateNotificationCount();
+        }
+        function updateNotificationCount() {
+        const unreadCount = document.querySelectorAll('.bg-primary').length;
+        const countElement = document.getElementById('notificationCount');
+        countElement.textContent = unreadCount;
+        if (unreadCount === 0) {
+        countElement.classList.add('hidden');
+        }
+        }
+        document.addEventListener('click', function(e) {
+        const notificationMenu = document.getElementById('notificationMenu');
+        const notificationButton = document.querySelector('[onclick="toggleNotificationMenu()"]');
+        if (!notificationMenu.contains(e.target) && !notificationButton.contains(e.target)) {
+        notificationMenu.classList.add('hidden');
+        }
+        });
+        </script>
+        <div class="relative">
+        <button onclick="toggleUserMenu()" class="flex items-center space-x-2">
+        <img src="https://public.readdy.ai/ai/img_res/1d1eb4e9788f1b1aef21d1c880e0cf51.jpg" class="w-8 h-8 rounded-full object-cover">
+        <span class="text-gray-700 text-sm font-medium">Emily Johnson</span>
+        <i class="ri-arrow-down-s-line text-gray-600"></i>
+        </button>
+        <div id="userMenu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg z-20 py-1 border border-gray-100">
+            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+            <i class="ri-user-line mr-2 text-gray-400"></i>
+            My Profile
+            </a>
+            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+            <i class="ri-settings-3-line mr-2 text-gray-400"></i>
+            Account Settings
+            </a>
+            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+            <i class="ri-equalizer-line mr-2 text-gray-400"></i>
+            Preferences
+            </a>
+            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+            <i class="ri-question-line mr-2 text-gray-400"></i>
+            Help & Support
+            </a>
+            <hr class="my-1 border-gray-100">
+            <a href="/" class="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+            <i class="ri-logout-box-line mr-2"></i>
+            Sign Out
+            </a>
+            </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </nav>
+<div class="pt-16">
+<div class="max-w-7xl mx-auto px-4 py-8">
+<div class="bg-gradient-to-r from-primary/10 to-white rounded-lg p-8 mb-8 transition-opacity duration-300">
+<div class="max-w-3xl">
+<h1 class="text-3xl font-bold text-gray-900 mb-4">Welcome to HireIn, John!</h1>
+<p class="text-gray-600 mb-6">Get started with your recruitment journey. We'll help you find the perfect candidates using our AI-powered platform.</p>
+<button onclick="dismissWelcome()" class="text-primary hover:text-primary/80 text-sm font-medium flex items-center">
+<i class="ri-close-line mr-1"></i>
+Dismiss welcome message
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+<div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+<div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+<i class="ri-file-add-line text-primary text-xl"></i>
+</div>
+<h3 class="text-lg font-semibold text-gray-900 mb-2">Post New Job</h3>
+<p class="text-gray-600 text-sm mb-4">Create a new job posting with AI-assisted description writing.</p>
+<a href="/pages/AI-Assisted-Job-Posting-Form.html" data-readdy="true" class="text-primary hover:text-primary/80 text-sm font-medium flex items-center cursor-pointer">
+Get Started
+<i class="ri-arrow-right-line ml-1"></i>
+</a>
+</div>
+<div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+<div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+<i class="ri-team-line text-primary text-xl"></i>
+</div>
+<h3 class="text-lg font-semibold text-gray-900 mb-2">Manage Candidates</h3>
+<p class="text-gray-600 text-sm mb-4">Review and manage your candidate pipeline efficiently.</p>
+<a href="/pages/Candidates-Management.html" class="text-primary hover:text-primary/80 text-sm font-medium flex items-center cursor-pointer">
+View Candidates
+<i class="ri-arrow-right-line ml-1"></i>
+</a>
+</div>
+<div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+<div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+<i class="ri-robot-line text-primary text-xl"></i>
+</div>
+<h3 class="text-lg font-semibold text-gray-900 mb-2">AI Tools</h3>
+<p class="text-gray-600 text-sm mb-4">Access AI-powered tools for smarter hiring decisions.</p>
+<a href="/pages/AI-Recruitment-Tools.html" class="text-primary hover:text-primary/80 text-sm font-medium flex items-center cursor-pointer">
+Explore Tools
+<i class="ri-arrow-right-line ml-1"></i>
+</a>
+</div>
+<div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+<div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+<i class="ri-line-chart-line text-primary text-xl"></i>
+</div>
+<h3 class="text-lg font-semibold text-gray-900 mb-2">Analytics</h3>
+<p class="text-gray-600 text-sm mb-4">Track your recruitment metrics and performance.</p>
+<a  href="/pages/Interview-Tool-Analytics.html" class="text-primary hover:text-primary/80 text-sm font-medium flex items-center cursor-pointer">
+View Reports
+<i class="ri-arrow-right-line ml-1"></i>
+</a>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+<div class="lg:col-span-2">
+<div class="bg-white rounded-lg shadow-sm p-6">
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-xl font-semibold text-gray-900">Getting Started</h2>
+<span class="text-sm text-gray-500">2 of 3 completed</span>
+</div>
+<div class="space-y-4">
+<div class="flex items-center p-4 bg-gray-50 rounded-lg">
+<div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white">
+<i class="ri-check-line"></i>
+</div>
+<div class="ml-4 flex-1">
+<h3 class="text-gray-900 font-medium">Complete Your Profile</h3>
+<p class="text-gray-600 text-sm">Add company details and preferences</p>
+</div>
+<span class="text-primary text-sm">Completed</span>
+</div>
+<div class="flex items-center p-4 bg-gray-50 rounded-lg">
+<div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white">
+<i class="ri-check-line"></i>
+</div>
+<div class="ml-4 flex-1">
+<h3 class="text-gray-900 font-medium">Post Your First Job</h3>
+<p class="text-gray-600 text-sm">Create and publish a job listing</p>
+</div>
+<span class="text-primary text-sm">Completed</span>
+</div>
+<div class="flex items-center p-4 bg-gray-50 rounded-lg">
+<div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-gray-500">
+<i class="ri-settings-line"></i>
+</div>
+<div class="ml-4 flex-1">
+<h3 class="text-gray-900 font-medium">Set Up AI Preferences</h3>
+<p class="text-gray-600 text-sm">Configure AI matching criteria</p>
+</div>
+<a href="https://readdy.ai/home/c1ab65b2-3f7a-433a-ad12-465e225e1630/61b348ab-03b5-45f5-b2a0-8637561f502e" data-readdy="true" class="bg-primary text-white px-4 py-2 !rounded-button text-sm cursor-pointer whitespace-nowrap inline-block">Start Setup</a>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-sm p-6">
+<h2 class="text-xl font-semibold text-gray-900 mb-6">Recruitment Overview</h2>
+<div id="recruitmentChart" class="h-64"></div>
+</div>
+</div>
+</div>
+</div>
+<div id="notificationsPanel" class="hidden fixed right-4 top-16 w-80 bg-white rounded-lg shadow-lg p-4 z-20">
+<h3 class="text-lg font-semibold text-gray-900 mb-4">Notifications</h3>
+<div class="space-y-4">
+<div class="flex items-start">
+<div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+<i class="ri-user-add-line text-blue-500"></i>
+</div>
+<div class="ml-3">
+<p class="text-sm text-gray-900">New candidate application for Senior Developer position</p>
+<span class="text-xs text-gray-500">2 hours ago</span>
+</div>
+</div>
+<div class="flex items-start">
+<div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+<i class="ri-message-2-line text-green-500"></i>
+</div>
+<div class="ml-3">
+<p class="text-sm text-gray-900">Interview scheduled with Emily Brown</p>
+<span class="text-xs text-gray-500">Yesterday</span>
+</div>
+</div>
+<div class="flex items-start">
+<div class="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center flex-shrink-0">
+<i class="ri-calendar-line text-yellow-500"></i>
+</div>
+<div class="ml-3">
+<p class="text-sm text-gray-900">Job posting expires in 2 days</p>
+<span class="text-xs text-gray-500">2 days ago</span>
+</div>
+</div>
+</div>
+</div>
+<div id="profileMenu" class="hidden absolute right-0 top-16 w-48 bg-white rounded-lg shadow-lg py-2 z-20">
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Your Profile</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Billing</a>
+<button onclick="restoreWelcome()" class="block w-full text-left px-4 py-2 text-sm text-primary hover:bg-gray-100">
+<i class="ri-refresh-line mr-1"></i>
+Restore Welcome Message
+</button>
+<div class="border-t border-gray-200 my-1"></div>
+<a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Sign out</a>
+</div>
+<script>
+function toggleNotifications() {
+const panel = document.getElementById('notificationsPanel');
+panel.classList.toggle('hidden');
+document.getElementById('profileMenu').classList.add('hidden');
+}
+function toggleProfile() {
+const menu = document.getElementById('profileMenu');
+menu.classList.toggle('hidden');
+document.getElementById('notificationsPanel').classList.add('hidden');
+}
+document.addEventListener('click', function(event) {
+const notificationsPanel = document.getElementById('notificationsPanel');
+const profileMenu = document.getElementById('profileMenu');
+if (!event.target.closest('#notificationsPanel') && !event.target.closest('button')) {
+notificationsPanel.classList.add('hidden');
+}
+if (!event.target.closest('#profileMenu') && !event.target.closest('#profileDropdown')) {
+profileMenu.classList.add('hidden');
+}
+});
+function dismissWelcome() {
+const welcomeMessage = document.querySelector('.bg-gradient-to-r');
+welcomeMessage.classList.add('opacity-0', 'transition-opacity', 'duration-300');
+setTimeout(() => {
+welcomeMessage.classList.add('hidden');
+}, 300);
+localStorage.setItem('welcomeMessageDismissed', 'true');
+}
+function restoreWelcome() {
+const welcomeMessage = document.querySelector('.bg-gradient-to-r');
+welcomeMessage.classList.remove('hidden', 'opacity-0');
+localStorage.removeItem('welcomeMessageDismissed');
+}
+document.addEventListener('DOMContentLoaded', function() {
+const welcomeMessage = document.querySelector('.bg-gradient-to-r');
+if (localStorage.getItem('welcomeMessageDismissed')) {
+welcomeMessage.classList.add('hidden');
+}
+});
+const chart = echarts.init(document.getElementById('recruitmentChart'));
+const option = {
+animation: false,
+tooltip: {
+trigger: 'axis',
+backgroundColor: 'rgba(255, 255, 255, 0.9)',
+borderColor: '#eee',
+borderWidth: 1,
+textStyle: {
+color: '#1f2937'
+}
+},
+grid: {
+top: 10,
+right: 10,
+bottom: 20,
+left: 40
+},
+xAxis: {
+type: 'category',
+data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+axisLine: {
+lineStyle: {
+color: '#e5e7eb'
+}
+}
+},
+yAxis: {
+type: 'value',
+axisLine: {
+show: false
+},
+splitLine: {
+lineStyle: {
+color: '#e5e7eb'
+}
+}
+},
+series: [{
+data: [12, 15, 8, 20, 14, 10, 18],
+type: 'line',
+smooth: true,
+symbol: 'none',
+lineStyle: {
+color: 'rgba(87, 181, 231, 1)'
+},
+areaStyle: {
+color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+offset: 0,
+color: 'rgba(87, 181, 231, 0.1)'
+}, {
+offset: 1,
+color: 'rgba(87, 181, 231, 0)'
+}])
+}
+}]
+};
+chart.setOption(option);
+window.addEventListener('resize', function() {
+chart.resize();
+});
+</script>
+</body>
+</html>

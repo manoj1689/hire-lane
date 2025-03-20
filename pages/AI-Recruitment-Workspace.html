@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resume Screening Tool</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#15B8A6',
+secondary: '#6366F1'
+},
+borderRadius: {
+'none': '0px',
+'sm': '4px',
+DEFAULT: '8px',
+'md': '12px',
+'lg': '16px',
+'xl': '20px',
+'2xl': '24px',
+'3xl': '32px',
+'full': '9999px',
+'button': '8px'
+}
+}
+}
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+.dropzone { border: 2px dashed #E5E7EB; }
+@keyframes fade-in {
+from { opacity: 0; transform: translateY(1rem); }
+to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+animation: fade-in 0.3s ease-out forwards;
+}
+.dropzone.drag-over { border-color: #15B8A6; background-color: rgba(21, 184, 166, 0.05); }
+.custom-scrollbar::-webkit-scrollbar { width: 4px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: #F3F4F6; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 2px; }
+</style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <nav class="bg-white shadow-sm fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between items-center h-16">
+        <div class="flex items-center space-x-8">
+        <a href="#" class="text-2xl font-['Pacifico'] text-primary">logo</a>
+        <div class="hidden md:flex space-x-4">
+        <a href="/pages/Recruitment-Dashboard-Overview.html" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
+        <a href="/pages/AI-Assisted-Job-Posting-Form.html" data-readdy="true" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Jobs</a>
+        <a href="/pages/Candidates-Management.html" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Candidates</a>
+        <a href="/pages/AI-Recruitment-Tools.html" class="text-primary px-3 py-2 rounded-md text-sm font-medium">AI Tools</a>
+        </div>
+        </div>
+        <div class="flex items-center space-x-4">
+        <div class="relative">
+        <button onclick="toggleNotificationMenu()" class="relative w-8 h-8 flex items-center justify-center">
+        <i class="ri-notification-3-line text-gray-600 text-xl"></i>
+        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center" id="notificationCount">5</span>
+        </button>
+        <div id="notificationMenu" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg py-2 z-50">
+        <div class="px-4 py-2 border-b border-gray-100">
+        <div class="flex justify-between items-center">
+        <h3 class="text-sm font-semibold text-gray-900">Notifications</h3>
+        <button onclick="markAllAsRead()" class="text-xs text-primary hover:underline">Mark all as read</button>
+        </div>
+        </div>
+        <div class="max-h-96 overflow-y-auto" id="notificationList">
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer" onclick="markAsRead(this, 1)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-primary rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">New candidate application for Senior Product Designer position</p>
+        <span class="text-xs text-gray-500">10 minutes ago</span>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer" onclick="markAsRead(this, 2)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-primary rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">Interview scheduled with Michael Chen</p>
+        <span class="text-xs text-gray-500">1 hour ago</span>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer" onclick="markAsRead(this, 3)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-primary rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">Jessica Parker accepted the job offer</p>
+        <span class="text-xs text-gray-500">2 hours ago</span>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer opacity-60" onclick="markAsRead(this, 4)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-gray-300 rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">New job posting is now live</p>
+        <span class="text-xs text-gray-500">3 hours ago</span>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer opacity-60" onclick="markAsRead(this, 5)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-gray-300 rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">Monthly recruitment report is ready</p>
+        <span class="text-xs text-gray-500">1 day ago</span>
+        </div>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-2 border-t border-gray-100">
+        <a href="/pages/Full-Notifications-List.html" data-readdy="true" class="block text-center text-sm text-primary hover:underline">View all notifications</a>
+        </div>
+        </div>
+        </div>
+        <script>
+        function toggleNotificationMenu() {
+        const menu = document.getElementById('notificationMenu');
+        menu.classList.toggle('hidden');
+        }
+        function markAsRead(element, id) {
+        const dot = element.querySelector('.bg-primary');
+        if (dot) {
+        dot.classList.remove('bg-primary');
+        dot.classList.add('bg-gray-300');
+        element.classList.add('opacity-60');
+        updateNotificationCount();
+        }
+        }
+        function markAllAsRead() {
+        const unreadDots = document.querySelectorAll('.bg-primary');
+        unreadDots.forEach(dot => {
+        dot.classList.remove('bg-primary');
+        dot.classList.add('bg-gray-300');
+        dot.closest('.px-4').classList.add('opacity-60');
+        });
+        updateNotificationCount();
+        }
+        function updateNotificationCount() {
+        const unreadCount = document.querySelectorAll('.bg-primary').length;
+        const countElement = document.getElementById('notificationCount');
+        countElement.textContent = unreadCount;
+        if (unreadCount === 0) {
+        countElement.classList.add('hidden');
+        }
+        }
+        document.addEventListener('click', function(e) {
+        const notificationMenu = document.getElementById('notificationMenu');
+        const notificationButton = document.querySelector('[onclick="toggleNotificationMenu()"]');
+        if (!notificationMenu.contains(e.target) && !notificationButton.contains(e.target)) {
+        notificationMenu.classList.add('hidden');
+        }
+        });
+        </script>
+        <div class="relative">
+        <button onclick="toggleUserMenu()" class="flex items-center space-x-2">
+        <img src="https://public.readdy.ai/ai/img_res/1d1eb4e9788f1b1aef21d1c880e0cf51.jpg" class="w-8 h-8 rounded-full object-cover">
+        <span class="text-gray-700 text-sm font-medium">Emily Johnson</span>
+        <i class="ri-arrow-down-s-line text-gray-600"></i>
+        </button>
+        <div id="userMenu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg z-20 py-1 border border-gray-100">
+            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+            <i class="ri-user-line mr-2 text-gray-400"></i>
+            My Profile
+            </a>
+            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+            <i class="ri-settings-3-line mr-2 text-gray-400"></i>
+            Account Settings
+            </a>
+            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+            <i class="ri-equalizer-line mr-2 text-gray-400"></i>
+            Preferences
+            </a>
+            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+            <i class="ri-question-line mr-2 text-gray-400"></i>
+            Help & Support
+            </a>
+            <hr class="my-1 border-gray-100">
+            <a href="#" class="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+            <i class="ri-logout-box-line mr-2"></i>
+            Sign Out
+            </a>
+            </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </nav>
+<div class="pt-16">
+<div class="max-w-7xl mx-auto px-4 py-8">
+<nav class="flex mb-8" aria-label="Breadcrumb">
+<ol class="inline-flex items-center space-x-1 md:space-x-3">
+<li class="inline-flex items-center">
+<a href="/pages/Recruitment-Dashboard-Overview.html" data-readdy="true" class="text-gray-600 hover:text-primary text-sm">AI Tools</a>
+</li>
+<li>
+<div class="flex items-center">
+<i class="ri-arrow-right-s-line text-gray-400"></i>
+<span class="ml-1 text-gray-600 text-sm">Resume Screening</span>
+</div>
+</li>
+</ol>
+</nav>
+<div class="flex space-x-6">
+<div class="flex-1">
+<div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-xl font-semibold text-gray-900">Select Job & Upload Resumes</h2>
+<a href="https://readdy.ai/home/c1ab65b2-3f7a-433a-ad12-465e225e1630/3a039d5b-852a-4d3e-99d7-bd9141f315f8" data-readdy="true" class="text-primary hover:text-primary/80 text-sm font-medium flex items-center">
+<i class="ri-add-line mr-1"></i>Create New Job
+</a>
+</div>
+<div class="mb-6">
+<label class="block text-sm font-medium text-gray-700 mb-2">Select Job Position</label>
+<div class="relative">
+<button id="jobSelectBtn" class="w-full flex items-center justify-between bg-gray-50 px-4 py-3 !rounded-button text-sm text-gray-700">
+<div class="flex items-center">
+<span class="font-medium">Senior Frontend Developer</span>
+<span class="ml-2 bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">Active</span>
+</div>
+<i class="ri-arrow-down-s-line"></i>
+</button>
+<div id="jobSelectDropdown" class="hidden absolute z-10 mt-1 w-full bg-white rounded-lg shadow-lg border border-gray-100">
+<div class="p-1">
+<div class="p-3 border-b border-gray-100">
+<input type="text" placeholder="Search jobs..." class="w-full bg-gray-50 px-3 py-2 !rounded-button text-sm border-none">
+</div>
+<div class="max-h-64 overflow-y-auto custom-scrollbar">
+<button class="w-full text-left px-4 py-3 rounded hover:bg-gray-50 transition-colors group selected">
+<div class="flex items-center justify-between">
+<div>
+<div class="font-medium text-gray-900">Senior Frontend Developer</div>
+<div class="text-xs text-gray-500 mt-1">Created on Mar 15, 2025</div>
+</div>
+<span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">Active</span>
+</div>
+</button>
+<button class="w-full text-left px-4 py-3 rounded hover:bg-gray-50 transition-colors group">
+<div class="flex items-center justify-between">
+<div>
+<div class="font-medium text-gray-900">Backend Engineer</div>
+<div class="text-xs text-gray-500 mt-1">Created on Mar 10, 2025</div>
+</div>
+<span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">Active</span>
+</div>
+</button>
+<button class="w-full text-left px-4 py-3 rounded hover:bg-gray-50 transition-colors group">
+<div class="flex items-center justify-between">
+<div>
+<div class="font-medium text-gray-900">UX Designer</div>
+<div class="text-xs text-gray-500 mt-1">Created on Mar 5, 2025</div>
+</div>
+<span class="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full">Closed</span>
+</div>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-gray-50 rounded-lg p-4 mb-6">
+<h3 class="text-sm font-medium text-gray-900 mb-3">Job Requirements</h3>
+<div class="space-y-4">
+<div>
+<div class="text-sm text-gray-700 mb-2">Required Skills</div>
+<div class="flex flex-wrap gap-2">
+<span class="bg-primary/10 text-primary text-xs px-3 py-1 rounded-full">React</span>
+<span class="bg-primary/10 text-primary text-xs px-3 py-1 rounded-full">TypeScript</span>
+<span class="bg-primary/10 text-primary text-xs px-3 py-1 rounded-full">Next.js</span>
+<span class="bg-primary/10 text-primary text-xs px-3 py-1 rounded-full">TailwindCSS</span>
+<span class="bg-primary/10 text-primary text-xs px-3 py-1 rounded-full">Redux</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<div class="text-sm text-gray-700 mb-2">Experience</div>
+<div class="text-sm text-gray-900">5+ years</div>
+</div>
+<div>
+<div class="text-sm text-gray-700 mb-2">Education</div>
+<div class="text-sm text-gray-900">Bachelor's or higher</div>
+</div>
+<div>
+<div class="text-sm text-gray-700 mb-2">Location</div>
+<div class="text-sm text-gray-900">San Francisco, CA (Hybrid)</div>
+</div>
+<div>
+<div class="text-sm text-gray-700 mb-2">Salary Range</div>
+<div class="text-sm text-gray-900">$130,000 - $180,000</div>
+</div>
+</div>
+</div>
+</div>
+<h3 class="text-sm font-medium text-gray-900 mb-4">Upload Resumes</h3>
+<div id="dropzone" class="dropzone rounded-lg p-8 text-center cursor-pointer mb-4">
+<div class="flex flex-col items-center">
+<i class="ri-upload-cloud-2-line text-4xl text-gray-400 mb-2"></i>
+<p class="text-gray-600 mb-2">Drag and drop resumes here or click to upload</p>
+<p class="text-sm text-gray-500">Supported formats: PDF, DOC, DOCX (Max 10MB)</p>
+</div>
+<input type="file" id="fileInput" class="hidden" multiple accept=".pdf,.doc,.docx">
+</div>
+<div id="uploadProgress" class="space-y-3 mt-4 hidden"></div>
+<div id="fileList" class="space-y-2 mt-4"></div>
+<script>
+function formatFileSize(bytes) {
+if(bytes === 0) return '0 B';
+const k = 1024;
+const sizes = ['B', 'KB', 'MB', 'GB'];
+const i = Math.floor(Math.log(bytes) / Math.log(k));
+return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+function simulateFileUpload(file) {
+return new Promise((resolve, reject) => {
+const progressItem = document.createElement('div');
+progressItem.className = 'bg-gray-50 rounded p-3';
+progressItem.innerHTML = `
+<div class="flex justify-between items-center mb-2">
+<span class="text-sm text-gray-700">${file.name}</span>
+<span class="text-sm text-gray-500" id="progress-${file.name}">0%</span>
+</div>
+<div class="h-1 bg-gray-200 rounded-full overflow-hidden">
+<div class="h-full bg-primary transition-all duration-300" style="width: 0%" id="progressBar-${file.name}"></div>
+</div>
+`;
+document.getElementById('uploadProgress').appendChild(progressItem);
+document.getElementById('uploadProgress').classList.remove('hidden');
+let progress = 0;
+const interval = setInterval(() => {
+progress += Math.random() * 30;
+if(progress > 100) progress = 100;
+const progressBar = document.getElementById(`progressBar-${file.name}`);
+const progressText = document.getElementById(`progress-${file.name}`);
+if(progressBar && progressText) {
+progressBar.style.width = `${progress}%`;
+progressText.textContent = `${Math.round(progress)}%`;
+}
+if(progress === 100) {
+clearInterval(interval);
+setTimeout(() => {
+progressItem.remove();
+if(!document.getElementById('uploadProgress').children.length) {
+document.getElementById('uploadProgress').classList.add('hidden');
+}
+if(Math.random() > 0.1) { // 90% success rate
+resolve();
+} else {
+reject(new Error('Upload failed'));
+}
+}, 500);
+}
+}, 500);
+});
+}
+function handleFiles(files) {
+Array.from(files).forEach(file => {
+simulateFileUpload(file)
+.then(() => {
+const fileItem = document.createElement('div');
+fileItem.className = 'flex items-center justify-between bg-gray-50 rounded p-3';
+fileItem.innerHTML = `
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 flex items-center justify-center bg-primary/10 rounded-full">
+<i class="ri-check-line text-primary"></i>
+</div>
+<div>
+<div class="text-sm text-gray-700">${file.name}</div>
+<div class="text-xs text-gray-500">${formatFileSize(file.size)}</div>
+</div>
+</div>
+<button class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center" onclick="this.closest('div').remove()">
+<i class="ri-delete-bin-line"></i>
+</button>
+`;
+document.getElementById('fileList').appendChild(fileItem);
+})
+.catch(() => {
+const errorItem = document.createElement('div');
+errorItem.className = 'flex items-center justify-between bg-red-50 rounded p-3';
+errorItem.innerHTML = `
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 flex items-center justify-center bg-red-100 rounded-full">
+<i class="ri-error-warning-line text-red-500"></i>
+</div>
+<div>
+<div class="text-sm text-red-700">${file.name}</div>
+<div class="text-xs text-red-500">Upload failed</div>
+</div>
+</div>
+<button class="text-red-400 hover:text-red-600 w-8 h-8 flex items-center justify-center" onclick="retryUpload(this)">
+<i class="ri-refresh-line"></i>
+</button>
+`;
+document.getElementById('fileList').appendChild(errorItem);
+});
+});
+}
+function retryUpload(button) {
+const fileItem = button.closest('div');
+const fileName = fileItem.querySelector('.text-sm').textContent;
+// Create a mock file object
+const mockFile = new File([''], fileName, {
+type: fileName.endsWith('.pdf') ? 'application/pdf' : 'application/msword'
+});
+fileItem.remove();
+handleFiles([mockFile]);
+}
+</script>
+</div>
+<div class="bg-white rounded-lg shadow-sm p-6">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-xl font-semibold text-gray-900">Analysis Results</h2>
+<div class="flex items-center space-x-2">
+<button class="bg-white border border-gray-200 text-gray-700 px-4 py-2 !rounded-button text-sm font-medium hover:bg-gray-50 transition-colors whitespace-nowrap cursor-pointer flex items-center shadow-sm">
+<i class="ri-download-line mr-2"></i>Export
+</button>
+<button class="bg-primary text-white px-4 py-2 !rounded-button text-sm font-medium hover:bg-primary/90 transition-colors whitespace-nowrap cursor-pointer flex items-center shadow-sm">
+<i class="ri-save-line mr-2"></i>Save Results
+</button>
+</div>
+</div>
+<div class="border-b border-gray-200">
+<nav class="flex -mb-px space-x-8">
+<button class="text-primary border-b-2 border-primary px-4 py-2 text-sm font-medium">Summary</button>
+<button id="detailedScoresTab" class="text-gray-500 hover:text-gray-700 px-4 py-2 text-sm font-medium" onclick="switchToDetailedScores()">Detailed Scores</button>
+<script>
+function switchToDetailedScores() {
+// Update tab styles
+document.querySelector('button.text-primary').classList.remove('text-primary', 'border-b-2', 'border-primary');
+document.querySelector('button.text-primary').classList.add('text-gray-500');
+const detailedScoresTab = document.getElementById('detailedScoresTab');
+detailedScoresTab.classList.remove('text-gray-500');
+detailedScoresTab.classList.add('text-primary', 'border-b-2', 'border-primary');
+// Replace summary content with detailed scores table
+const contentArea = document.querySelector('.pt-6');
+contentArea.innerHTML = `
+<div class="overflow-x-auto">
+<table class="w-full">
+<thead>
+<tr class="bg-gray-50 border-b border-gray-200">
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:text-primary">
+Candidate Name
+<i class="ri-arrow-up-s-line ml-1"></i>
+</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:text-primary">
+Technical Skills
+<i class="ri-arrow-up-s-line ml-1"></i>
+</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:text-primary">
+Soft Skills
+<i class="ri-arrow-up-s-line ml-1"></i>
+</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:text-primary">
+Experience
+<i class="ri-arrow-up-s-line ml-1"></i>
+</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:text-primary">
+Education
+<i class="ri-arrow-up-s-line ml-1"></i>
+</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:text-primary">
+Overall Score
+<i class="ri-arrow-up-s-line ml-1"></i>
+</th>
+</tr>
+</thead>
+<tbody class="bg-white divide-y divide-gray-200">
+<tr class="hover:bg-gray-50">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<img class="h-8 w-8 rounded-full" src="https://public.readdy.ai/ai/img_res/29dba45d0bae4a1bf4c39c25903421e0.jpg" alt="">
+<div class="ml-3">
+<div class="text-sm font-medium text-gray-900">David Chen</div>
+<div class="text-xs text-gray-500">Senior Frontend Engineer</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<span class="text-sm text-gray-900 mr-2">95%</span>
+<div class="w-24 h-1.5 bg-gray-200 rounded-full">
+<div class="h-1.5 bg-primary rounded-full" style="width: 95%"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<span class="text-sm text-gray-900 mr-2">88%</span>
+<div class="w-24 h-1.5 bg-gray-200 rounded-full">
+<div class="h-1.5 bg-primary rounded-full" style="width: 88%"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<span class="text-sm text-gray-900 mr-2">92%</span>
+<div class="w-24 h-1.5 bg-gray-200 rounded-full">
+<div class="h-1.5 bg-primary rounded-full" style="width: 92%"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<span class="text-sm text-gray-900 mr-2">90%</span>
+<div class="w-24 h-1.5 bg-gray-200 rounded-full">
+<div class="h-1.5 bg-primary rounded-full" style="width: 90%"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<span class="text-sm font-medium text-primary mr-2">95%</span>
+<div class="w-24 h-1.5 bg-gray-200 rounded-full">
+<div class="h-1.5 bg-primary rounded-full" style="width: 95%"></div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-gray-50">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<img class="h-8 w-8 rounded-full" src="https://public.readdy.ai/ai/img_res/1390bf28539544c2a73dba82a8a1a522.jpg" alt="">
+<div class="ml-3">
+<div class="text-sm font-medium text-gray-900">Sarah Miller</div>
+<div class="text-xs text-gray-500">Frontend Lead</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<span class="text-sm text-gray-900 mr-2">92%</span>
+<div class="w-24 h-1.5 bg-gray-200 rounded-full">
+<div class="h-1.5 bg-primary rounded-full" style="width: 92%"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<span class="text-sm text-gray-900 mr-2">90%</span>
+<div class="w-24 h-1.5 bg-gray-200 rounded-full">
+<div class="h-1.5 bg-primary rounded-full" style="width: 90%"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<span class="text-sm text-gray-900 mr-2">88%</span>
+<div class="w-24 h-1.5 bg-gray-200 rounded-full">
+<div class="h-1.5 bg-primary rounded-full" style="width: 88%"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<span class="text-sm text-gray-900 mr-2">85%</span>
+<div class="w-24 h-1.5 bg-gray-200 rounded-full">
+<div class="h-1.5 bg-primary rounded-full" style="width: 85%"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<span class="text-sm font-medium text-primary mr-2">92%</span>
+<div class="w-24 h-1.5 bg-gray-200 rounded-full">
+<div class="h-1.5 bg-primary rounded-full" style="width: 92%"></div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-gray-50">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<img class="h-8 w-8 rounded-full" src="https://public.readdy.ai/ai/img_res/44b62a046b085a99951914c5407aef2d.jpg" alt="">
+<div class="ml-3">
+<div class="text-sm font-medium text-gray-900">Michael Thompson</div>
+<div class="text-xs text-gray-500">Senior Developer</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<span class="text-sm text-gray-900 mr-2">89%</span>
+<div class="w-24 h-1.5 bg-gray-200 rounded-full">
+<div class="h-1.5 bg-primary rounded-full" style="width: 89%"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<span class="text-sm text-gray-900 mr-2">85%</span>
+<div class="w-24 h-1.5 bg-gray-200 rounded-full">
+<div class="h-1.5 bg-primary rounded-full" style="width: 85%"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<span class="text-sm text-gray-900 mr-2">87%</span>
+<div class="w-24 h-1.5 bg-gray-200 rounded-full">
+<div class="h-1.5 bg-primary rounded-full" style="width: 87%"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<span class="text-sm text-gray-900 mr-2">82%</span>
+<div class="w-24 h-1.5 bg-gray-200 rounded-full">
+<div class="h-1.5 bg-primary rounded-full" style="width: 82%"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<span class="text-sm font-medium text-primary mr-2">89%</span>
+<div class="w-24 h-1.5 bg-gray-200 rounded-full">
+<div class="h-1.5 bg-primary rounded-full" style="width: 89%"></div>
+</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+`;
+// Add click handlers for sorting
+document.querySelectorAll('th').forEach(th => {
+th.addEventListener('click', () => {
+const table = th.closest('table');
+const tbody = table.querySelector('tbody');
+const rows = Array.from(tbody.querySelectorAll('tr'));
+const index = Array.from(th.parentNode.children).indexOf(th);
+// Toggle sort direction
+const isAscending = th.querySelector('i').classList.contains('ri-arrow-up-s-line');
+// Update sort icons
+th.parentNode.querySelectorAll('i').forEach(icon => {
+icon.className = 'ri-arrow-up-s-line ml-1';
+});
+th.querySelector('i').className = isAscending ? 'ri-arrow-down-s-line ml-1' : 'ri-arrow-up-s-line ml-1';
+// Sort rows
+rows.sort((a, b) => {
+let aValue, bValue;
+if (index === 0) {
+// Sort by name
+aValue = a.querySelector('.text-sm.font-medium').textContent;
+bValue = b.querySelector('.text-sm.font-medium').textContent;
+return isAscending ? bValue.localeCompare(aValue) : aValue.localeCompare(bValue);
+} else {
+// Sort by score
+aValue = parseInt(a.querySelectorAll('.text-sm')[index - 1].textContent);
+bValue = parseInt(b.querySelectorAll('.text-sm')[index - 1].textContent);
+return isAscending ? bValue - aValue : aValue - bValue;
+}
+});
+// Reorder rows
+tbody.innerHTML = '';
+rows.forEach(row => tbody.appendChild(row));
+});
+});
+}
+</script>
+<button class="text-gray-500 hover:text-gray-700 px-4 py-2 text-sm font-medium">Recommendations</button>
+</nav>
+</div>
+<div class="pt-6">
+<div class="bg-gray-50 rounded-lg p-4 mb-6">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-sm font-medium text-gray-700">Selected Top Candidates</h3>
+<a href="/pages/Complete-List-of-Qualified-Candidates.html" data-readdy="true" class="text-primary text-sm hover:text-primary/80">View All</a>
+</div>
+<div class="space-y-4">
+<div class="bg-white rounded-lg p-4 shadow-sm">
+<div class="flex items-start justify-between">
+<div class="flex items-start space-x-3">
+<img src="https://public.readdy.ai/ai/img_res/d85633746330dbd0156d913268f63006.jpg" class="w-12 h-12 rounded-full object-cover">
+<div>
+<h4 class="text-sm font-medium text-gray-900">David Chen</h4>
+<p class="text-xs text-gray-500 mt-1">Senior Frontend Engineer at Meta</p>
+<div class="flex items-center mt-2 space-x-2">
+<span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">Match: 95%</span>
+<span class="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full">7 years exp.</span>
+</div>
+</div>
+</div>
+<div class="flex items-center space-x-2">
+<button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600">
+<i class="ri-star-line"></i>
+</button>
+<div class="flex items-center space-x-2">
+<button class="bg-white border border-gray-200 text-gray-700 px-3 py-2 !rounded-button text-sm font-medium hover:bg-gray-50 transition-colors whitespace-nowrap shadow-sm flex items-center">
+<i class="ri-mail-line mr-1"></i>Email
+</button>
+<button class="bg-primary text-white px-3 py-2 !rounded-button text-sm font-medium hover:bg-primary/90 transition-colors whitespace-nowrap shadow-sm flex items-center">
+<i class="ri-phone-line mr-1"></i>Call
+</button>
+</div>
+</div>
+</div>
+<div class="mt-3 grid grid-cols-2 gap-3">
+<div>
+<div class="text-xs text-gray-500 mb-1">Skills Match</div>
+<div class="h-1.5 bg-gray-200 rounded-full">
+<div class="h-1.5 bg-primary rounded-full" style="width: 95%"></div>
+</div>
+</div>
+<div>
+<div class="text-xs text-gray-500 mb-1">Experience Match</div>
+<div class="h-1.5 bg-gray-200 rounded-full">
+<div class="h-1.5 bg-primary rounded-full" style="width: 90%"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-lg p-4 shadow-sm">
+<div class="flex items-start justify-between">
+<div class="flex items-start space-x-3">
+<img src="https://public.readdy.ai/ai/img_res/f4ab4a3228d79fe88791a4f18ea14529.jpg" class="w-12 h-12 rounded-full object-cover">
+<div>
+<h4 class="text-sm font-medium text-gray-900">Sarah Miller</h4>
+<p class="text-xs text-gray-500 mt-1">Frontend Lead at Google</p>
+<div class="flex items-center mt-2 space-x-2">
+<span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">Match: 92%</span>
+<span class="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full">6 years exp.</span>
+</div>
+</div>
+</div>
+<div class="flex items-center space-x-2">
+<button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600">
+<i class="ri-star-line"></i>
+</button>
+<div class="flex items-center space-x-2">
+<button class="bg-white border border-gray-200 text-gray-700 px-3 py-2 !rounded-button text-sm font-medium hover:bg-gray-50 transition-colors whitespace-nowrap shadow-sm flex items-center">
+<i class="ri-mail-line mr-1"></i>Email
+</button>
+<button class="bg-primary text-white px-3 py-2 !rounded-button text-sm font-medium hover:bg-primary/90 transition-colors whitespace-nowrap shadow-sm flex items-center">
+<i class="ri-phone-line mr-1"></i>Call
+</button>
+</div>
+</div>
+</div>
+<div class="mt-3 grid grid-cols-2 gap-3">
+<div>
+<div class="text-xs text-gray-500 mb-1">Skills Match</div>
+<div class="h-1.5 bg-gray-200 rounded-full">
+<div class="h-1.5 bg-primary rounded-full" style="width: 92%"></div>
+</div>
+</div>
+<div>
+<div class="text-xs text-gray-500 mb-1">Experience Match</div>
+<div class="h-1.5 bg-gray-200 rounded-full">
+<div class="h-1.5 bg-primary rounded-full" style="width: 88%"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-lg p-4 shadow-sm">
+<div class="flex items-start justify-between">
+<div class="flex items-start space-x-3">
+<img src="https://public.readdy.ai/ai/img_res/055cfa7be9b14e0b5178e4498c8131f7.jpg" class="w-12 h-12 rounded-full object-cover">
+<div>
+<h4 class="text-sm font-medium text-gray-900">Michael Thompson</h4>
+<p class="text-xs text-gray-500 mt-1">Senior Developer at Amazon</p>
+<div class="flex items-center mt-2 space-x-2">
+<span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">Match: 89%</span>
+<span class="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full">5 years exp.</span>
+</div>
+</div>
+</div>
+<div class="flex items-center space-x-2">
+<button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600">
+<i class="ri-star-line"></i>
+</button>
+<div class="flex items-center space-x-2">
+<button class="bg-white border border-gray-200 text-gray-700 px-3 py-2 !rounded-button text-sm font-medium hover:bg-gray-50 transition-colors whitespace-nowrap shadow-sm flex items-center">
+<i class="ri-mail-line mr-1"></i>Email
+</button>
+<button class="bg-primary text-white px-3 py-2 !rounded-button text-sm font-medium hover:bg-primary/90 transition-colors whitespace-nowrap shadow-sm flex items-center">
+<i class="ri-phone-line mr-1"></i>Call
+</button>
+</div>
+</div>
+</div>
+<div class="mt-3 grid grid-cols-2 gap-3">
+<div>
+<div class="text-xs text-gray-500 mb-1">Skills Match</div>
+<div class="h-1.5 bg-gray-200 rounded-full">
+<div class="h-1.5 bg-primary rounded-full" style="width: 89%"></div>
+</div>
+</div>
+<div>
+<div class="text-xs text-gray-500 mb-1">Experience Match</div>
+<div class="h-1.5 bg-gray-200 rounded-full">
+<div class="h-1.5 bg-primary rounded-full" style="width: 85%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="resultsChart" class="h-64 mb-6"></div>
+<div class="grid grid-cols-4 gap-4 mb-6">
+<div class="bg-gray-50 rounded-lg p-4">
+<div class="text-sm text-gray-600 mb-1">Total Resumes</div>
+<div class="text-2xl font-semibold text-gray-900">24</div>
+</div>
+<div class="bg-gray-50 rounded-lg p-4">
+<div class="text-sm text-gray-600 mb-1">Qualified Candidates</div>
+<div class="text-2xl font-semibold text-primary">8</div>
+</div>
+<div class="bg-gray-50 rounded-lg p-4">
+<div class="text-sm text-gray-600 mb-1">Average Match Score</div>
+<div class="text-2xl font-semibold text-gray-900">76%</div>
+</div>
+<div class="bg-gray-50 rounded-lg p-4">
+<div class="text-sm text-gray-600 mb-1">Auto-rejected</div>
+<div class="text-2xl font-semibold text-gray-900">5</div>
+<div class="text-xs text-gray-500">Below minimum criteria</div>
+</div>
+</div>
+<div class="bg-gray-50 rounded-lg p-4 mb-6">
+<h3 class="text-sm font-medium text-gray-700 mb-3">Qualification Distribution</h3>
+<div class="space-y-3">
+<div>
+<div class="flex justify-between text-sm mb-1">
+<span class="text-gray-600">Highly Qualified (90-100%)</span>
+<span class="text-gray-900">3 candidates</span>
+</div>
+<div class="h-2 bg-gray-200 rounded-full">
+<div class="h-2 bg-primary rounded-full" style="width: 12.5%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-sm mb-1">
+<span class="text-gray-600">Well Qualified (80-89%)</span>
+<span class="text-gray-900">5 candidates</span>
+</div>
+<div class="h-2 bg-gray-200 rounded-full">
+<div class="h-2 bg-primary rounded-full" style="width: 20.8%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-sm mb-1">
+<span class="text-gray-600">Qualified (70-79%)</span>
+<span class="text-gray-900">11 candidates</span>
+</div>
+<div class="h-2 bg-gray-200 rounded-full">
+<div class="h-2 bg-primary rounded-full" style="width: 45.8%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-sm mb-1">
+<span class="text-gray-600">Under Qualified (<70%)</span>
+<span class="text-gray-900">5 candidates</span>
+</div>
+<div class="h-2 bg-gray-200 rounded-full">
+<div class="h-2 bg-primary rounded-full" style="width: 20.8%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="w-80 flex-shrink-0">
+<div class="bg-white rounded-lg shadow-sm p-6 sticky top-24">
+<h3 class="text-lg font-semibold text-gray-900 mb-6">AI Configuration</h3>
+<div class="space-y-6">
+<div class="relative">
+<label class="block text-sm font-medium text-gray-700 mb-2">AI Model</label>
+<button id="aiModelBtn" class="w-full flex items-center justify-between bg-gray-50 px-4 py-2 !rounded-button text-sm text-gray-700">
+<span>GPT-4</span>
+<i class="ri-arrow-down-s-line"></i>
+</button>
+<div id="aiModelDropdown" class="hidden absolute z-10 mt-1 w-full bg-white rounded-lg shadow-lg border border-gray-100">
+<div class="p-1">
+<button class="w-full text-left px-4 py-3 rounded hover:bg-gray-50 transition-colors group selected" data-model="GPT-4">
+<div class="flex items-center justify-between">
+<span class="font-medium text-primary">GPT-4</span>
+<i class="ri-check-line text-primary opacity-0 group-[.selected]:opacity-100"></i>
+</div>
+<p class="text-xs text-gray-500 mt-1">Advanced language model with superior accuracy. Best for complex analysis. Processing: Slow</p>
+</button>
+<button class="w-full text-left px-4 py-3 rounded hover:bg-gray-50 transition-colors group" data-model="GPT-3.5">
+<div class="flex items-center justify-between">
+<span class="font-medium text-gray-700">GPT-3.5</span>
+<i class="ri-check-line text-primary opacity-0 group-[.selected]:opacity-100"></i>
+</div>
+<p class="text-xs text-gray-500 mt-1">Balanced performance and speed. Good for most tasks. Processing: Medium</p>
+</button>
+<button class="w-full text-left px-4 py-3 rounded hover:bg-gray-50 transition-colors group" data-model="BERT">
+<div class="flex items-center justify-between">
+<span class="font-medium text-gray-700">BERT</span>
+<i class="ri-check-line text-primary opacity-0 group-[.selected]:opacity-100"></i>
+</div>
+<p class="text-xs text-gray-500 mt-1">Specialized in text classification. Fast processing speed. Processing: Fast</p>
+</button>
+</div>
+</div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+const jobSelectBtn = document.getElementById('jobSelectBtn');
+const jobSelectDropdown = document.getElementById('jobSelectDropdown');
+let isJobDropdownOpen = false;
+jobSelectBtn.addEventListener('click', () => {
+isJobDropdownOpen = !isJobDropdownOpen;
+jobSelectDropdown.classList.toggle('hidden', !isJobDropdownOpen);
+});
+jobSelectDropdown.addEventListener('click', (e) => {
+const jobBtn = e.target.closest('button:not([type="text"])');
+if (!jobBtn) return;
+const jobTitle = jobBtn.querySelector('.font-medium').textContent;
+const jobStatus = jobBtn.querySelector('.rounded-full').textContent;
+jobSelectBtn.querySelector('.font-medium').textContent = jobTitle;
+jobSelectBtn.querySelector('.rounded-full').textContent = jobStatus;
+jobSelectDropdown.querySelectorAll('button').forEach(btn => {
+btn.classList.toggle('selected', btn === jobBtn);
+});
+isJobDropdownOpen = false;
+jobSelectDropdown.classList.add('hidden');
+});
+document.addEventListener('click', (e) => {
+if (!jobSelectBtn.contains(e.target) && !jobSelectDropdown.contains(e.target)) {
+isJobDropdownOpen = false;
+jobSelectDropdown.classList.add('hidden');
+}
+});
+const aiModelBtn = document.getElementById('aiModelBtn');
+const aiModelDropdown = document.getElementById('aiModelDropdown');
+let isDropdownOpen = false;
+aiModelBtn.addEventListener('click', () => {
+isDropdownOpen = !isDropdownOpen;
+aiModelDropdown.classList.toggle('hidden', !isDropdownOpen);
+});
+aiModelDropdown.addEventListener('click', (e) => {
+const modelBtn = e.target.closest('button[data-model]');
+if (!modelBtn) return;
+const model = modelBtn.dataset.model;
+aiModelBtn.querySelector('span').textContent = model;
+// Update selected state
+aiModelDropdown.querySelectorAll('button[data-model]').forEach(btn => {
+btn.classList.toggle('selected', btn === modelBtn);
+});
+isDropdownOpen = false;
+aiModelDropdown.classList.add('hidden');
+});
+// Close dropdown when clicking outside
+document.addEventListener('click', (e) => {
+if (!aiModelBtn.contains(e.target) && !aiModelDropdown.contains(e.target)) {
+isDropdownOpen = false;
+aiModelDropdown.classList.add('hidden');
+}
+});
+});
+</script>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Processing Speed</label>
+<div class="flex items-center space-x-4">
+<button id="fastBtn" class="flex-1 bg-primary text-white px-4 py-2 !rounded-button text-sm font-medium whitespace-nowrap cursor-pointer shadow-sm">Fast</button>
+<button id="accurateBtn" class="flex-1 bg-white border border-gray-200 text-gray-700 px-4 py-2 !rounded-button text-sm font-medium whitespace-nowrap cursor-pointer shadow-sm">Accurate</button>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Match Criteria</label>
+<div class="space-y-4">
+<div>
+<div class="flex items-center justify-between mb-1">
+<span class="text-sm text-gray-600">Skills Match</span>
+<span class="text-sm text-gray-600">80%</span>
+</div>
+<input type="range" class="w-full accent-primary" min="0" max="100" value="80">
+<div class="text-xs text-gray-500 mt-1">Matches required technical skills and competencies</div>
+</div>
+<div>
+<div class="flex items-center justify-between mb-1">
+<span class="text-sm text-gray-600">Experience Level</span>
+<span class="text-sm text-gray-600">70%</span>
+</div>
+<input type="range" class="w-full accent-primary" min="0" max="100" value="70">
+<div class="text-xs text-gray-500 mt-1">Years of relevant work experience</div>
+</div>
+<div>
+<div class="flex items-center justify-between mb-1">
+<span class="text-sm text-gray-600">Education</span>
+<span class="text-sm text-gray-600">75%</span>
+</div>
+<input type="range" class="w-full accent-primary" min="0" max="100" value="75">
+<div class="text-xs text-gray-500 mt-1">Academic qualifications and certifications</div>
+</div>
+<div>
+<div class="flex items-center justify-between mb-1">
+<span class="text-sm text-gray-600">Culture Fit</span>
+<span class="text-sm text-gray-600">65%</span>
+</div>
+<input type="range" class="w-full accent-primary" min="0" max="100" value="65">
+<div class="text-xs text-gray-500 mt-1">Alignment with company values and culture</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Additional Requirements</label>
+<div class="space-y-2">
+<label class="flex items-center">
+<input type="checkbox" class="form-checkbox text-primary rounded" checked>
+<span class="ml-2 text-sm text-gray-600">Must have work authorization</span>
+</label>
+<label class="flex items-center">
+<input type="checkbox" class="form-checkbox text-primary rounded" checked>
+<span class="ml-2 text-sm text-gray-600">Willing to relocate</span>
+</label>
+<label class="flex items-center">
+<input type="checkbox" class="form-checkbox text-primary rounded">
+<span class="ml-2 text-sm text-gray-600">Remote work possible</span>
+</label>
+</div>
+</div>
+</div>
+</div>
+<div>
+<div class="space-y-3">
+<button id="startAnalysisBtn" class="w-full bg-primary text-white px-4 py-2 !rounded-button text-sm font-medium hover:bg-primary/90 transition-colors whitespace-nowrap cursor-pointer flex items-center justify-center shadow-sm">
+<i class="ri-play-line mr-2"></i>Start Analysis
+</button>
+<button id="startAIRoundBtn" class="w-full bg-secondary text-white px-4 py-2 !rounded-button text-sm font-medium hover:bg-secondary/90 transition-colors whitespace-nowrap cursor-pointer flex items-center justify-center shadow-sm">
+<i class="ri-robot-line mr-2"></i>Start AI Interview Round
+</button>
+</div>
+<div id="analysisProgress" class="hidden mt-4">
+<div class="flex items-center justify-between mb-2">
+<span class="text-sm text-gray-600">Analysis in progress...</span>
+<span class="text-sm text-gray-600" id="progressPercent">0%</span>
+</div>
+<div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+<div id="progressBar" class="h-full bg-primary transition-all duration-500" style="width: 0%"></div>
+</div>
+<div class="flex justify-between mt-2 text-xs text-gray-500">
+<span id="processedCount">Processed: 0/24 resumes</span>
+<span id="estimatedTime">Est. time: calculating...</span>
+</div>
+</div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+const aiRoundBtn = document.getElementById('startAIRoundBtn');
+aiRoundBtn.addEventListener('click', function() {
+const btn = this;
+btn.disabled = true;
+btn.innerHTML = '<i class="ri-loader-4-line animate-spin mr-2"></i>Scheduling AI Interviews...';
+setTimeout(() => {
+btn.disabled = false;
+btn.innerHTML = '<i class="ri-check-line mr-2"></i>AI Interviews Scheduled';
+btn.classList.remove('bg-secondary');
+btn.classList.add('bg-green-500');
+// Show notification
+const notification = document.createElement('div');
+notification.className = 'fixed bottom-4 right-4 bg-white rounded-lg shadow-lg p-4 animate-fade-in';
+notification.innerHTML = `
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+<i class="ri-check-line text-green-500"></i>
+</div>
+<div>
+<h4 class="text-sm font-medium text-gray-900">AI Interviews Scheduled</h4>
+<p class="text-xs text-gray-500 mt-1">8 candidates will be interviewed by AI</p>
+</div>
+</div>
+`;
+document.body.appendChild(notification);
+setTimeout(() => {
+notification.remove();
+}, 5000);
+}, 2000);
+});
+const starButtons = document.querySelectorAll('.ri-star-line');
+starButtons.forEach(button => {
+button.addEventListener('click', function() {
+const isStarred = this.classList.contains('ri-star-fill');
+if (isStarred) {
+this.classList.remove('ri-star-fill', 'text-yellow-400');
+this.classList.add('ri-star-line', 'text-gray-400');
+} else {
+this.classList.remove('ri-star-line', 'text-gray-400');
+this.classList.add('ri-star-fill', 'text-yellow-400');
+}
+});
+});
+});
+document.getElementById('startAnalysisBtn').addEventListener('click', async function() {
+const progressDiv = document.getElementById('analysisProgress');
+const progressBar = document.getElementById('progressBar');
+const progressPercent = document.getElementById('progressPercent');
+const processedCount = document.getElementById('processedCount');
+const estimatedTime = document.getElementById('estimatedTime');
+const totalResumes = 24;
+let processed = 0;
+// Show progress elements
+progressDiv.classList.remove('hidden');
+this.disabled = true;
+this.innerHTML = '<i class="ri-loader-4-line animate-spin mr-2"></i>Analyzing...';
+let isAccurateMode = false;
+const fastBtn = document.getElementById('fastBtn');
+const accurateBtn = document.getElementById('accurateBtn');
+fastBtn.addEventListener('click', () => {
+isAccurateMode = false;
+fastBtn.classList.remove('bg-gray-50', 'text-gray-600');
+fastBtn.classList.add('bg-primary', 'text-white');
+accurateBtn.classList.remove('bg-primary', 'text-white');
+accurateBtn.classList.add('bg-gray-50', 'text-gray-600');
+});
+accurateBtn.addEventListener('click', () => {
+isAccurateMode = true;
+accurateBtn.classList.remove('bg-gray-50', 'text-gray-600');
+accurateBtn.classList.add('bg-primary', 'text-white');
+fastBtn.classList.remove('bg-primary', 'text-white');
+fastBtn.classList.add('bg-gray-50', 'text-gray-600');
+});
+const updateProgress = (current) => {
+const percent = Math.round((current / totalResumes) * 100);
+progressBar.style.width = `${percent}%`;
+progressPercent.textContent = `${percent}%`;
+processedCount.textContent = `Processed: ${current}/${totalResumes} resumes`;
+const remainingResumes = totalResumes - current;
+const baseSeconds = isAccurateMode ? 5 : 2;
+const estimatedSeconds = remainingResumes * baseSeconds;
+if (estimatedSeconds > 60) {
+estimatedTime.textContent = `Est. time: ${Math.round(estimatedSeconds / 60)} mins`;
+} else {
+estimatedTime.textContent = `Est. time: ${estimatedSeconds} secs`;
+}
+};
+// Simulate processing with random delays
+for (let i = 1; i <= totalResumes; i++) {
+await new Promise(resolve => setTimeout(resolve, (isAccurateMode ? 2500 : 1000) + Math.random() * 1000));
+processed = i;
+updateProgress(processed);
+}
+// Analysis complete
+setTimeout(() => {
+this.disabled = false;
+this.innerHTML = '<i class="ri-check-line mr-2"></i>Analysis Complete';
+this.classList.remove('bg-primary');
+this.classList.add('bg-green-500');
+estimatedTime.textContent = 'Analysis completed';
+}, 1000);
+});
+</script>
+<button class="w-full bg-white border border-gray-200 text-gray-700 px-4 py-2 !rounded-button text-sm font-medium hover:bg-gray-50 transition-colors whitespace-nowrap cursor-pointer flex items-center justify-center shadow-sm">
+<i class="ri-refresh-line mr-2"></i>Reset Settings
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+const dropzone = document.getElementById('dropzone');
+const fileInput = document.getElementById('fileInput');
+const fileList = document.getElementById('fileList');
+dropzone.addEventListener('click', () => fileInput.click());
+dropzone.addEventListener('dragover', (e) => {
+e.preventDefault();
+dropzone.classList.add('drag-over');
+});
+dropzone.addEventListener('dragleave', () => {
+dropzone.classList.remove('drag-over');
+});
+dropzone.addEventListener('drop', (e) => {
+e.preventDefault();
+dropzone.classList.remove('drag-over');
+handleFiles(e.dataTransfer.files);
+});
+fileInput.addEventListener('change', (e) => {
+handleFiles(e.target.files);
+});
+function handleFiles(files) {
+Array.from(files).forEach(file => {
+const fileItem = document.createElement('div');
+fileItem.className = 'flex items-center justify-between bg-gray-50 rounded p-3';
+fileItem.innerHTML = `
+<div class="flex items-center">
+<i class="ri-file-text-line text-gray-400 mr-2"></i>
+<span class="text-sm text-gray-700">${file.name}</span>
+</div>
+<button class="text-gray-400 hover:text-gray-600">
+<i class="ri-close-line"></i>
+</button>
+`;
+fileList.appendChild(fileItem);
+});
+}
+function initResultsChart() {
+const chartDom = document.getElementById('resultsChart');
+const chart = echarts.init(chartDom);
+const option = {
+animation: false,
+grid: {
+top: 10,
+right: 30,
+bottom: 30,
+left: 40
+},
+xAxis: {
+type: 'category',
+data: ['Skills', 'Experience', 'Education', 'Culture Fit', 'Overall'],
+axisLabel: {
+color: '#6B7280',
+fontSize: 12
+}
+},
+yAxis: {
+type: 'value',
+max: 100,
+axisLabel: {
+color: '#6B7280',
+fontSize: 12,
+formatter: '{value}%'
+}
+},
+series: [{
+data: [85, 72, 90, 68, 78],
+type: 'bar',
+barWidth: '40%',
+itemStyle: {
+color: '#15B8A6'
+}
+}]
+};
+chart.setOption(option);
+window.addEventListener('resize', () => chart.resize());
+}
+window.addEventListener('load', () => {
+initResultsChart();
+});
+</script>
+</body>
+</html>

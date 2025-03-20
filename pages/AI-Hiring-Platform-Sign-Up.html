@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - HireIn</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#15B8A6',
+                        secondary: '#6366F1'
+                    },
+                    borderRadius: {
+                        'none': '0px',
+                        'sm': '4px',
+                        DEFAULT: '8px',
+                        'md': '12px',
+                        'lg': '16px',
+                        'xl': '20px',
+                        '2xl': '24px',
+                        '3xl': '32px',
+                        'full': '9999px',
+                        'button': '8px'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+    <style>
+        :where([class^="ri-"])::before {
+            content: "\f3c2";
+        }
+
+        .step-active {
+            background-color: #15B8A6;
+            color: white;
+        }
+
+        .step-completed {
+            background-color: #15B8A6;
+            color: white;
+        }
+
+        .step-line {
+            background-color: #E5E7EB;
+        }
+
+        .step-line-completed {
+            background-color: #15B8A6;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+    <nav class="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="https://readdy.ai/home/c1ab65b2-3f7a-433a-ad12-465e225e1630/b1f6e79f-0511-4b29-91c3-1047268e053b"
+                    data-readdy="true" class="text-2xl font-['Pacifico'] text-primary">logo</a>
+                <div class="flex items-center space-x-4">
+                    <div class="w-8 h-8 flex items-center justify-center">
+                        <i class="ri-customer-service-2-line text-gray-600"></i>
+                    </div>
+                    <span class="text-gray-600">Need help? Call us at +1 (555) 123-4567</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-24 pb-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="p-4 text-gray-600 flex items-center">
+                <a href="/" class="flex items-center space-x-2 hover:text-gray-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 18l-6-6 6-6"></path>
+                    </svg>
+                    <span>Back</span>
+                </a>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-8">
+                    <div class="bg-white rounded-lg shadow-lg p-8">
+                        <div class="flex items-center justify-between mb-8">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-8 h-8 rounded-full step-active flex items-center justify-center">1</div>
+                                <div class="w-16 h-1 step-line step-line-completed"></div>
+                                <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">2</div>
+                                <div class="w-16 h-1 step-line"></div>
+                                <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">3</div>
+                            </div>
+                            <div class="text-sm text-gray-500">Step 1 of 3</div>
+                        </div>
+
+                        <div id="step1" class="space-y-6">
+                            <h2 class="text-2xl font-bold text-gray-900">Basic Information</h2>
+                            <p class="text-gray-600">Please provide your account details</p>
+
+                            <div class="grid grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                                    <input type="text" id="firstName"
+                                        class="w-full px-4 py-3 rounded-lg bg-gray-50 border-none focus:ring-2 focus:ring-primary/20"
+                                        placeholder="Enter your first name">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                                    <input type="text" id="lastName"
+                                        class="w-full px-4 py-3 rounded-lg bg-gray-50 border-none focus:ring-2 focus:ring-primary/20"
+                                        placeholder="Enter your last name">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Work Email</label>
+                                <input type="email" id="email"
+                                    class="w-full px-4 py-3 rounded-lg bg-gray-50 border-none focus:ring-2 focus:ring-primary/20"
+                                    placeholder="Enter your work email">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                                <div class="relative">
+                                    <input type="password" id="password"
+                                        class="w-full px-4 py-3 rounded-lg bg-gray-50 border-none focus:ring-2 focus:ring-primary/20"
+                                        placeholder="Create a password">
+                                    <button type="button" id="togglePassword"
+                                        class="absolute right-3 top-1/2 -translate-y-1/2">
+                                        <i class="ri-eye-line text-gray-400"></i>
+                                    </button>
+                                </div>
+                                <div id="passwordStrength" class="mt-2">
+                                    <div class="h-1 bg-gray-200 rounded-full">
+                                        <div class="h-1 bg-red-500 rounded-full w-0 transition-all duration-300"></div>
+                                    </div>
+                                    <p class="text-sm text-gray-500 mt-1">Password strength: <span>Weak</span></p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+                                <input type="password" id="confirmPassword"
+                                    class="w-full px-4 py-3 rounded-lg bg-gray-50 border-none focus:ring-2 focus:ring-primary/20"
+                                    placeholder="Confirm your password">
+                            </div>
+
+                            <div class="flex justify-end">
+                                <button id="nextStep1"
+                                    class="bg-primary text-white px-8 py-3 !rounded-button hover:bg-opacity-90 cursor-pointer whitespace-nowrap">
+                                    Continue
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="step2" class="hidden space-y-6">
+                            <h2 class="text-2xl font-bold text-gray-900">Company Details</h2>
+                            <p class="text-gray-600">Tell us about your organization</p>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
+                                <input type="text"
+                                    class="w-full px-4 py-3 rounded-lg bg-gray-50 border-none focus:ring-2 focus:ring-primary/20"
+                                    placeholder="Enter company name">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Company Size</label>
+                                <div class="relative">
+                                    <button type="button" id="companySizeBtn"
+                                        class="w-full px-4 py-3 rounded-lg bg-gray-50 text-left flex items-center justify-between">
+                                        <span class="text-gray-500">Select company size</span>
+                                        <i class="ri-arrow-down-s-line text-gray-400"></i>
+                                    </button>
+                                    <div id="companySizeDropdown"
+                                        class="hidden absolute w-full mt-1 bg-white rounded-lg shadow-lg z-10">
+                                        <div class="p-2">
+                                            <button class="w-full px-4 py-2 text-left hover:bg-gray-50 rounded">1-10
+                                                employees</button>
+                                            <button class="w-full px-4 py-2 text-left hover:bg-gray-50 rounded">11-50
+                                                employees</button>
+                                            <button class="w-full px-4 py-2 text-left hover:bg-gray-50 rounded">51-200
+                                                employees</button>
+                                            <button class="w-full px-4 py-2 text-left hover:bg-gray-50 rounded">201-500
+                                                employees</button>
+                                            <button class="w-full px-4 py-2 text-left hover:bg-gray-50 rounded">500+
+                                                employees</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Industry</label>
+                                <div class="relative">
+                                    <button type="button" id="industryBtn"
+                                        class="w-full px-4 py-3 rounded-lg bg-gray-50 text-left flex items-center justify-between">
+                                        <span class="text-gray-500">Select industry</span>
+                                        <i class="ri-arrow-down-s-line text-gray-400"></i>
+                                    </button>
+                                    <div id="industryDropdown"
+                                        class="hidden absolute w-full mt-1 bg-white rounded-lg shadow-lg z-10">
+                                        <div class="p-2">
+                                            <button
+                                                class="w-full px-4 py-2 text-left hover:bg-gray-50 rounded">Technology</button>
+                                            <button
+                                                class="w-full px-4 py-2 text-left hover:bg-gray-50 rounded">Healthcare</button>
+                                            <button
+                                                class="w-full px-4 py-2 text-left hover:bg-gray-50 rounded">Finance</button>
+                                            <button
+                                                class="w-full px-4 py-2 text-left hover:bg-gray-50 rounded">Manufacturing</button>
+                                            <button
+                                                class="w-full px-4 py-2 text-left hover:bg-gray-50 rounded">Retail</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Monthly Hiring
+                                    Volume</label>
+                                <div class="relative">
+                                    <button type="button" id="hiringVolumeBtn"
+                                        class="w-full px-4 py-3 rounded-lg bg-gray-50 text-left flex items-center justify-between">
+                                        <span class="text-gray-500">Select hiring volume</span>
+                                        <i class="ri-arrow-down-s-line text-gray-400"></i>
+                                    </button>
+                                    <div id="hiringVolumeDropdown"
+                                        class="hidden absolute w-full mt-1 bg-white rounded-lg shadow-lg z-10">
+                                        <div class="p-2">
+                                            <button class="w-full px-4 py-2 text-left hover:bg-gray-50 rounded">1-5
+                                                hires</button>
+                                            <button class="w-full px-4 py-2 text-left hover:bg-gray-50 rounded">6-10
+                                                hires</button>
+                                            <button class="w-full px-4 py-2 text-left hover:bg-gray-50 rounded">11-25
+                                                hires</button>
+                                            <button class="w-full px-4 py-2 text-left hover:bg-gray-50 rounded">26-50
+                                                hires</button>
+                                            <button class="w-full px-4 py-2 text-left hover:bg-gray-50 rounded">50+
+                                                hires</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-3">Primary Hiring Needs</label>
+                                <div class="space-y-3">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="w-5 h-5 text-primary rounded">
+                                        <span class="ml-3 text-gray-700">Technical Roles</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="w-5 h-5 text-primary rounded">
+                                        <span class="ml-3 text-gray-700">Sales & Marketing</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="w-5 h-5 text-primary rounded">
+                                        <span class="ml-3 text-gray-700">Operations & Support</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="w-5 h-5 text-primary rounded">
+                                        <span class="ml-3 text-gray-700">Management & Leadership</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-between">
+                                <button id="prevStep2"
+                                    class="border-2 border-primary text-primary px-8 py-3 !rounded-button hover:bg-primary/5 cursor-pointer whitespace-nowrap">
+                                    Back
+                                </button>
+                                <button id="nextStep2"
+                                    class="bg-primary text-white px-8 py-3 !rounded-button hover:bg-opacity-90 cursor-pointer whitespace-nowrap">
+                                    Continue
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="step3" class="hidden space-y-6">
+                            <h2 class="text-2xl font-bold text-gray-900">Payment Information</h2>
+                            <p class="text-gray-600">Set up your payment method for after trial</p>
+
+                            <div class="bg-primary/5 p-4 rounded-lg mb-6">
+                                <div class="flex items-center">
+                                    <i class="ri-information-line text-primary mr-2"></i>
+                                    <p class="text-sm text-gray-700">Your card won't be charged during the 14-day trial
+                                        period</p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Card Number</label>
+                                <div class="relative">
+                                    <input type="text" id="cardNumber"
+                                        class="w-full pl-12 pr-4 py-3 rounded-lg bg-gray-50 border-none focus:ring-2 focus:ring-primary/20"
+                                        placeholder="1234 5678 9012 3456">
+                                    <div class="absolute left-4 top-1/2 -translate-y-1/2">
+                                        <i class="ri-bank-card-line text-gray-400"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Expiration Date</label>
+                                    <input type="text" id="expiryDate"
+                                        class="w-full px-4 py-3 rounded-lg bg-gray-50 border-none focus:ring-2 focus:ring-primary/20"
+                                        placeholder="MM/YY">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">CVV</label>
+                                    <div class="relative">
+                                        <input type="text" id="cvv"
+                                            class="w-full pl-12 pr-4 py-3 rounded-lg bg-gray-50 border-none focus:ring-2 focus:ring-primary/20"
+                                            placeholder="123">
+                                        <div class="absolute left-4 top-1/2 -translate-y-1/2">
+                                            <i class="ri-lock-line text-gray-400"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Billing Address</label>
+                                <input type="text"
+                                    class="w-full px-4 py-3 rounded-lg bg-gray-50 border-none focus:ring-2 focus:ring-primary/20"
+                                    placeholder="Street address">
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-6">
+                                <div>
+                                    <input type="text"
+                                        class="w-full px-4 py-3 rounded-lg bg-gray-50 border-none focus:ring-2 focus:ring-primary/20"
+                                        placeholder="City">
+                                </div>
+                                <div>
+                                    <input type="text"
+                                        class="w-full px-4 py-3 rounded-lg bg-gray-50 border-none focus:ring-2 focus:ring-primary/20"
+                                        placeholder="ZIP code">
+                                </div>
+                            </div>
+
+                            <div class="flex items-start mt-6">
+                                <input type="checkbox" id="terms" class="w-5 h-5 text-primary rounded mt-1">
+                                <label for="terms" class="ml-3 text-sm text-gray-600">
+                                    I agree to the <a href="#" class="text-primary hover:underline">Terms of Service</a>
+                                    and <a href="#" class="text-primary hover:underline">Privacy Policy</a>
+                                </label>
+                            </div>
+
+                            <div class="flex justify-between">
+                                <button id="prevStep3"
+                                    class="border-2 border-primary text-primary px-8 py-3 !rounded-button hover:bg-primary/5 cursor-pointer whitespace-nowrap">
+                                    Back
+                                </button>
+                                <a href="/pages/Registration-Success.html"><button
+                                        class="bg-primary text-white px-8 py-3 !rounded-button hover:bg-opacity-90 cursor-pointer whitespace-nowrap">
+                                        Complete Sign Up
+                                    </button></a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-4">
+                    <div class="bg-white rounded-lg shadow-lg p-8 sticky top-24">
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">14-Day Free Trial</h3>
+                                <p class="text-gray-600">Experience all features with no obligations</p>
+                            </div>
+
+                            <div class="space-y-4">
+                                <div class="flex items-center">
+                                    <div
+                                        class="w-8 h-8 flex items-center justify-center bg-primary/10 rounded-full mr-3">
+                                        <i class="ri-check-line text-primary"></i>
+                                    </div>
+                                    <span class="text-gray-700">AI-powered candidate screening</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div
+                                        class="w-8 h-8 flex items-center justify-center bg-primary/10 rounded-full mr-3">
+                                        <i class="ri-check-line text-primary"></i>
+                                    </div>
+                                    <span class="text-gray-700">Automated video interviews</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div
+                                        class="w-8 h-8 flex items-center justify-center bg-primary/10 rounded-full mr-3">
+                                        <i class="ri-check-line text-primary"></i>
+                                    </div>
+                                    <span class="text-gray-700">Advanced analytics dashboard</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div
+                                        class="w-8 h-8 flex items-center justify-center bg-primary/10 rounded-full mr-3">
+                                        <i class="ri-check-line text-primary"></i>
+                                    </div>
+                                    <span class="text-gray-700">Unlimited job postings</span>
+                                </div>
+                            </div>
+
+                            <div class="border-t border-gray-200 pt-6">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-gray-600">After trial</span>
+                                    <span class="text-xl font-bold text-gray-900">$299/mo</span>
+                                </div>
+                                <p class="text-sm text-gray-500">Cancel anytime during trial</p>
+                            </div>
+
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <div class="flex items-center mb-3">
+                                    <div class="w-8 h-8 flex items-center justify-center">
+                                        <i class="ri-shield-check-line text-primary"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-900 ml-2">Secure Payment</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="ri-visa-fill text-2xl text-blue-600"></i>
+                                    <i class="ri-mastercard-fill text-2xl text-red-500"></i>
+                                    <i class="ri-american-express-fill text-2xl text-blue-800"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="bg-white rounded-lg max-w-md mx-auto mt-20 p-6">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="ri-check-line text-primary text-3xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Welcome to HireIn!</h3>
+                <p class="text-gray-600 mb-6">Your account has been created successfully. You can now start your 14-day
+                    trial.</p>
+                <button onclick="window.location.href='/dashboard'"
+                    class="bg-primary text-white px-8 py-3 !rounded-button hover:bg-opacity-90 cursor-pointer whitespace-nowrap">
+                    Go to Dashboard
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const mockData = {
+            companies: [
+                { id: 1, name: "Tech Solutions Inc", size: "11-50", industry: "Technology" },
+                { id: 2, name: "Healthcare Plus", size: "51-200", industry: "Healthcare" },
+                { id: 3, name: "Global Finance", size: "201-500", industry: "Finance" }
+            ]
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const step1 = document.getElementById('step1');
+            const step2 = document.getElementById('step2');
+            const step3 = document.getElementById('step3');
+            const nextStep1 = document.getElementById('nextStep1');
+            const nextStep2 = document.getElementById('nextStep2');
+            const prevStep2 = document.getElementById('prevStep2');
+            const prevStep3 = document.getElementById('prevStep3');
+            const completeSignup = document.getElementById('completeSignup');
+
+            const togglePassword = document.getElementById('togglePassword');
+            const passwordInput = document.getElementById('password');
+            const passwordStrength = document.getElementById('passwordStrength');
+
+            const companySizeBtn = document.getElementById('companySizeBtn');
+            const companySizeDropdown = document.getElementById('companySizeDropdown');
+            const industryBtn = document.getElementById('industryBtn');
+            const industryDropdown = document.getElementById('industryDropdown');
+            const hiringVolumeBtn = document.getElementById('hiringVolumeBtn');
+            const hiringVolumeDropdown = document.getElementById('hiringVolumeDropdown');
+
+            togglePassword.addEventListener('click', function () {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                togglePassword.innerHTML = type === 'password' ?
+                    '<i class="ri-eye-line text-gray-400"></i>' :
+                    '<i class="ri-eye-off-line text-gray-400"></i>';
+            });
+
+            passwordInput.addEventListener('input', function () {
+                const strength = calculatePasswordStrength(this.value);
+                updatePasswordStrengthIndicator(strength);
+            });
+
+            function calculatePasswordStrength(password) {
+                let strength = 0;
+                if (password.length >= 8) strength += 25;
+                if (password.match(/[A-Z]/)) strength += 25;
+                if (password.match(/[0-9]/)) strength += 25;
+                if (password.match(/[^A-Za-z0-9]/)) strength += 25;
+                return strength;
+            }
+
+            function updatePasswordStrengthIndicator(strength) {
+                const indicator = passwordStrength.querySelector('div div');
+                const text = passwordStrength.querySelector('p span');
+                indicator.style.width = strength + '%';
+
+                if (strength < 50) {
+                    indicator.className = 'h-1 bg-red-500 rounded-full transition-all duration-300';
+                    text.textContent = 'Weak';
+                    text.className = 'text-red-500';
+                } else if (strength < 75) {
+                    indicator.className = 'h-1 bg-yellow-500 rounded-full transition-all duration-300';
+                    text.textContent = 'Medium';
+                    text.className = 'text-yellow-500';
+                } else {
+                    indicator.className = 'h-1 bg-green-500 rounded-full transition-all duration-300';
+                    text.textContent = 'Strong';
+                    text.className = 'text-green-500';
+                }
+            }
+
+            function toggleDropdown(button, dropdown) {
+                const isOpen = dropdown.classList.contains('hidden');
+                closeAllDropdowns();
+                if (isOpen) {
+                    dropdown.classList.remove('hidden');
+                    button.querySelector('i').classList.replace('ri-arrow-down-s-line', 'ri-arrow-up-s-line');
+                }
+            }
+
+            function closeAllDropdowns() {
+                [companySizeDropdown, industryDropdown, hiringVolumeDropdown].forEach(dropdown => {
+                    dropdown.classList.add('hidden');
+                    dropdown.previousElementSibling.querySelector('i').classList.replace('ri-arrow-up-s-line', 'ri-arrow-down-s-line');
+                });
+            }
+
+            companySizeBtn.addEventListener('click', () => toggleDropdown(companySizeBtn, companySizeDropdown));
+            industryBtn.addEventListener('click', () => toggleDropdown(industryBtn, industryDropdown));
+            hiringVolumeBtn.addEventListener('click', () => toggleDropdown(hiringVolumeBtn, hiringVolumeDropdown));
+
+            document.addEventListener('click', function (e) {
+                if (!e.target.closest('#companySizeBtn') && !e.target.closest('#industryBtn') && !e.target.closest('#hiringVolumeBtn')) {
+                    closeAllDropdowns();
+                }
+            });
+
+            [companySizeDropdown, industryDropdown, hiringVolumeDropdown].forEach(dropdown => {
+                dropdown.querySelectorAll('button').forEach(option => {
+                    option.addEventListener('click', function () {
+                        const text = this.textContent;
+                        this.closest('.relative').querySelector('span').textContent = text;
+                        this.closest('.relative').querySelector('span').classList.remove('text-gray-500');
+                        this.closest('.relative').querySelector('span').classList.add('text-gray-900');
+                        closeAllDropdowns();
+                    });
+                });
+            });
+
+            nextStep1.addEventListener('click', function () {
+                if (validateStep1()) {
+                    step1.classList.add('hidden');
+                    step2.classList.remove('hidden');
+                    updateProgressIndicator(2);
+                }
+            });
+
+            nextStep2.addEventListener('click', function () {
+                if (validateStep2()) {
+                    step2.classList.add('hidden');
+                    step3.classList.remove('hidden');
+                    updateProgressIndicator(3);
+                }
+            });
+
+            prevStep2.addEventListener('click', function () {
+                step2.classList.add('hidden');
+                step1.classList.remove('hidden');
+                updateProgressIndicator(1);
+            });
+
+            prevStep3.addEventListener('click', function () {
+                step3.classList.add('hidden');
+                step2.classList.remove('hidden');
+                updateProgressIndicator(2);
+            });
+
+            completeSignup.addEventListener('click', function () {
+                if (validateStep3()) {
+                    document.getElementById('successModal').classList.remove('hidden');
+                }
+            });
+
+            function validateStep1() {
+                const firstName = document.getElementById('firstName').value;
+                const lastName = document.getElementById('lastName').value;
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+
+                if (!firstName || !lastName || !email || !password || !confirmPassword) {
+                    showError('Please fill in all fields');
+                    return false;
+                }
+
+                if (!isValidEmail(email)) {
+                    showError('Please enter a valid email address');
+                    return false;
+                }
+
+                if (password !== confirmPassword) {
+                    showError('Passwords do not match');
+                    return false;
+                }
+
+                if (calculatePasswordStrength(password) < 75) {
+                    showError('Please choose a stronger password');
+                    return false;
+                }
+
+                return true;
+            }
+
+            function validateStep2() {
+                const companySize = document.querySelector('#companySizeBtn span').textContent;
+                const industry = document.querySelector('#industryBtn span').textContent;
+                const hiringVolume = document.querySelector('#hiringVolumeBtn span').textContent;
+                const hiringNeeds = document.querySelectorAll('input[type="checkbox"]:checked').length;
+
+                if (companySize === 'Select company size' ||
+                    industry === 'Select industry' ||
+                    hiringVolume === 'Select hiring volume' ||
+                    hiringNeeds === 0) {
+                    showError('Please complete all fields');
+                    return false;
+                }
+
+                return true;
+            }
+
+            function validateStep3() {
+                const cardNumber = document.getElementById('cardNumber').value;
+                const expiryDate = document.getElementById('expiryDate').value;
+                const cvv = document.getElementById('cvv').value;
+                const terms = document.getElementById('terms').checked;
+
+                if (!cardNumber || !expiryDate || !cvv) {
+                    showError('Please fill in all payment details');
+                    return false;
+                }
+
+                if (!terms) {
+                    showError('Please accept the terms and conditions');
+                    return false;
+                }
+
+                return true;
+            }
+
+            function updateProgressIndicator(step) {
+                const indicators = document.querySelectorAll('.rounded-full');
+                const lines = document.querySelectorAll('.step-line');
+
+                indicators.forEach((indicator, index) => {
+                    if (index + 1 < step) {
+                        indicator.classList.add('step-completed');
+                    } else if (index + 1 === step) {
+                        indicator.classList.add('step-active');
+                        indicator.classList.remove('bg-gray-200');
+                    } else {
+                        indicator.classList.remove('step-active', 'step-completed');
+                        indicator.classList.add('bg-gray-200');
+                    }
+                });
+
+                lines.forEach((line, index) => {
+                    if (index + 1 < step) {
+                        line.classList.add('step-line-completed');
+                    } else {
+                        line.classList.remove('step-line-completed');
+                    }
+                });
+            }
+
+            function showError(message) {
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded shadow-lg z-50';
+                errorDiv.textContent = message;
+                document.body.appendChild(errorDiv);
+                setTimeout(() => errorDiv.remove(), 3000);
+            }
+
+            function isValidEmail(email) {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            }
+
+            const cardNumberInput = document.getElementById('cardNumber');
+            const expiryDateInput = document.getElementById('expiryDate');
+            const cvvInput = document.getElementById('cvv');
+
+            cardNumberInput.addEventListener('input', function (e) {
+                let value = e.target.value.replace(/\D/g, '');
+                value = value.replace(/(\d{4})/g, '$1 ').trim();
+                e.target.value = value.substring(0, 19);
+            });
+
+            expiryDateInput.addEventListener('input', function (e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length >= 2) {
+                    value = value.substring(0, 2) + '/' + value.substring(2);
+                }
+                e.target.value = value.substring(0, 5);
+            });
+
+            cvvInput.addEventListener('input', function (e) {
+                let value = e.target.value.replace(/\D/g, '');
+                e.target.value = value.substring(0, 3);
+            });
+        });
+    </script>
+</body>
+
+</html>

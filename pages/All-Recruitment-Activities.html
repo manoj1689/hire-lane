@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Activities - Recruitment Dashboard</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#15B8A6',
+secondary: '#6366F1'
+},
+borderRadius: {
+'none': '0px',
+'sm': '4px',
+DEFAULT: '8px',
+'md': '12px',
+'lg': '16px',
+'xl': '20px',
+'2xl': '24px',
+'3xl': '32px',
+'full': '9999px',
+'button': '8px'
+}
+}
+}
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+.modal-overlay {
+background-color: rgba(0, 0, 0, 0.5);
+position: fixed;
+inset: 0;
+z-index: 50;
+display: none;
+}
+.modal-overlay.show {
+display: flex;
+}
+</style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <nav class="bg-white shadow-sm fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between items-center h-16">
+        <div class="flex items-center space-x-8">
+        <a href="#" class="text-2xl font-['Pacifico'] text-primary">logo</a>
+        <div class="hidden md:flex space-x-4">
+            <a href="/pages/Recruitment-Dashboard-Overview.html" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
+            <a href="/pages/Published-Jobs-Management.html" data-readdy="true" class="text-primary px-3 py-2 rounded-md text-sm font-medium">Jobs</a>
+            <a href="/pages/Candidates-Management.html" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Candidates</a>
+            <a href="/pages/AI-Recruitment-Tools.html" data-readdy="true" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">AI Tools</a>
+        </div>
+        </div>
+        <div class="flex items-center space-x-4">
+        <div class="relative">
+        <button onclick="toggleNotificationMenu()" class="relative w-8 h-8 flex items-center justify-center">
+        <i class="ri-notification-3-line text-gray-600 text-xl"></i>
+        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center" id="notificationCount">5</span>
+        </button>
+        <div id="notificationMenu" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg py-2 z-50">
+        <div class="px-4 py-2 border-b border-gray-100">
+        <div class="flex justify-between items-center">
+        <h3 class="text-sm font-semibold text-gray-900">Notifications</h3>
+        <button onclick="markAllAsRead()" class="text-xs text-primary hover:underline">Mark all as read</button>
+        </div>
+        </div>
+        <div class="max-h-96 overflow-y-auto" id="notificationList">
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer" onclick="markAsRead(this, 1)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-primary rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">New candidate application for Senior Product Designer position</p>
+        <span class="text-xs text-gray-500">10 minutes ago</span>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer" onclick="markAsRead(this, 2)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-primary rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">Interview scheduled with Michael Chen</p>
+        <span class="text-xs text-gray-500">1 hour ago</span>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer" onclick="markAsRead(this, 3)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-primary rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">Jessica Parker accepted the job offer</p>
+        <span class="text-xs text-gray-500">2 hours ago</span>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer opacity-60" onclick="markAsRead(this, 4)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-gray-300 rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">New job posting is now live</p>
+        <span class="text-xs text-gray-500">3 hours ago</span>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer opacity-60" onclick="markAsRead(this, 5)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-gray-300 rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">Monthly recruitment report is ready</p>
+        <span class="text-xs text-gray-500">1 day ago</span>
+        </div>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-2 border-t border-gray-100">
+        <a href="/pages/Full-Notifications-List.html" data-readdy="true" class="block text-center text-sm text-primary hover:underline">View all notifications</a>
+        </div>
+        </div>
+        </div>
+        <script>
+        function toggleNotificationMenu() {
+        const menu = document.getElementById('notificationMenu');
+        menu.classList.toggle('hidden');
+        }
+        function markAsRead(element, id) {
+        const dot = element.querySelector('.bg-primary');
+        if (dot) {
+        dot.classList.remove('bg-primary');
+        dot.classList.add('bg-gray-300');
+        element.classList.add('opacity-60');
+        updateNotificationCount();
+        }
+        }
+        function markAllAsRead() {
+        const unreadDots = document.querySelectorAll('.bg-primary');
+        unreadDots.forEach(dot => {
+        dot.classList.remove('bg-primary');
+        dot.classList.add('bg-gray-300');
+        dot.closest('.px-4').classList.add('opacity-60');
+        });
+        updateNotificationCount();
+        }
+        function updateNotificationCount() {
+        const unreadCount = document.querySelectorAll('.bg-primary').length;
+        const countElement = document.getElementById('notificationCount');
+        countElement.textContent = unreadCount;
+        if (unreadCount === 0) {
+        countElement.classList.add('hidden');
+        }
+        }
+        document.addEventListener('click', function(e) {
+        const notificationMenu = document.getElementById('notificationMenu');
+        const notificationButton = document.querySelector('[onclick="toggleNotificationMenu()"]');
+        if (!notificationMenu.contains(e.target) && !notificationButton.contains(e.target)) {
+        notificationMenu.classList.add('hidden');
+        }
+        });
+        </script>
+        <div class="relative">
+        <button onclick="toggleUserMenu()" class="flex items-center space-x-2">
+        <img src="https://public.readdy.ai/ai/img_res/1d1eb4e9788f1b1aef21d1c880e0cf51.jpg" class="w-8 h-8 rounded-full object-cover">
+        <span class="text-gray-700 text-sm font-medium">Emily Johnson</span>
+        <i class="ri-arrow-down-s-line text-gray-600"></i>
+        </button>
+        <div id="userMenu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg z-20 py-1 border border-gray-100">
+            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+            <i class="ri-user-line mr-2 text-gray-400"></i>
+            My Profile
+            </a>
+            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+            <i class="ri-settings-3-line mr-2 text-gray-400"></i>
+            Account Settings
+            </a>
+            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+            <i class="ri-equalizer-line mr-2 text-gray-400"></i>
+            Preferences
+            </a>
+            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+            <i class="ri-question-line mr-2 text-gray-400"></i>
+            Help & Support
+            </a>
+            <hr class="my-1 border-gray-100">
+            <a href="/" class="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+            <i class="ri-logout-box-line mr-2"></i>
+            Sign Out
+            </a>
+            </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </nav>
+<div class="pt-16">
+<div class="max-w-7xl mx-auto px-4 py-8">
+<div class="flex items-center space-x-4 mb-8">
+<a href="/pages/Recruitment-Dashboard-Overview.html" data-readdy="true" class="flex items-center text-gray-600 hover:text-primary">
+<i class="ri-arrow-left-line mr-2"></i>
+<span>Back to Dashboard</span>
+</a>
+</div>
+<div class="flex justify-between items-center mb-8">
+<h1 class="text-2xl font-bold text-gray-900">All Activities</h1>
+<div class="flex space-x-4">
+<div class="relative">
+<input type="text" placeholder="Search activities..." class="w-64 px-4 py-2 pl-10 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-primary">
+<i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+<div class="flex flex-wrap gap-4 mb-6">
+<div class="flex-1 min-w-[200px]">
+<label class="block text-sm font-medium text-gray-700 mb-2">Activity Type</label>
+<div class="relative">
+<select class="w-full px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-primary appearance-none pr-10">
+<option value="">All Types</option>
+<option>Application</option>
+<option>Interview</option>
+<option>Offer</option>
+<option>Job Posting</option>
+</select>
+<i class="ri-arrow-down-s-line absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+</div>
+</div>
+<div class="flex-1 min-w-[200px]">
+<label class="block text-sm font-medium text-gray-700 mb-2">Department</label>
+<div class="relative">
+<select class="w-full px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-primary appearance-none pr-10">
+<option value="">All Departments</option>
+<option>Engineering</option>
+<option>Design</option>
+<option>Marketing</option>
+<option>Sales</option>
+</select>
+<i class="ri-arrow-down-s-line absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+</div>
+</div>
+<div class="flex-1 min-w-[200px]">
+<label class="block text-sm font-medium text-gray-700 mb-2">Date Range</label>
+<div class="relative">
+<input type="date" class="w-full px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-primary">
+</div>
+</div>
+</div>
+<div class="space-y-6" id="activityList">
+</div>
+<div class="flex justify-center mt-8">
+<button onclick="loadMoreActivities()" class="px-6 py-2 border border-gray-200 rounded-full text-sm font-medium text-gray-600 hover:border-primary hover:text-primary">Load More</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+const activities = [
+{
+type: 'application',
+title: 'New application received',
+description: 'Sarah Wilson applied for Senior Product Designer position',
+time: '10 minutes ago',
+department: 'Design',
+status: 'New',
+icon: 'ri-user-add-line',
+iconBg: 'bg-blue-100',
+iconColor: 'text-blue-600'
+},
+{
+type: 'interview',
+title: 'Technical Interview Completed',
+description: 'Michael Chen completed technical interview for Frontend Developer role',
+time: '1 hour ago',
+department: 'Engineering',
+status: 'Completed',
+icon: 'ri-calendar-check-line',
+iconBg: 'bg-green-100',
+iconColor: 'text-green-600'
+},
+{
+type: 'offer',
+title: 'Offer Letter Sent',
+description: 'Offer letter sent to Jessica Parker for Marketing Manager position',
+time: '2 hours ago',
+department: 'Marketing',
+status: 'Pending',
+icon: 'ri-mail-send-line',
+iconBg: 'bg-primary/10',
+iconColor: 'text-primary'
+},
+{
+type: 'job',
+title: 'New Job Posted',
+description: 'Senior Backend Engineer position is now live',
+time: '3 hours ago',
+department: 'Engineering',
+status: 'Active',
+icon: 'ri-briefcase-4-line',
+iconBg: 'bg-purple-100',
+iconColor: 'text-purple-600'
+},
+{
+type: 'application',
+title: 'Application Status Updated',
+description: 'David Thompson moved to second round for UX Designer position',
+time: '4 hours ago',
+department: 'Design',
+status: 'In Progress',
+icon: 'ri-arrow-up-circle-line',
+iconBg: 'bg-yellow-100',
+iconColor: 'text-yellow-600'
+}
+];
+function renderActivities() {
+const container = document.getElementById('activityList');
+container.innerHTML = activities.map(activity => `
+<div class="flex items-start space-x-4 p-4 hover:bg-gray-50 rounded-lg transition-colors">
+<div class="w-10 h-10 ${activity.iconBg} rounded-full flex items-center justify-center flex-shrink-0">
+<i class="${activity.icon} ${activity.iconColor} text-lg"></i>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<h4 class="text-sm font-medium text-gray-900">${activity.title}</h4>
+<span class="text-xs font-medium px-2 py-1 rounded-full ${getStatusStyle(activity.status)}">${activity.status}</span>
+</div>
+<p class="text-sm text-gray-600 mt-1">${activity.description}</p>
+<div class="flex items-center space-x-4 mt-2">
+<span class="text-xs text-gray-500">${activity.time}</span>
+<span class="text-xs text-gray-500">${activity.department}</span>
+</div>
+</div>
+<div class="flex items-center space-x-2">
+<button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-primary rounded-full hover:bg-gray-100">
+<i class="ri-eye-line"></i>
+</button>
+<div class="relative">
+<button onclick="toggleActionMenu(event)" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-primary rounded-full hover:bg-gray-100">
+<i class="ri-more-2-fill"></i>
+</button>
+<div class="action-menu hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-20">
+<button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+<i class="ri-edit-line mr-2"></i>
+Edit
+</button>
+<button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+<i class="ri-delete-bin-line mr-2"></i>
+Delete
+</button>
+<button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+<i class="ri-check-double-line mr-2"></i>
+Mark as Complete
+</button>
+<a href="/pages/Activity-Details.html" data-readdy="true" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+<i class="ri-file-list-line mr-2"></i>
+View Details
+</a>
+</div>
+</div>
+</div>
+</div>
+`).join('');
+}
+function getStatusStyle(status) {
+switch(status) {
+case 'New': return 'bg-blue-100 text-blue-600';
+case 'Completed': return 'bg-green-100 text-green-600';
+case 'Pending': return 'bg-yellow-100 text-yellow-600';
+case 'Active': return 'bg-primary/10 text-primary';
+case 'In Progress': return 'bg-purple-100 text-purple-600';
+default: return 'bg-gray-100 text-gray-600';
+}
+}
+function toggleNotificationMenu() {
+const menu = document.getElementById('notificationMenu');
+menu.classList.toggle('hidden');
+}
+function toggleUserMenu() {
+const menu = document.getElementById('userMenu');
+menu.classList.toggle('hidden');
+}
+function loadMoreActivities() {
+const newActivities = [
+{
+type: 'interview',
+title: 'Interview Scheduled',
+description: 'Phone interview scheduled with Emma Davis for Product Manager role',
+time: '5 hours ago',
+department: 'Product',
+status: 'Scheduled',
+icon: 'ri-calendar-line',
+iconBg: 'bg-blue-100',
+iconColor: 'text-blue-600'
+}
+];
+activities.push(...newActivities);
+renderActivities();
+}
+document.addEventListener('click', function(e) {
+const notificationMenu = document.getElementById('notificationMenu');
+const notificationButton = document.querySelector('[onclick="toggleNotificationMenu()"]');
+const userMenu = document.getElementById('userMenu');
+const userMenuButton = document.querySelector('[onclick="toggleUserMenu()"]');
+const actionMenus = document.querySelectorAll('.action-menu');
+const actionButtons = document.querySelectorAll('[onclick="toggleActionMenu(event)"]');
+if (!notificationMenu.contains(e.target) && !notificationButton.contains(e.target)) {
+notificationMenu.classList.add('hidden');
+}
+if (!userMenu.contains(e.target) && !userMenuButton.contains(e.target)) {
+userMenu.classList.add('hidden');
+}
+actionMenus.forEach((menu, index) => {
+if (!menu.contains(e.target) && !actionButtons[index].contains(e.target)) {
+menu.classList.add('hidden');
+}
+});
+});
+function toggleActionMenu(event) {
+event.stopPropagation();
+const button = event.currentTarget;
+const menu = button.nextElementSibling;
+const allMenus = document.querySelectorAll('.action-menu');
+allMenus.forEach(m => {
+if (m !== menu) {
+m.classList.add('hidden');
+}
+});
+menu.classList.toggle('hidden');
+}
+window.addEventListener('load', () => {
+renderActivities();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interview Question Generator | AI Recruitment Tools</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#15B8A6',
+secondary: '#6366F1'
+},
+borderRadius: {
+'none': '0px',
+'sm': '4px',
+DEFAULT: '8px',
+'md': '12px',
+'lg': '16px',
+'xl': '20px',
+'2xl': '24px',
+'3xl': '32px',
+'full': '9999px',
+'button': '8px'
+}
+}
+}
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+.question-card {
+transition: all 0.3s ease;
+}
+.question-card:hover {
+transform: translateY(-2px);
+box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+</style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <nav class="bg-white shadow-sm fixed w-full z-10">
+    <div class="max-w-7xl mx-auto px-4">
+    <div class="flex justify-between items-center h-16">
+    <div class="flex items-center space-x-8">
+    <a href="#" class="text-2xl font-['Pacifico'] text-primary">logo</a>
+    <div class="hidden md:flex space-x-4">
+    <a href="/pages/Recruitment-Dashboard-Overview.html" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
+    <a href="/pages/AI-Assisted-Job-Posting-Form.html" data-readdy="true" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Jobs</a>
+    <a href="/pages/Candidates-Management.html" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Candidates</a>
+    <a href="/pages/AI-Recruitment-Tools.html" class="text-primary px-3 py-2 rounded-md text-sm font-medium">AI Tools</a>
+    </div>
+    </div>
+    <div class="flex items-center space-x-4">
+    <div class="relative">
+    <button onclick="toggleNotificationMenu()" class="relative w-8 h-8 flex items-center justify-center">
+    <i class="ri-notification-3-line text-gray-600 text-xl"></i>
+    <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center" id="notificationCount">5</span>
+    </button>
+    <div id="notificationMenu" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg py-2 z-50">
+    <div class="px-4 py-2 border-b border-gray-100">
+    <div class="flex justify-between items-center">
+    <h3 class="text-sm font-semibold text-gray-900">Notifications</h3>
+    <button onclick="markAllAsRead()" class="text-xs text-primary hover:underline">Mark all as read</button>
+    </div>
+    </div>
+    <div class="max-h-96 overflow-y-auto" id="notificationList">
+    <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer" onclick="markAsRead(this, 1)">
+    <div class="flex items-start space-x-2">
+    <div class="w-2 h-2 mt-2 bg-primary rounded-full"></div>
+    <div class="flex-1">
+    <p class="text-sm text-gray-900">New candidate application for Senior Product Designer position</p>
+    <span class="text-xs text-gray-500">10 minutes ago</span>
+    </div>
+    </div>
+    </div>
+    <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer" onclick="markAsRead(this, 2)">
+    <div class="flex items-start space-x-2">
+    <div class="w-2 h-2 mt-2 bg-primary rounded-full"></div>
+    <div class="flex-1">
+    <p class="text-sm text-gray-900">Interview scheduled with Michael Chen</p>
+    <span class="text-xs text-gray-500">1 hour ago</span>
+    </div>
+    </div>
+    </div>
+    <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer" onclick="markAsRead(this, 3)">
+    <div class="flex items-start space-x-2">
+    <div class="w-2 h-2 mt-2 bg-primary rounded-full"></div>
+    <div class="flex-1">
+    <p class="text-sm text-gray-900">Jessica Parker accepted the job offer</p>
+    <span class="text-xs text-gray-500">2 hours ago</span>
+    </div>
+    </div>
+    </div>
+    <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer opacity-60" onclick="markAsRead(this, 4)">
+    <div class="flex items-start space-x-2">
+    <div class="w-2 h-2 mt-2 bg-gray-300 rounded-full"></div>
+    <div class="flex-1">
+    <p class="text-sm text-gray-900">New job posting is now live</p>
+    <span class="text-xs text-gray-500">3 hours ago</span>
+    </div>
+    </div>
+    </div>
+    <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer opacity-60" onclick="markAsRead(this, 5)">
+    <div class="flex items-start space-x-2">
+    <div class="w-2 h-2 mt-2 bg-gray-300 rounded-full"></div>
+    <div class="flex-1">
+    <p class="text-sm text-gray-900">Monthly recruitment report is ready</p>
+    <span class="text-xs text-gray-500">1 day ago</span>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="px-4 py-2 border-t border-gray-100">
+    <a href="/pages/Full-Notifications-List.html" data-readdy="true" class="block text-center text-sm text-primary hover:underline">View all notifications</a>
+    </div>
+    </div>
+    </div>
+    <script>
+    function toggleNotificationMenu() {
+    const menu = document.getElementById('notificationMenu');
+    menu.classList.toggle('hidden');
+    }
+    function markAsRead(element, id) {
+    const dot = element.querySelector('.bg-primary');
+    if (dot) {
+    dot.classList.remove('bg-primary');
+    dot.classList.add('bg-gray-300');
+    element.classList.add('opacity-60');
+    updateNotificationCount();
+    }
+    }
+    function markAllAsRead() {
+    const unreadDots = document.querySelectorAll('.bg-primary');
+    unreadDots.forEach(dot => {
+    dot.classList.remove('bg-primary');
+    dot.classList.add('bg-gray-300');
+    dot.closest('.px-4').classList.add('opacity-60');
+    });
+    updateNotificationCount();
+    }
+    function updateNotificationCount() {
+    const unreadCount = document.querySelectorAll('.bg-primary').length;
+    const countElement = document.getElementById('notificationCount');
+    countElement.textContent = unreadCount;
+    if (unreadCount === 0) {
+    countElement.classList.add('hidden');
+    }
+    }
+    document.addEventListener('click', function(e) {
+    const notificationMenu = document.getElementById('notificationMenu');
+    const notificationButton = document.querySelector('[onclick="toggleNotificationMenu()"]');
+    if (!notificationMenu.contains(e.target) && !notificationButton.contains(e.target)) {
+    notificationMenu.classList.add('hidden');
+    }
+    });
+    </script>
+    <div class="relative">
+    <button onclick="toggleUserMenu()" class="flex items-center space-x-2">
+    <img src="https://public.readdy.ai/ai/img_res/1d1eb4e9788f1b1aef21d1c880e0cf51.jpg" class="w-8 h-8 rounded-full object-cover">
+    <span class="text-gray-700 text-sm font-medium">Emily Johnson</span>
+    <i class="ri-arrow-down-s-line text-gray-600"></i>
+    </button>
+    <div id="userMenu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg z-20 py-1 border border-gray-100">
+      <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+      <i class="ri-user-line mr-2 text-gray-400"></i>
+      My Profile
+      </a>
+      <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+      <i class="ri-settings-3-line mr-2 text-gray-400"></i>
+      Account Settings
+      </a>
+      <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+      <i class="ri-equalizer-line mr-2 text-gray-400"></i>
+      Preferences
+      </a>
+      <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+      <i class="ri-question-line mr-2 text-gray-400"></i>
+      Help & Support
+      </a>
+      <hr class="my-1 border-gray-100">
+      <a href="/" class="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+      <i class="ri-logout-box-line mr-2"></i>
+      Sign Out
+      </a>
+      </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </nav>
+<div class="pt-16">
+<div class="max-w-7xl mx-auto px-4 py-8">
+<nav class="flex mb-8" aria-label="Breadcrumb">
+<ol class="inline-flex items-center space-x-1 md:space-x-3">
+<li class="inline-flex items-center">
+<a href="/pages/Recruitment-Dashboard-Overview.html" class="text-gray-600 hover:text-primary text-sm">Dashboard</a>
+</li>
+<li>
+<div class="flex items-center">
+<i class="ri-arrow-right-s-line text-gray-400"></i>
+<a href="/pages/AI-Recruitment-Tools.html" data-readdy="true" class="ml-1 text-gray-600 hover:text-primary text-sm">AI Tools</a>
+</div>
+</li>
+<li>
+<div class="flex items-center">
+<i class="ri-arrow-right-s-line text-gray-400"></i>
+<span class="ml-1 text-gray-600 text-sm">Interview Question Generator</span>
+</div>
+</li>
+</ol>
+</nav>
+<div class="flex justify-between items-start mb-8">
+<div>
+<h1 class="text-3xl font-bold text-gray-900 mb-2">Interview Question Generator</h1>
+<p class="text-gray-600">Create tailored interview questions based on job requirements and preferences</p>
+</div>
+</div>
+<div class="flex space-x-8">
+<div class="flex-1">
+<div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+<h2 class="text-xl font-semibold text-gray-900 mb-6">Job Details</h2>
+<div class="grid grid-cols-2 gap-6">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Job Title</label>
+<input type="text" class="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm" placeholder="e.g. Senior Frontend Developer">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Experience Level</label>
+<div class="relative">
+<select class="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm appearance-none pr-8">
+<option>Entry Level (0-2 years)</option>
+<option>Mid Level (2-5 years)</option>
+<option>Senior Level (5-8 years)</option>
+<option>Lead Level (8+ years)</option>
+</select>
+<i class="ri-arrow-down-s-line absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Industry</label>
+<div class="relative">
+<select class="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm appearance-none pr-8">
+<option>Technology</option>
+<option>Healthcare</option>
+<option>Finance</option>
+<option>Education</option>
+<option>Manufacturing</option>
+</select>
+<i class="ri-arrow-down-s-line absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Department</label>
+<div class="relative">
+<select class="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm appearance-none pr-8">
+<option>Engineering</option>
+<option>Design</option>
+<option>Product</option>
+<option>Marketing</option>
+<option>Sales</option>
+</select>
+<i class="ri-arrow-down-s-line absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+<h2 class="text-xl font-semibold text-gray-900 mb-6">Question Types</h2>
+<div class="grid grid-cols-2 gap-4">
+<label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-primary transition-colors">
+<input type="checkbox" class="w-4 h-4 text-primary border-gray-300 rounded" checked>
+<span class="ml-3">
+<span class="block text-sm font-medium text-gray-900">Technical Questions</span>
+<span class="block text-xs text-gray-500">Programming, system design, tools</span>
+</span>
+</label>
+<label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-primary transition-colors">
+<input type="checkbox" class="w-4 h-4 text-primary border-gray-300 rounded" checked>
+<span class="ml-3">
+<span class="block text-sm font-medium text-gray-900">Behavioral Questions</span>
+<span class="block text-xs text-gray-500">Soft skills, teamwork, leadership</span>
+</span>
+</label>
+<label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-primary transition-colors">
+<input type="checkbox" class="w-4 h-4 text-primary border-gray-300 rounded">
+<span class="ml-3">
+<span class="block text-sm font-medium text-gray-900">Situational Questions</span>
+<span class="block text-xs text-gray-500">Problem-solving scenarios</span>
+</span>
+</label>
+<label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-primary transition-colors">
+<input type="checkbox" class="w-4 h-4 text-primary border-gray-300 rounded" onchange="handleRoleSpecificQuestions(this)">
+<span class="ml-3">
+<span class="block text-sm font-medium text-gray-900">Role-specific Questions</span>
+<span class="block text-xs text-gray-500">Job-related expertise</span>
+</span>
+</label>
+</div>
+</div>
+<div id="questionList" class="space-y-4">
+<div class="question-card bg-white rounded-lg shadow-sm p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<span class="inline-block px-2 py-1 text-xs font-medium text-primary bg-primary/10 rounded-full mb-2">Technical</span>
+<h3 class="text-gray-900 font-medium">Can you explain the concept of closure in JavaScript and provide a practical example?</h3>
+</div>
+<div class="flex space-x-2">
+<button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-primary">
+<i class="ri-edit-line"></i>
+</button>
+<button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-red-500">
+<i class="ri-delete-bin-line"></i>
+</button>
+</div>
+</div>
+<div class="text-sm text-gray-600 mb-4">
+Expected answer should cover:
+<ul class="list-disc pl-5 mt-2 space-y-1">
+<li>Definition of closure</li>
+<li>Scope and variable access</li>
+<li>Practical implementation example</li>
+<li>Common use cases</li>
+</ul>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center">
+<span class="text-xs text-gray-500">Difficulty:</span>
+<div class="flex items-center ml-2">
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-line text-gray-300"></i>
+<i class="ri-star-line text-gray-300"></i>
+</div>
+</div>
+<button class="text-sm text-primary hover:text-primary/80">View Sample Answer</button>
+</div>
+</div>
+<div class="question-card bg-white rounded-lg shadow-sm p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<span class="inline-block px-2 py-1 text-xs font-medium text-emerald-600 bg-emerald-50 rounded-full mb-2">Behavioral</span>
+<h3 class="text-gray-900 font-medium">Tell me about a time when you had to lead a project with tight deadlines. How did you manage the situation?</h3>
+</div>
+<div class="flex space-x-2">
+<button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-primary">
+<i class="ri-edit-line"></i>
+</button>
+<button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-red-500">
+<i class="ri-delete-bin-line"></i>
+</button>
+</div>
+</div>
+<div class="text-sm text-gray-600 mb-4">
+Key points to evaluate:
+<ul class="list-disc pl-5 mt-2 space-y-1">
+<li>Project management skills</li>
+<li>Leadership capabilities</li>
+<li>Time management</li>
+<li>Problem-solving approach</li>
+</ul>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center">
+<span class="text-xs text-gray-500">Difficulty:</span>
+<div class="flex items-center ml-2">
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-line text-gray-300"></i>
+<i class="ri-star-line text-gray-300"></i>
+<i class="ri-star-line text-gray-300"></i>
+</div>
+</div>
+<button class="text-sm text-primary hover:text-primary/80">View Sample Answer</button>
+</div>
+</div>
+</div>
+<div class="fixed bottom-8 right-8 flex space-x-4">
+<div class="relative">
+<button id="exportButton" class="bg-white text-gray-600 px-4 py-2 !rounded-button shadow-sm hover:bg-gray-50 flex items-center">
+<i class="ri-download-line mr-2"></i>Export Questions
+</button>
+<div id="exportDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50">
+<div class="py-2">
+<button onclick="exportQuestions('pdf')" class="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+<i class="ri-file-pdf-line mr-2"></i>Export as PDF
+</button>
+<button onclick="exportQuestions('word')" class="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+<i class="ri-file-word-line mr-2"></i>Export as Word
+</button>
+<button onclick="exportQuestions('excel')" class="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+<i class="ri-file-excel-line mr-2"></i>Export as Excel
+</button>
+</div>
+</div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+const exportButton = document.getElementById('exportButton');
+const exportDropdown = document.getElementById('exportDropdown');
+exportButton.addEventListener('click', function() {
+exportDropdown.classList.toggle('hidden');
+});
+document.addEventListener('click', function(event) {
+if (!exportButton.contains(event.target) && !exportDropdown.contains(event.target)) {
+exportDropdown.classList.add('hidden');
+}
+});
+});
+function exportQuestions(format) {
+const questions = Array.from(document.querySelectorAll('.question-card')).map(card => {
+return {
+category: card.querySelector('.rounded-full').textContent.trim(),
+question: card.querySelector('h3').textContent.trim(),
+difficulty: card.querySelectorAll('.ri-star-fill').length,
+expectedAnswer: card.querySelector('.text-sm.text-gray-600').textContent.trim()
+};
+});
+const button = document.getElementById('exportButton');
+const originalContent = button.innerHTML;
+button.innerHTML = '<i class="ri-loader-4-line animate-spin mr-2"></i>Exporting...';
+button.disabled = true;
+setTimeout(() => {
+let filename = '';
+switch(format) {
+case 'pdf':
+filename = 'interview_questions.pdf';
+break;
+case 'word':
+filename = 'interview_questions.docx';
+break;
+case 'excel':
+filename = 'interview_questions.xlsx';
+break;
+}
+const link = document.createElement('a');
+link.href = '#';
+link.download = filename;
+link.click();
+button.innerHTML = originalContent;
+button.disabled = false;
+document.getElementById('exportDropdown').classList.add('hidden');
+createToast(`Questions exported successfully as ${format.toUpperCase()}`);
+}, 1500);
+}
+</script>
+<button onclick="generateMoreQuestions(this)" class="bg-primary text-white px-6 py-2 !rounded-button shadow-sm hover:bg-primary/90 flex items-center">
+<i class="ri-add-line mr-2"></i>Generate More
+</button>
+</div>
+</div>
+<div class="w-80 flex-shrink-0">
+<div class="bg-white rounded-lg shadow-sm p-6 sticky top-24">
+<h3 class="text-lg font-semibold text-gray-900 mb-6">Generation Settings</h3>
+<div class="space-y-6">
+<div>
+<h4 class="text-sm font-medium text-gray-900 mb-3">Difficulty Level</h4>
+<input type="range" min="1" max="5" value="3" class="w-full h-2 bg-gray-200 rounded-full appearance-none cursor-pointer">
+<div class="flex justify-between text-xs text-gray-500 mt-2">
+<span>Easy</span>
+<span>Medium</span>
+<span>Expert</span>
+</div>
+</div>
+<div>
+<h4 class="text-sm font-medium text-gray-900 mb-3">Questions per Category</h4>
+<input type="number" value="5" min="1" max="10" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm">
+</div>
+<div>
+<h4 class="text-sm font-medium text-gray-900 mb-3">Language</h4>
+<div class="relative">
+<select class="w-full text-sm border border-gray-200 rounded-lg p-2 pr-8">
+<option>English (US)</option>
+<option>English (UK)</option>
+<option>Spanish</option>
+<option>French</option>
+</select>
+<i class="ri-arrow-down-s-line absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+</div>
+</div>
+<div>
+<h4 class="text-sm font-medium text-gray-900 mb-3">Question Style</h4>
+<div class="space-y-2">
+<label class="flex items-center">
+<input type="radio" name="style" checked class="w-4 h-4 text-primary border-gray-300">
+<span class="ml-2 text-sm text-gray-600">Formal</span>
+</label>
+<label class="flex items-center">
+<input type="radio" name="style" class="w-4 h-4 text-primary border-gray-300">
+<span class="ml-2 text-sm text-gray-600">Conversational</span>
+</label>
+</div>
+</div>
+<div class="pt-4 border-t">
+<button class="w-full bg-primary text-white px-4 py-2 !rounded-button text-sm font-medium hover:bg-primary/90 transition-colors flex items-center justify-center">
+<i class="ri-refresh-line mr-2"></i>Update Settings
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+function generateMoreQuestions(btn) {
+const originalContent = btn.innerHTML;
+btn.innerHTML = '<i class="ri-loader-4-line animate-spin mr-2"></i>Generating...';
+btn.disabled = true;
+
+if (!document.querySelector('input[placeholder="e.g. Senior Frontend Developer"]').value) {
+  createToast('Please enter a job title first');
+  btn.innerHTML = originalContent;
+  btn.disabled = false;
+  return;
+}
+
+const difficulty = document.querySelector('input[type="range"]').value;
+const types = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
+.map(cb => cb.closest('label').querySelector('.text-sm.font-medium').textContent.trim());
+const style = document.querySelector('input[name="style"]:checked')
+.nextElementSibling.textContent.trim();
+setTimeout(() => {
+const questionList = document.getElementById('questionList');
+const newQuestions = types.map(type => {
+const difficultyStars = Array(5).fill()
+.map((_, i) => `<i class="ri-star-${i < difficulty ? 'fill text-yellow-400' : 'line text-gray-300'}"></i>`)
+.join('');
+return `
+<div class="question-card bg-white rounded-lg shadow-sm p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<span class="inline-block px-2 py-1 text-xs font-medium ${
+type === 'Technical Questions' ? 'text-primary bg-primary/10' :
+type === 'Behavioral Questions' ? 'text-emerald-600 bg-emerald-50' :
+type === 'Situational Questions' ? 'text-blue-600 bg-blue-50' :
+type === 'Role-specific Questions' ? 'text-purple-600 bg-purple-50' :
+'text-purple-600 bg-purple-50'
+} rounded-full mb-2">${type.replace(' Questions', '')}</span>
+<h3 class="text-gray-900 font-medium">${typeof generateQuestionText(type) === 'function' ? generateQuestionText(type)() : generateQuestionText(type)}</h3>
+</div>
+<div class="flex space-x-2">
+<button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-primary">
+<i class="ri-edit-line"></i>
+</button>
+<button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-red-500">
+<i class="ri-delete-bin-line"></i>
+</button>
+</div>
+</div>
+<div class="text-sm text-gray-600 mb-4">
+${generateExpectedAnswer(type)}
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center">
+<span class="text-xs text-gray-500">Difficulty:</span>
+<div class="flex items-center ml-2">
+${difficultyStars}
+</div>
+</div>
+<button class="text-sm text-primary hover:text-primary/80">View Sample Answer</button>
+</div>
+</div>
+`;
+});
+questionList.insertAdjacentHTML('afterbegin', newQuestions.join(''));
+btn.innerHTML = originalContent;
+btn.disabled = false;
+createToast('New questions generated successfully');
+}, 1500);
+}
+function generateQuestionText(type) {
+const jobTitle = document.querySelector('input[placeholder="e.g. Senior Frontend Developer"]').value;
+const experienceLevel = document.querySelector('select:first-of-type').value;
+const industry = document.querySelector('select:nth-of-type(2)').value;
+const department = document.querySelector('select:nth-of-type(3)').value;
+
+function generateRoleSpecificQuestion() {
+  const questions = {
+    'Engineering': [
+      `Based on your ${experienceLevel} experience in ${industry}, how would you approach scaling a complex system?`,
+      `What specific ${jobTitle} tools and frameworks have you used to improve development efficiency?`,
+      `How do you ensure code quality and maintainability in ${department} projects?`,
+      `Describe a challenging technical problem you solved in your previous ${jobTitle} role.`,
+      `What metrics do you use to measure success in your ${department} projects?`
+    ],
+    'Design': [
+      `How do you incorporate user feedback into your design process in the ${industry} industry?`,
+      `What design systems have you implemented for ${industry} projects?`,
+      `How do you balance aesthetic design with ${industry}-specific requirements?`,
+      `Describe your approach to creating responsive designs for ${industry} applications.`,
+      `What user research methods do you prefer for ${industry} projects?`
+    ],
+    'Product': [
+      `How do you prioritize features for a ${industry} product?`,
+      `Describe your experience with product analytics in the ${industry} sector.`,
+      `How do you gather and incorporate stakeholder feedback in ${industry} projects?`,
+      `What methodologies do you use for product development in ${industry}?`,
+      `How do you measure product success in the ${industry} market?`
+    ]
+  };
+  
+  return questions[department] ? questions[department][Math.floor(Math.random() * questions[department].length)] : questions['Engineering'][Math.floor(Math.random() * questions['Engineering'].length)];
+}
+
+const questions = {
+'Technical Questions': [
+'What is the difference between HTTP and HTTPS? Explain the security implications.',
+'Explain the concept of dependency injection and its benefits.',
+'How would you optimize a web application's performance?',
+'Describe the differences between REST and GraphQL.',
+'What are design patterns and when would you use them?'
+],
+'Role-specific Questions': [generateRoleSpecificQuestion, generateRoleSpecificQuestion, generateRoleSpecificQuestion, generateRoleSpecificQuestion, generateRoleSpecificQuestion],
+'Behavioral Questions': [
+'Describe a situation where you had to work under pressure. How did you handle it?',
+'Tell me about a time when you disagreed with a team member. How did you resolve it?',
+'How do you handle feedback and criticism?',
+'Share an example of how you've dealt with a difficult stakeholder.',
+'Tell me about a project you're particularly proud of.'
+],
+'Situational Questions': [
+'How would you handle a situation where project requirements change mid-development?',
+'What would you do if you noticed a security vulnerability in production code?',
+'How would you approach mentoring a junior team member?',
+'What steps would you take if your team was consistently missing deadlines?',
+'How would you handle a conflict between two team members?'
+],
+'Role-specific Questions': [
+'What tools and methodologies do you use to ensure code quality?',
+'How do you stay updated with industry trends and new technologies?',
+'What considerations do you take into account when designing system architecture?',
+'How do you approach documentation in your projects?',
+'What is your experience with agile development methodologies?'
+]
+};
+return questions[type][Math.floor(Math.random() * questions[type].length)];
+}
+function generateExpectedAnswer(type) {
+const answers = {
+'Technical Questions': `Key points to evaluate:
+<ul class="list-disc pl-5 mt-2 space-y-1">
+<li>Technical knowledge depth</li>
+<li>Problem-solving approach</li>
+<li>Understanding of best practices</li>
+<li>Implementation experience</li>
+</ul>`,
+'Behavioral Questions': `Expected response should demonstrate:
+<ul class="list-disc pl-5 mt-2 space-y-1">
+<li>Self-awareness</li>
+<li>Professional maturity</li>
+<li>Problem-solving skills</li>
+<li>Communication ability</li>
+</ul>`,
+'Situational Questions': `Look for evidence of:
+<ul class="list-disc pl-5 mt-2 space-y-1">
+<li>Decision-making process</li>
+<li>Risk assessment</li>
+<li>Problem-solving approach</li>
+<li>Leadership potential</li>
+</ul>`,
+'Role-specific Questions': `Evaluate candidate's:
+<ul class="list-disc pl-5 mt-2 space-y-1">
+<li>Industry knowledge</li>
+<li>Technical expertise</li>
+<li>Best practice awareness</li>
+<li>Professional experience</li>
+</ul>`
+};
+return answers[type];
+}
+function createToast(message) {
+const toast = document.createElement('div');
+toast.className = 'fixed top-4 right-4 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-opacity duration-300';
+toast.textContent = message;
+document.body.appendChild(toast);
+setTimeout(() => {
+toast.style.opacity = '0';
+setTimeout(() => toast.remove(), 300);
+}, 3000);
+}
+function updateQuestionList() {
+const questionList = document.getElementById('questionList');
+const difficulty = document.querySelector('input[type="range"]').value;
+const questionsPerCategory = document.querySelector('input[type="number"]').value;
+const language = document.querySelector('select').value;
+const style = document.querySelector('input[name="style"]:checked').nextElementSibling.textContent.trim();
+const types = ['Technical', 'Behavioral'];
+const questions = [];
+types.forEach(type => {
+for(let i = 0; i < questionsPerCategory; i++) {
+questions.push(`
+<div class="question-card bg-white rounded-lg shadow-sm p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<span class="inline-block px-2 py-1 text-xs font-medium ${type === 'Technical' ? 'text-primary bg-primary/10' : 'text-emerald-600 bg-emerald-50'} rounded-full mb-2">${type}</span>
+<h3 class="text-gray-900 font-medium">New ${type.toLowerCase()} question ${i + 1} based on ${style} style</h3>
+</div>
+<div class="flex space-x-2">
+<button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-primary">
+<i class="ri-edit-line"></i>
+</button>
+<button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-red-500">
+<i class="ri-delete-bin-line"></i>
+</button>
+</div>
+</div>
+<div class="text-sm text-gray-600 mb-4">
+Generated content based on difficulty level ${difficulty}
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center">
+<span class="text-xs text-gray-500">Difficulty:</span>
+<div class="flex items-center ml-2">
+${Array(5).fill().map((_, index) => `<i class="ri-star-${index < difficulty ? 'fill text-yellow-400' : 'line text-gray-300'}"></i>`).join('')}
+</div>
+</div>
+<button class="text-sm text-primary hover:text-primary/80">View Sample Answer</button>
+</div>
+</div>
+`);
+}
+});
+questionList.innerHTML = questions.join('');
+}
+document.querySelectorAll('button').forEach(button => {
+button.addEventListener('click', function(e) {
+const action = e.target.closest('button').textContent.trim();
+if (action === 'View Sample Answer') {
+const card = e.target.closest('.question-card');
+const answer = card.querySelector('.text-sm.text-gray-600');
+answer.classList.toggle('mb-4');
+} else if (action === 'Update Settings') {
+const button = e.target.closest('button');
+const originalContent = button.innerHTML;
+button.innerHTML = '<i class="ri-loader-4-line animate-spin mr-2"></i>Updating...';
+button.disabled = true;
+setTimeout(() => {
+updateQuestionList();
+button.innerHTML = originalContent;
+button.disabled = false;
+createToast('Settings updated successfully');
+}, 1500);
+}
+});
+});
+</script>
+<style>
+@keyframes spin {
+from {
+transform: rotate(0deg);
+}
+to {
+transform: rotate(360deg);
+}
+}
+.animate-spin {
+animation: spin 1s linear infinite;
+}
+</style>
+</body>
+</html>

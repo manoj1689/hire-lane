@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Recruitment Tools</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#15B8A6',
+secondary: '#6366F1'
+},
+borderRadius: {
+'none': '0px',
+'sm': '4px',
+DEFAULT: '8px',
+'md': '12px',
+'lg': '16px',
+'xl': '20px',
+'2xl': '24px',
+'3xl': '32px',
+'full': '9999px',
+'button': '8px'
+}
+}
+}
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+.tool-card:hover {
+transform: translateY(-2px);
+box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+</style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <nav class="bg-white shadow-sm fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between items-center h-16">
+        <div class="flex items-center space-x-8">
+        <a href="#" class="text-2xl font-['Pacifico'] text-primary">logo</a>
+        <div class="hidden md:flex space-x-4">
+        <a href="/pages/Recruitment-Dashboard-Overview.html" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
+        <a href="/pages/AI-Assisted-Job-Posting-Form.html" data-readdy="true" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Jobs</a>
+        <a href="/pages/Candidates-Management.html" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Candidates</a>
+        <a href="/pages/AI-Recruitment-Tools.html" class="text-primary px-3 py-2 rounded-md text-sm font-medium">AI Tools</a>
+        </div>
+        </div>
+        <div class="flex items-center space-x-4">
+        <div class="relative">
+        <button onclick="toggleNotificationMenu()" class="relative w-8 h-8 flex items-center justify-center">
+        <i class="ri-notification-3-line text-gray-600 text-xl"></i>
+        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center" id="notificationCount">5</span>
+        </button>
+        <div id="notificationMenu" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg py-2 z-50">
+        <div class="px-4 py-2 border-b border-gray-100">
+        <div class="flex justify-between items-center">
+        <h3 class="text-sm font-semibold text-gray-900">Notifications</h3>
+        <button onclick="markAllAsRead()" class="text-xs text-primary hover:underline">Mark all as read</button>
+        </div>
+        </div>
+        <div class="max-h-96 overflow-y-auto" id="notificationList">
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer" onclick="markAsRead(this, 1)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-primary rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">New candidate application for Senior Product Designer position</p>
+        <span class="text-xs text-gray-500">10 minutes ago</span>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer" onclick="markAsRead(this, 2)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-primary rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">Interview scheduled with Michael Chen</p>
+        <span class="text-xs text-gray-500">1 hour ago</span>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer" onclick="markAsRead(this, 3)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-primary rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">Jessica Parker accepted the job offer</p>
+        <span class="text-xs text-gray-500">2 hours ago</span>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer opacity-60" onclick="markAsRead(this, 4)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-gray-300 rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">New job posting is now live</p>
+        <span class="text-xs text-gray-500">3 hours ago</span>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer opacity-60" onclick="markAsRead(this, 5)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-gray-300 rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">Monthly recruitment report is ready</p>
+        <span class="text-xs text-gray-500">1 day ago</span>
+        </div>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-2 border-t border-gray-100">
+        <a href="/pages/Full-Notifications-List.html" data-readdy="true" class="block text-center text-sm text-primary hover:underline">View all notifications</a>
+        </div>
+        </div>
+        </div>
+        <script>
+        function toggleNotificationMenu() {
+        const menu = document.getElementById('notificationMenu');
+        menu.classList.toggle('hidden');
+        }
+        function markAsRead(element, id) {
+        const dot = element.querySelector('.bg-primary');
+        if (dot) {
+        dot.classList.remove('bg-primary');
+        dot.classList.add('bg-gray-300');
+        element.classList.add('opacity-60');
+        updateNotificationCount();
+        }
+        }
+        function markAllAsRead() {
+        const unreadDots = document.querySelectorAll('.bg-primary');
+        unreadDots.forEach(dot => {
+        dot.classList.remove('bg-primary');
+        dot.classList.add('bg-gray-300');
+        dot.closest('.px-4').classList.add('opacity-60');
+        });
+        updateNotificationCount();
+        }
+        function updateNotificationCount() {
+        const unreadCount = document.querySelectorAll('.bg-primary').length;
+        const countElement = document.getElementById('notificationCount');
+        countElement.textContent = unreadCount;
+        if (unreadCount === 0) {
+        countElement.classList.add('hidden');
+        }
+        }
+        document.addEventListener('click', function(e) {
+        const notificationMenu = document.getElementById('notificationMenu');
+        const notificationButton = document.querySelector('[onclick="toggleNotificationMenu()"]');
+        if (!notificationMenu.contains(e.target) && !notificationButton.contains(e.target)) {
+        notificationMenu.classList.add('hidden');
+        }
+        });
+        </script>
+        <div class="relative">
+        <button onclick="toggleUserMenu()" class="flex items-center space-x-2">
+        <img src="https://public.readdy.ai/ai/img_res/1d1eb4e9788f1b1aef21d1c880e0cf51.jpg" class="w-8 h-8 rounded-full object-cover">
+        <span class="text-gray-700 text-sm font-medium">Emily Johnson</span>
+        <i class="ri-arrow-down-s-line text-gray-600"></i>
+        </button>
+        <div id="userMenu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg z-20 py-1 border border-gray-100">
+            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+            <i class="ri-user-line mr-2 text-gray-400"></i>
+            My Profile
+            </a>
+            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+            <i class="ri-settings-3-line mr-2 text-gray-400"></i>
+            Account Settings
+            </a>
+            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+            <i class="ri-equalizer-line mr-2 text-gray-400"></i>
+            Preferences
+            </a>
+            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+            <i class="ri-question-line mr-2 text-gray-400"></i>
+            Help & Support
+            </a>
+            <hr class="my-1 border-gray-100">
+            <a href="/" class="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+            <i class="ri-logout-box-line mr-2"></i>
+            Sign Out
+            </a>
+            </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </nav>
+<div class="pt-16">
+<div class="max-w-7xl mx-auto px-4 py-8">
+<nav class="flex mb-8" aria-label="Breadcrumb">
+<ol class="inline-flex items-center space-x-1 md:space-x-3">
+<li class="inline-flex items-center">
+<a href="/pages/Recruitment-Dashboard-Overview.html" class="text-gray-600 hover:text-primary text-sm">Dashboard</a>
+</li>
+<li>
+<div class="flex items-center">
+<i class="ri-arrow-right-s-line text-gray-400"></i>
+<span class="ml-1 text-gray-600 text-sm">AI Tools</span>
+</div>
+</li>
+</ol>
+</nav>
+<div class="flex justify-between items-start mb-8">
+<div>
+<h1 class="text-3xl font-bold text-gray-900 mb-2">AI Recruitment Tools</h1>
+<p class="text-gray-600">Powered by advanced AI to streamline your recruitment process</p>
+</div>
+<div class="flex items-center space-x-4">
+<div class="text-right">
+<p class="text-sm text-gray-600">Monthly Usage</p>
+<p class="text-lg font-semibold text-gray-900">873 / 1000</p>
+</div>
+<div class="h-12 w-12 flex items-center justify-center bg-primary/10 rounded-lg">
+<i class="ri-robot-line text-primary text-xl"></i>
+</div>
+</div>
+</div>
+<div class="flex space-x-8">
+<div class="flex-1">
+<div class="grid grid-cols-2 gap-6">
+<div class="bg-white rounded-lg shadow-sm p-6 transition-all duration-300 tool-card cursor-pointer">
+<div class="flex items-center justify-between mb-4">
+<div class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-lg">
+<i class="ri-file-search-line text-primary text-xl"></i>
+</div>
+<span class="px-2 py-1 text-xs font-medium text-primary bg-primary/10 rounded-full">Most Used</span>
+</div>
+<h3 class="text-lg font-semibold text-gray-900 mb-2">Resume Screening</h3>
+<p class="text-gray-600 text-sm mb-4">AI-powered resume analysis to identify top candidates based on job requirements</p>
+<div class="flex items-center justify-between mb-4">
+<div>
+<p class="text-sm text-gray-600">Success Rate</p>
+<p class="text-lg font-semibold text-gray-900">95%</p>
+</div>
+<div>
+<p class="text-sm text-gray-600">Time Saved</p>
+<p class="text-lg font-semibold text-gray-900">4.2h</p>
+</div>
+</div>
+<a href="/pages/AI-Recruitment-Workspace.html" data-readdy="true" class="w-full bg-primary text-white px-4 py-2 !rounded-button text-sm font-medium hover:bg-primary/90 transition-colors flex items-center justify-center">
+<i class="ri-play-line mr-2"></i>Launch Tool
+</a>
+</div>
+<div class="bg-white rounded-lg shadow-sm p-6 transition-all duration-300 tool-card cursor-pointer">
+<div class="flex items-center justify-between mb-4">
+<div class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-lg">
+<i class="ri-user-search-line text-primary text-xl"></i>
+</div>
+<span class="px-2 py-1 text-xs font-medium text-emerald-600 bg-emerald-50 rounded-full">New</span>
+</div>
+<h3 class="text-lg font-semibold text-gray-900 mb-2">Candidate Matching</h3>
+<a href="https://readdy.ai/home/c1ab65b2-3f7a-433a-ad12-465e225e1630/41c89b57-02cc-427a-b12b-c70f33101fce" data-readdy="true" class="text-gray-600 text-sm mb-4 block">Smart matching algorithm to pair candidates with suitable job positions</a>
+<div class="flex items-center justify-between mb-4">
+<div>
+<p class="text-sm text-gray-600">Match Accuracy</p>
+<p class="text-lg font-semibold text-gray-900">92%</p>
+</div>
+<div>
+<p class="text-sm text-gray-600">Matches/Day</p>
+<p class="text-lg font-semibold text-gray-900">45</p>
+</div>
+</div>
+<a href="/pages/Candidate-Matching-Details.html" data-readdy="true" class="w-full bg-primary text-white px-4 py-2 !rounded-button text-sm font-medium hover:bg-primary/90 transition-colors flex items-center justify-center">
+<i class="ri-play-line mr-2"></i>Launch Tool
+</a>
+</div>
+<div class="bg-white rounded-lg shadow-sm p-6 transition-all duration-300 tool-card cursor-pointer">
+<div class="flex items-center justify-between mb-4">
+<div class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-lg">
+<i class="ri-questionnaire-line text-primary text-xl"></i>
+</div>
+</div>
+<h3 class="text-lg font-semibold text-gray-900 mb-2">Interview Question Generator</h3>
+<a href="https://readdy.ai/home/c1ab65b2-3f7a-433a-ad12-465e225e1630/cefbd32b-b00c-499c-937c-b69f8736e989" data-readdy="true" class="text-gray-600 text-sm mb-4 block">Generate role-specific interview questions based on job requirements</a>
+<a href="https://readdy.ai/home/c1ab65b2-3f7a-433a-ad12-465e225e1630/5d2501de-8020-4ef5-b25c-a43c055bc891" data-readdy="true" class="flex items-center justify-between mb-4">
+<div>
+<p class="text-sm text-gray-600">Questions Generated</p>
+<p class="text-lg font-semibold text-gray-900">2.4k</p>
+</div>
+<div>
+<p class="text-sm text-gray-600">Avg. Rating</p>
+<p class="text-lg font-semibold text-gray-900">4.8/5</p>
+</div>
+</a>
+<a href="/pages/Interview-Question-Generator.html" data-readdy="true" class="w-full bg-primary text-white px-4 py-2 !rounded-button text-sm font-medium hover:bg-primary/90 transition-colors flex items-center justify-center">
+<i class="ri-play-line mr-2"></i>Launch Tool
+</a>
+</div>
+<div class="bg-white rounded-lg shadow-sm p-6 transition-all duration-300 tool-card cursor-pointer">
+<div class="flex items-center justify-between mb-4">
+<div class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-lg">
+<i class="ri-draft-line text-primary text-xl"></i>
+</div>
+</div>
+<a href="https://readdy.ai/home/c1ab65b2-3f7a-433a-ad12-465e225e1630/5ddd325b-6a82-47b7-b76a-41f4b578b35d" data-readdy="true" class="text-lg font-semibold text-gray-900 mb-2 block">Job Description Writer</a>
+<p class="text-gray-600 text-sm mb-4">Create compelling job descriptions optimized for candidate engagement</p>
+<div class="flex items-center justify-between mb-4">
+<div>
+<p class="text-sm text-gray-600">JDs Created</p>
+<p class="text-lg font-semibold text-gray-900">1.8k</p>
+</div>
+<div>
+<p class="text-sm text-gray-600">Engagement</p>
+<p class="text-lg font-semibold text-gray-900">+65%</p>
+</div>
+</div>
+<a href="/pages/AI-Job-Description-Writer.html" data-readdy="true" class="w-full bg-primary text-white px-4 py-2 !rounded-button text-sm font-medium hover:bg-primary/90 transition-colors flex items-center justify-center">
+<i class="ri-play-line mr-2"></i>Launch Tool
+</a>
+</div>
+</div>
+</div>
+<div class="w-80 flex-shrink-0">
+<div class="bg-white rounded-lg shadow-sm p-6 sticky top-24">
+<h3 class="text-lg font-semibold text-gray-900 mb-6">AI Configuration</h3>
+<div class="space-y-6">
+<div>
+<h4 class="text-sm font-medium text-gray-900 mb-3">Model Selection</h4>
+<select class="w-full text-sm border border-gray-200 rounded-lg p-2 pr-8">
+<option>GPT-4 (Recommended)</option>
+<option>GPT-3.5</option>
+<option>Custom Model</option>
+</select>
+</div>
+<div>
+<h4 class="text-sm font-medium text-gray-900 mb-3">Language</h4>
+<select class="w-full text-sm border border-gray-200 rounded-lg p-2 pr-8">
+<option>English (US)</option>
+<option>English (UK)</option>
+<option>Spanish</option>
+<option>French</option>
+</select>
+</div>
+<div>
+<h4 class="text-sm font-medium text-gray-900 mb-3">AI Response Style</h4>
+<div class="space-y-2">
+<label class="flex items-center">
+<input type="radio" name="style" checked class="w-4 h-4 text-primary border-gray-300">
+<span class="ml-2 text-sm text-gray-600">Professional</span>
+</label>
+<label class="flex items-center">
+<input type="radio" name="style" class="w-4 h-4 text-primary border-gray-300">
+<span class="ml-2 text-sm text-gray-600">Casual</span>
+</label>
+</div>
+</div>
+<div>
+<h4 class="text-sm font-medium text-gray-900 mb-3">Performance Overview</h4>
+<div id="performanceChart" class="h-48 w-full"></div>
+</div>
+<div class="pt-4 border-t">
+<h4 class="text-sm font-medium text-gray-900 mb-3">Quick Actions</h4>
+<div class="space-y-2">
+<button class="w-full px-3 py-2 text-sm text-gray-600 hover:text-primary flex items-center cursor-pointer">
+<i class="ri-settings-4-line mr-2"></i>Configure Settings
+</button>
+<button class="w-full px-3 py-2 text-sm text-gray-600 hover:text-primary flex items-center cursor-pointer">
+<i class="ri-history-line mr-2"></i>View History
+</button>
+<button class="w-full px-3 py-2 text-sm text-gray-600 hover:text-primary flex items-center cursor-pointer">
+<i class="ri-question-line mr-2"></i>Get Help
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+ function toggleUserMenu() {
+const menu = document.getElementById('userMenu');
+menu.classList.toggle('hidden');
+}   
+function initPerformanceChart() {
+const chartDom = document.getElementById('performanceChart');
+const chart = echarts.init(chartDom);
+const option = {
+animation: false,
+grid: {
+top: 10,
+right: 10,
+bottom: 20,
+left: 40
+},
+xAxis: {
+type: 'category',
+data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+axisLabel: {
+color: '#6B7280',
+fontSize: 10
+}
+},
+yAxis: {
+type: 'value',
+axisLabel: {
+color: '#6B7280',
+fontSize: 10
+}
+},
+series: [{
+data: [150, 230, 224, 218, 135],
+type: 'line',
+smooth: true,
+symbol: 'none',
+lineStyle: {
+color: '#15B8A6'
+},
+areaStyle: {
+color: {
+type: 'linear',
+x: 0,
+y: 0,
+x2: 0,
+y2: 1,
+colorStops: [{
+offset: 0,
+color: 'rgba(21, 184, 166, 0.1)'
+}, {
+offset: 1,
+color: 'rgba(21, 184, 166, 0.02)'
+}]
+}
+}
+}]
+};
+chart.setOption(option);
+window.addEventListener('resize', () => chart.resize());
+}
+window.addEventListener('load', () => {
+initPerformanceChart();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Careers | Join Our Team</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#15B8A6',
+                        secondary: '#0F766E'
+                    },
+                    borderRadius: {
+                        'none': '0px',
+                        'sm': '4px',
+                        DEFAULT: '8px',
+                        'md': '12px',
+                        'lg': '16px',
+                        'xl': '20px',
+                        '2xl': '24px',
+                        '3xl': '32px',
+                        'full': '9999px',
+                        'button': '8px'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :where([class^="ri-"])::before { content: "\f3c2"; }
+        .job-card:hover { transform: translateY(-4px); }
+        .search-input:focus { outline: none; }
+    </style>
+</head>
+<body class="bg-white min-h-screen">
+    <nav class="fixed top-0 w-full bg-white shadow-sm z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="text-2xl font-['Pacifico'] text-primary">logo</a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="/" class="text-gray-700 hover:text-primary">Home</a>
+                    <a href="#" class="text-gray-700 hover:text-primary">About</a>
+                    <a href="#" class="text-gray-700 hover:text-primary">Products</a>
+                    <a href="#" class="text-primary font-medium">Careers</a>
+                    <a href="#" class="text-gray-700 hover:text-primary">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-16">
+        <section class="relative h-[600px] flex items-center overflow-hidden">
+            <div class="absolute inset-0">
+                <img src="https://public.readdy.ai/ai/img_res/304c4f16861c17a0d75864be22691d88.jpg" class="w-full h-full object-cover" alt="Hero Background">
+                <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+            </div>
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h1 class="text-5xl font-bold text-white mb-6">Join Our Team</h1>
+                <p class="text-xl text-white mb-8 max-w-2xl mx-auto">Be part of a dynamic team that's shaping the future of technology. We're looking for passionate individuals who share our vision and values.</p>
+                <a href="#openings" class="inline-flex items-center px-6 py-3 text-lg font-medium text-white bg-primary hover:bg-secondary transition-colors duration-200 !rounded-button cursor-pointer">View Open Positions <i class="ri-arrow-right-line ml-2"></i></a>
+            </div>
+        </section>
+
+        <section id="openings" class="py-20 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-center mb-12">Current Openings</h2>
+                
+                <div class="flex flex-wrap gap-4 mb-8">
+                    <div class="relative flex-grow">
+                        <input type="text" id="searchInput" placeholder="Search positions..." class="w-full px-4 py-2 pl-10 border border-gray-300 !rounded-button text-sm">
+                        <i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                    <div class="flex gap-4">
+                        <select id="departmentFilter" class="px-4 py-2 border border-gray-300 !rounded-button text-sm">
+                            <option value="">All Departments</option>
+                            <option value="engineering">Engineering</option>
+                            <option value="design">Design</option>
+                            <option value="marketing">Marketing</option>
+                            <option value="sales">Sales</option>
+                        </select>
+                        <select id="locationFilter" class="px-4 py-2 border border-gray-300 !rounded-button text-sm">
+                            <option value="">All Locations</option>
+                            <option value="remote">Remote</option>
+                            <option value="office">Office</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="jobListings">
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-center mb-12">Why Join Us</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="text-center p-6 bg-white shadow-lg rounded">
+                        <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-primary bg-opacity-10 rounded-full">
+                            <i class="ri-health-book-line text-2xl text-primary"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Health & Wellness</h3>
+                        <p class="text-gray-600">Comprehensive health insurance, wellness programs, and mental health support</p>
+                    </div>
+                    <div class="text-center p-6 bg-white shadow-lg rounded">
+                        <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-primary bg-opacity-10 rounded-full">
+                            <i class="ri-funds-line text-2xl text-primary"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Career Growth</h3>
+                        <p class="text-gray-600">Professional development, mentorship programs, and learning opportunities</p>
+                    </div>
+                    <div class="text-center p-6 bg-white shadow-lg rounded">
+                        <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-primary bg-opacity-10 rounded-full">
+                            <i class="ri-calendar-line text-2xl text-primary"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Work-Life Balance</h3>
+                        <p class="text-gray-600">Flexible working hours, remote work options, and generous PTO policy</p>
+                    </div>
+                    <div class="text-center p-6 bg-white shadow-lg rounded">
+                        <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-primary bg-opacity-10 rounded-full">
+                            <i class="ri-team-line text-2xl text-primary"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Team Culture</h3>
+                        <p class="text-gray-600">Inclusive environment, team events, and collaborative workspace</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-center mb-12">Our Hiring Process</h2>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <div class="text-center">
+                        <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-primary text-white rounded-full">1</div>
+                        <h3 class="text-lg font-semibold mb-2">Application Review</h3>
+                        <p class="text-gray-600">Submit your application and we'll review your qualifications</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-primary text-white rounded-full">2</div>
+                        <h3 class="text-lg font-semibold mb-2">Initial Interview</h3>
+                        <p class="text-gray-600">Virtual meeting with our hiring team</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-primary text-white rounded-full">3</div>
+                        <h3 class="text-lg font-semibold mb-2">Technical Assessment</h3>
+                        <p class="text-gray-600">Role-specific evaluation of your skills</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-primary text-white rounded-full">4</div>
+                        <h3 class="text-lg font-semibold mb-2">Final Interview</h3>
+                        <p class="text-gray-600">Meet the team and discuss next steps</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl font-bold mb-8">Stay Updated</h2>
+                <p class="text-lg text-gray-600 mb-8">Subscribe to receive notifications about new job openings</p>
+                <form id="subscribeForm" class="max-w-md mx-auto flex gap-4">
+                    <input type="email" placeholder="Enter your email" class="flex-1 px-4 py-2 border border-gray-300 !rounded-button">
+                    <button type="submit" class="px-6 py-2 bg-primary hover:bg-secondary text-white transition-colors duration-200 !rounded-button cursor-pointer whitespace-nowrap">Subscribe</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-['Pacifico'] text-primary mb-4">logo</h3>
+                    <p class="text-gray-400">Building the future of technology together</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Careers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Connect</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="ri-linkedin-fill"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="ri-twitter-fill"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="ri-facebook-fill"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="ri-instagram-fill"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact</h4>
+                    <p class="text-gray-400">careers@company.com</p>
+                    <p class="text-gray-400">+1 (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-gray-800 text-center text-gray-400">
+                <p>&copy; 2025 All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const jobData = [
+            {
+                title: "Senior Frontend Developer",
+                department: "Engineering",
+                location: "Remote",
+                type: "Full-time",
+                description: "We're looking for an experienced frontend developer to join our team and help build amazing user experiences."
+            },
+            {
+                title: "UX/UI Designer",
+                department: "Design",
+                location: "Office",
+                type: "Full-time",
+                description: "Join our design team to create beautiful and intuitive interfaces for our products."
+            },
+            {
+                title: "Marketing Manager",
+                department: "Marketing",
+                location: "Remote",
+                type: "Full-time",
+                description: "Lead our marketing initiatives and help grow our brand presence globally."
+            },
+            {
+                title: "Sales Representative",
+                department: "Sales",
+                location: "Office",
+                type: "Full-time",
+                description: "Join our sales team to help expand our customer base and drive revenue growth."
+            },
+            {
+                title: "Product Manager",
+                department: "Engineering",
+                location: "Remote",
+                type: "Full-time",
+                description: "Drive product strategy and work closely with engineering and design teams."
+            },
+            {
+                title: "Content Writer",
+                department: "Marketing",
+                location: "Remote",
+                type: "Part-time",
+                description: "Create engaging content for our blog, social media, and marketing materials."
+            }
+        ];
+
+        function renderJobs(jobs) {
+            const container = document.getElementById('jobListings');
+            container.innerHTML = '';
+            
+            jobs.forEach(job => {
+                const card = document.createElement('div');
+                card.className = 'job-card bg-white p-6 rounded shadow-lg transition-all duration-300';
+                card.innerHTML = `
+                    <h3 class="text-xl font-semibold mb-2">${job.title}</h3>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="px-3 py-1 bg-primary bg-opacity-10 text-primary rounded-full text-sm">${job.department}</span>
+                        <span class="px-3 py-1 bg-gray-100 rounded-full text-sm">${job.location}</span>
+                        <span class="px-3 py-1 bg-gray-100 rounded-full text-sm">${job.type}</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">${job.description}</p>
+                    <button class="w-full px-4 py-2 bg-primary hover:bg-secondary text-white transition-colors duration-200 !rounded-button cursor-pointer">Apply Now</button>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterJobs() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const department = document.getElementById('departmentFilter').value;
+            const location = document.getElementById('locationFilter').value;
+
+            const filtered = jobData.filter(job => {
+                const matchesSearch = job.title.toLowerCase().includes(searchTerm) ||
+                                    job.description.toLowerCase().includes(searchTerm);
+                const matchesDepartment = !department || job.department.toLowerCase() === department;
+                const matchesLocation = !location || job.location.toLowerCase() === location;
+
+                return matchesSearch && matchesDepartment && matchesLocation;
+            });
+
+            renderJobs(filtered);
+        }
+
+        document.getElementById('searchInput').addEventListener('input', filterJobs);
+        document.getElementById('departmentFilter').addEventListener('change', filterJobs);
+        document.getElementById('locationFilter').addEventListener('change', filterJobs);
+
+        document.getElementById('subscribeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = e.target.querySelector('input[type="email"]').value;
+            const successMessage = document.createElement('div');
+            successMessage.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded shadow-lg';
+            successMessage.textContent = 'Thank you for subscribing!';
+            document.body.appendChild(successMessage);
+            setTimeout(() => successMessage.remove(), 3000);
+            e.target.reset();
+        });
+
+        renderJobs(jobData);
+    </script>
+</body>
+</html>

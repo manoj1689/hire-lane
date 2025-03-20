@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create Job Posting - HireIn</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#15B8A6',
+secondary: '#6366F1'
+},
+borderRadius: {
+'none': '0px',
+'sm': '4px',
+DEFAULT: '8px',
+'md': '12px',
+'lg': '16px',
+'xl': '20px',
+'2xl': '24px',
+'3xl': '32px',
+'full': '9999px',
+'button': '8px'
+}
+}
+}
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+.step-active { border-color: #15B8A6; background-color: #15B8A6; color: white; }
+.step-active ~ .step-line { background-color: #15B8A6; }
+.step-line { height: 2px; background-color: #E5E7EB; flex: 1; }
+.step-completed { border-color: #15B8A6; background-color: white; color: #15B8A6; }
+.ai-suggestion { animation: slideIn 0.3s ease-out; }
+@keyframes slideIn {
+from { transform: translateY(10px); opacity: 0; }
+to { transform: translateY(0); opacity: 1; }
+}
+</style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <nav class="bg-white shadow-sm fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between items-center h-16">
+        <div class="flex items-center space-x-8">
+        <a href="#" class="text-2xl font-['Pacifico'] text-primary">logo</a>
+        <div class="hidden md:flex space-x-4">
+            <a href="/pages/Recruitment-Dashboard-Overview.html" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
+            <a href="/pages/Published-Jobs-Management.html" data-readdy="true" class="text-primary px-3 py-2 rounded-md text-sm font-medium">Jobs</a>
+            <a href="/pages/Candidates-Management.html" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Candidates</a>
+            <a href="/pages/AI-Recruitment-Tools.html" data-readdy="true" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">AI Tools</a>
+        </div>
+        </div>
+        <div class="flex items-center space-x-4">
+        <div class="relative">
+        <button onclick="toggleNotificationMenu()" class="relative w-8 h-8 flex items-center justify-center">
+        <i class="ri-notification-3-line text-gray-600 text-xl"></i>
+        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center" id="notificationCount">5</span>
+        </button>
+        <div id="notificationMenu" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg py-2 z-50">
+        <div class="px-4 py-2 border-b border-gray-100">
+        <div class="flex justify-between items-center">
+        <h3 class="text-sm font-semibold text-gray-900">Notifications</h3>
+        <button onclick="markAllAsRead()" class="text-xs text-primary hover:underline">Mark all as read</button>
+        </div>
+        </div>
+        <div class="max-h-96 overflow-y-auto" id="notificationList">
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer" onclick="markAsRead(this, 1)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-primary rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">New candidate application for Senior Product Designer position</p>
+        <span class="text-xs text-gray-500">10 minutes ago</span>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer" onclick="markAsRead(this, 2)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-primary rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">Interview scheduled with Michael Chen</p>
+        <span class="text-xs text-gray-500">1 hour ago</span>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer" onclick="markAsRead(this, 3)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-primary rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">Jessica Parker accepted the job offer</p>
+        <span class="text-xs text-gray-500">2 hours ago</span>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer opacity-60" onclick="markAsRead(this, 4)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-gray-300 rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">New job posting is now live</p>
+        <span class="text-xs text-gray-500">3 hours ago</span>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer opacity-60" onclick="markAsRead(this, 5)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-gray-300 rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">Monthly recruitment report is ready</p>
+        <span class="text-xs text-gray-500">1 day ago</span>
+        </div>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-2 border-t border-gray-100">
+        <a href="/pages/Full-Notifications-List.html" data-readdy="true" class="block text-center text-sm text-primary hover:underline">View all notifications</a>
+        </div>
+        </div>
+        </div>
+        <script>
+        function toggleNotificationMenu() {
+        const menu = document.getElementById('notificationMenu');
+        menu.classList.toggle('hidden');
+        }
+        function markAsRead(element, id) {
+        const dot = element.querySelector('.bg-primary');
+        if (dot) {
+        dot.classList.remove('bg-primary');
+        dot.classList.add('bg-gray-300');
+        element.classList.add('opacity-60');
+        updateNotificationCount();
+        }
+        }
+        function markAllAsRead() {
+        const unreadDots = document.querySelectorAll('.bg-primary');
+        unreadDots.forEach(dot => {
+        dot.classList.remove('bg-primary');
+        dot.classList.add('bg-gray-300');
+        dot.closest('.px-4').classList.add('opacity-60');
+        });
+        updateNotificationCount();
+        }
+        function updateNotificationCount() {
+        const unreadCount = document.querySelectorAll('.bg-primary').length;
+        const countElement = document.getElementById('notificationCount');
+        countElement.textContent = unreadCount;
+        if (unreadCount === 0) {
+        countElement.classList.add('hidden');
+        }
+        }
+        document.addEventListener('click', function(e) {
+        const notificationMenu = document.getElementById('notificationMenu');
+        const notificationButton = document.querySelector('[onclick="toggleNotificationMenu()"]');
+        if (!notificationMenu.contains(e.target) && !notificationButton.contains(e.target)) {
+        notificationMenu.classList.add('hidden');
+        }
+        });
+        </script>
+        <div class="relative">
+        <button onclick="toggleUserMenu()" class="flex items-center space-x-2">
+        <img src="https://public.readdy.ai/ai/img_res/1d1eb4e9788f1b1aef21d1c880e0cf51.jpg" class="w-8 h-8 rounded-full object-cover">
+        <span class="text-gray-700 text-sm font-medium">Emily Johnson</span>
+        <i class="ri-arrow-down-s-line text-gray-600"></i>
+        </button>
+        <div id="userMenu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg z-20 py-1 border border-gray-100">
+            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+            <i class="ri-user-line mr-2 text-gray-400"></i>
+            My Profile
+            </a>
+            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+            <i class="ri-settings-3-line mr-2 text-gray-400"></i>
+            Account Settings
+            </a>
+            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+            <i class="ri-equalizer-line mr-2 text-gray-400"></i>
+            Preferences
+            </a>
+            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+            <i class="ri-question-line mr-2 text-gray-400"></i>
+            Help & Support
+            </a>
+            <hr class="my-1 border-gray-100">
+            <a href="/" class="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+            <i class="ri-logout-box-line mr-2"></i>
+            Sign Out
+            </a>
+            </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </nav>
+<main class="max-w-7xl mx-auto px-4 py-8">
+<div class="flex items-center mb-6">
+<a href="https://readdy.ai/home/c1ab65b2-3f7a-433a-ad12-465e225e1630/94eb055b-e53c-4a4c-9f78-a2edad5d0f42" data-readdy="true" class="flex items-center text-gray-600 hover:text-gray-900">
+<i class="ri-arrow-left-line mr-2"></i>
+Back to Dashboard
+</a>
+</div>
+<div class="flex items-center justify-between mb-8">
+<h1 class="text-2xl font-bold text-gray-900">Create New Job Posting</h1>
+<button id="saveDraft" class="px-4 py-2 text-gray-700 bg-white border border-gray-200 !rounded-button hover:bg-gray-50 cursor-pointer whitespace-nowrap">Save as Draft</button>
+<div id="saveDraftModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="text-lg font-medium text-gray-900">Save as Draft</h3>
+            <button onclick="closeSaveDraftModal()" class="text-gray-400 hover:text-gray-600">
+                <i class="ri-close-line text-xl"></i>
+            </button>
+        </div>
+        <div class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Draft Name</label>
+                <input type="text" id="draftName" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary" placeholder="Enter draft name">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Notes (Optional)</label>
+                <textarea id="draftNotes" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary h-24" placeholder="Add any notes about this draft"></textarea>
+            </div>
+        </div>
+        <div class="flex justify-end space-x-4 mt-6">
+            <button onclick="closeSaveDraftModal()" class="px-4 py-2 text-gray-700 bg-white border border-gray-200 !rounded-button hover:bg-gray-50">Cancel</button>
+            <button onclick="handleSaveDraft()" class="px-4 py-2 bg-primary text-white !rounded-button hover:bg-primary/90">Save Draft</button>
+        </div>
+    </div>
+</div>
+</div>
+<div class="flex items-center mb-8">
+<div class="flex items-center">
+<div class="w-8 h-8 border-2 rounded-full flex items-center justify-center step-active">1</div>
+<span class="ml-2 text-sm font-medium text-gray-900">Basic Info</span>
+</div>
+<div class="step-line mx-4"></div>
+<div class="flex items-center">
+<div class="w-8 h-8 border-2 rounded-full flex items-center justify-center">2</div>
+<span class="ml-2 text-sm font-medium text-gray-600">Job Details</span>
+</div>
+<div class="step-line mx-4"></div>
+<div class="flex items-center">
+<div class="w-8 h-8 border-2 rounded-full flex items-center justify-center">3</div>
+<span class="ml-2 text-sm font-medium text-gray-600">Requirements</span>
+</div>
+<div class="step-line mx-4"></div>
+<div class="flex items-center">
+<div class="w-8 h-8 border-2 rounded-full flex items-center justify-center">4</div>
+<span class="ml-2 text-sm font-medium text-gray-600">Review & Publish</span>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-6">
+<div class="col-span-2">
+<div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+<h2 class="text-lg font-semibold text-gray-900 mb-4">Basic Information</h2>
+<div class="space-y-4">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Job Title</label>
+<div class="relative">
+<input type="text" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary" placeholder="e.g. Senior Frontend Developer">
+<button class="absolute right-2 top-2 text-gray-400 hover:text-primary" onclick="getAISuggestion('title')">
+<i class="ri-magic-line text-xl"></i>
+</button>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Department</label>
+<div class="relative">
+<button onclick="toggleDropdown('department')" class="w-full px-4 py-2 bg-white border border-gray-200 rounded-lg text-left flex items-center justify-between">
+<span class="text-gray-900">Engineering</span>
+<i class="ri-arrow-down-s-line text-gray-400"></i>
+</button>
+<div id="departmentDropdown" class="hidden absolute w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+<div class="py-1">
+<button class="w-full px-4 py-2 text-left text-gray-900 hover:bg-gray-50">Engineering</button>
+<button class="w-full px-4 py-2 text-left text-gray-900 hover:bg-gray-50">Design</button>
+<button class="w-full px-4 py-2 text-left text-gray-900 hover:bg-gray-50">Product</button>
+<button class="w-full px-4 py-2 text-left text-gray-900 hover:bg-gray-50">Marketing</button>
+<button class="w-full px-4 py-2 text-left text-gray-900 hover:bg-gray-50">Sales</button>
+</div>
+</div>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Location</label>
+<div class="relative">
+<input type="text" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary" placeholder="e.g. San Francisco, CA">
+<button class="absolute right-2 top-2 text-gray-400 hover:text-primary">
+<i class="ri-map-pin-line text-xl"></i>
+</button>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Employment Type</label>
+<div class="relative">
+<button onclick="toggleDropdown('employmentType')" class="w-full px-4 py-2 bg-white border border-gray-200 rounded-lg text-left flex items-center justify-between">
+<span class="text-gray-900">Full-time</span>
+<i class="ri-arrow-down-s-line text-gray-400"></i>
+</button>
+<div id="employmentTypeDropdown" class="hidden absolute w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+<div class="py-1">
+<button class="w-full px-4 py-2 text-left text-gray-900 hover:bg-gray-50">Full-time</button>
+<button class="w-full px-4 py-2 text-left text-gray-900 hover:bg-gray-50">Part-time</button>
+<button class="w-full px-4 py-2 text-left text-gray-900 hover:bg-gray-50">Contract</button>
+<button class="w-full px-4 py-2 text-left text-gray-900 hover:bg-gray-50">Internship</button>
+</div>
+</div>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Salary Range</label>
+<div class="flex items-center space-x-4">
+<div class="relative flex-1">
+<span class="absolute left-4 top-2 text-gray-500">$</span>
+<input type="text" class="w-full pl-8 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary" placeholder="Min">
+</div>
+<span class="text-gray-400">-</span>
+<div class="relative flex-1">
+<span class="absolute left-4 top-2 text-gray-500">$</span>
+<input type="text" class="w-full pl-8 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary" placeholder="Max">
+</div>
+<div class="relative">
+<button onclick="toggleDropdown('salaryPeriod')" class="px-4 py-2 bg-white border border-gray-200 rounded-lg text-left flex items-center justify-between min-w-[100px]">
+<span class="text-gray-900">Yearly</span>
+<i class="ri-arrow-down-s-line text-gray-400"></i>
+</button>
+<div id="salaryPeriodDropdown" class="hidden absolute right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10 min-w-[100px]">
+<div class="py-1">
+<button class="w-full px-4 py-2 text-left text-gray-900 hover:bg-gray-50">Yearly</button>
+<button class="w-full px-4 py-2 text-left text-gray-900 hover:bg-gray-50">Monthly</button>
+<button class="w-full px-4 py-2 text-left text-gray-900 hover:bg-gray-50">Hourly</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex justify-end space-x-4">
+<button onclick="handlePrevious()" class="px-6 py-2 bg-gray-100 border border-gray-200 text-gray-400 !rounded-button cursor-not-allowed whitespace-nowrap">Previous</button>
+<div id="leaveModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+<div class="bg-white rounded-lg p-6 max-w-sm w-full mx-4">
+<h3 class="text-lg font-medium text-gray-900 mb-4">Leave job creation?</h3>
+<p class="text-gray-600 mb-6">Your unsaved changes will be lost.</p>
+<div class="flex justify-end space-x-4">
+<button onclick="closeLeaveModal()" class="px-4 py-2 text-gray-700 bg-white border border-gray-200 !rounded-button hover:bg-gray-50">Stay Here</button>
+<button onclick="leaveJobCreation()" class="px-4 py-2 bg-primary text-white !rounded-button hover:bg-primary/90">Leave</button>
+</div>
+</div>
+</div>
+<a href="/pages/Job-Details-Entry.html" data-readdy="true" class="px-6 py-2 bg-primary text-white !rounded-button hover:bg-opacity-90 cursor-pointer whitespace-nowrap inline-block text-center">Next Step</a>
+</div>
+</div>
+<div class="col-span-1">
+<div class="bg-white rounded-lg shadow-sm p-6 sticky top-24">
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center">
+<div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center mr-3">
+<i class="ri-robot-line text-primary text-xl"></i>
+</div>
+<div>
+<h3 class="font-semibold text-gray-900">AI Assistant</h3>
+<p class="text-xs text-gray-500">Powered by HireIn AI</p>
+</div>
+</div>
+<button onclick="toggleAIPanel()" class="text-gray-400 hover:text-gray-600">
+<i class="ri-close-line text-xl"></i>
+</button>
+</div>
+<div class="space-y-6">
+<div class="relative">
+<div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+<i class="ri-search-line text-gray-400"></i>
+</div>
+<input type="text" placeholder="Ask AI anything about job posting..." class="w-full pl-10 pr-4 py-2 bg-gray-50 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary/20">
+</div>
+<div id="aiSuggestions" class="text-sm">
+<div class="bg-primary/5 rounded-lg p-4 mb-4">
+<div class="flex items-center text-primary mb-3">
+<i class="ri-magic-line mr-2"></i>
+<span class="font-medium">Smart Suggestions</span>
+</div>
+<div class="space-y-3">
+<div class="bg-white p-3 rounded border border-gray-100 hover:border-primary/20 cursor-pointer transition-colors">
+<div class="text-xs text-gray-500 mb-1">Title Suggestion</div>
+<div class="text-gray-900">Senior Frontend Developer</div>
+</div>
+<div class="bg-white p-3 rounded border border-gray-100 hover:border-primary/20 cursor-pointer transition-colors">
+<div class="text-xs text-gray-500 mb-1">Salary Range (Market Average)</div>
+<div class="text-gray-900">$120,000 - $180,000 / year</div>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<div>
+<div class="flex items-center justify-between mb-3">
+<h4 class="text-sm font-medium text-gray-900">Similar Active Positions</h4>
+<span class="text-xs text-primary">View all</span>
+</div>
+<div class="space-y-2">
+<div class="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 cursor-pointer transition-all">
+<div class="flex items-center justify-between mb-1">
+<span class="text-gray-900 font-medium">Senior Frontend Developer</span>
+<img src="https://public.readdy.ai/gen_page/company_logo_1?width=20&height=20" class="w-5 h-5 rounded" alt="Google">
+</div>
+<div class="text-xs text-gray-500">Google • San Francisco • $150-180K</div>
+</div>
+<div class="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 cursor-pointer transition-all">
+<div class="flex items-center justify-between mb-1">
+<span class="text-gray-900 font-medium">Frontend Team Lead</span>
+<img src="https://public.readdy.ai/gen_page/company_logo_2?width=20&height=20" class="w-5 h-5 rounded" alt="Meta">
+</div>
+<div class="text-xs text-gray-500">Meta • Remote • $160-200K</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-gray-100">
+<div class="flex items-center text-xs text-gray-500">
+<i class="ri-time-line mr-1"></i>
+Last updated: 2 mins ago
+</div>
+<button class="text-xs text-primary hover:text-primary/80">Refresh</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+function toggleDropdown(id) {
+const dropdown = document.getElementById(id + 'Dropdown');
+const allDropdowns = document.querySelectorAll('[id$="Dropdown"]');
+allDropdowns.forEach(d => {
+if (d.id !== id + 'Dropdown') d.classList.add('hidden');
+});
+dropdown.classList.toggle('hidden');
+}
+function toggleNotifications() {
+const panel = document.getElementById('notificationsPanel');
+if (panel) panel.classList.toggle('hidden');
+}
+function toggleUserMenu() {
+const menu = document.getElementById('userMenu');
+if (menu) menu.classList.toggle('hidden');
+}
+document.addEventListener('click', function(e) {
+const dropdowns = document.querySelectorAll('[id$="Dropdown"]');
+dropdowns.forEach(dropdown => {
+if (!e.target.closest(`#${dropdown.id}`) && !e.target.closest('button')) {
+dropdown.classList.add('hidden');
+}
+});
+});
+function getAISuggestion(field) {
+const suggestions = {
+title: ['Senior Frontend Developer', 'Lead UI Engineer', 'Frontend Architect'],
+};
+const aiSuggestions = document.getElementById('aiSuggestions');
+aiSuggestions.innerHTML = `
+<div class="ai-suggestion p-3 bg-primary/5 rounded-lg">
+<div class="flex items-center text-primary mb-2">
+<i class="ri-magic-line mr-2"></i>
+<span class="font-medium">AI Suggestions</span>
+</div>
+<div class="space-y-2">
+${suggestions[field].map(s => `
+<button class="w-full text-left p-2 text-sm text-gray-900 hover:bg-white rounded">
+${s}
+</button>
+`).join('')}
+</div>
+</div>
+`;
+}
+function toggleAIPanel() {
+const aiPanel = document.querySelector('.col-span-1');
+aiPanel.classList.toggle('hidden');
+}
+function handlePrevious() {
+document.getElementById('leaveModal').classList.remove('hidden');
+}
+function closeLeaveModal() {
+document.getElementById('leaveModal').classList.add('hidden');
+}
+function leaveJobCreation() {
+window.location.href = '/jobs';
+}
+document.getElementById('saveDraft').addEventListener('click', function() {
+    const jobTitleInput = document.querySelector('input[placeholder="e.g. Senior Frontend Developer"]');
+    const draftNameInput = document.getElementById('draftName');
+    if (jobTitleInput && jobTitleInput.value) {
+        draftNameInput.value = jobTitleInput.value;
+    }
+    document.getElementById('saveDraftModal').classList.remove('hidden');
+});
+
+function closeSaveDraftModal() {
+    document.getElementById('saveDraftModal').classList.add('hidden');
+}
+
+function handleSaveDraft() {
+    const draftName = document.getElementById('draftName').value;
+    const draftNotes = document.getElementById('draftNotes').value;
+    
+    if (!draftName.trim()) {
+        const errorToast = document.createElement('div');
+        errorToast.className = 'fixed bottom-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+        errorToast.textContent = 'Please enter a draft name';
+        document.body.appendChild(errorToast);
+        setTimeout(() => errorToast.remove(), 3000);
+        return;
+    }
+    
+    // Here you would typically save the draft to your backend
+    closeSaveDraftModal();
+    
+    const toast = document.createElement('div');
+    toast.className = 'fixed bottom-4 right-4 bg-gray-900 text-white px-4 py-2 rounded-lg shadow-lg z-50 flex items-center';
+    toast.innerHTML = `
+        <i class="ri-check-line mr-2"></i>
+        <span>Draft "${draftName}" saved successfully</span>
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+
+    // Clear the form
+    document.getElementById('draftName').value = '';
+    document.getElementById('draftNotes').value = '';
+}
+</script>
+</body>
+</html>

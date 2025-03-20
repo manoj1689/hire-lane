@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interview Success</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#15B8A6',
+secondary: '#0F766E'
+},
+borderRadius: {
+'none': '0px',
+'sm': '4px',
+DEFAULT: '8px',
+'md': '12px',
+'lg': '16px',
+'xl': '20px',
+'2xl': '24px',
+'3xl': '32px',
+'full': '9999px',
+'button': '8px'
+}
+}
+}
+}
+</script>
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+@keyframes checkmark {
+0% { transform: scale(0); opacity: 0; }
+50% { transform: scale(1.2); }
+100% { transform: scale(1); opacity: 1; }
+}
+@keyframes fadeIn {
+from { opacity: 0; transform: translateY(20px); }
+to { opacity: 1; transform: translateY(0); }
+}
+.animate-checkmark {
+animation: checkmark 0.5s ease-in-out forwards;
+}
+.animate-fade-in {
+animation: fadeIn 0.8s ease-out forwards;
+}
+</style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col items-center justify-center p-4">
+<div class="w-full max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8 space-y-8">
+<div class="flex justify-center">
+<div class="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center animate-checkmark">
+<i class="ri-check-line text-primary ri-3x"></i>
+</div>
+</div>
+<div class="text-center space-y-2 animate-fade-in">
+<h1 class="text-3xl font-bold text-gray-900">Interview Completed!</h1>
+<p class="text-gray-600">Great job on completing your AI interview</p>
+<div class="flex items-center justify-center mt-4">
+<div class="w-16 h-16 rounded-full overflow-hidden">
+<img src="https://public.readdy.ai/ai/img_res/35f62c026b4082e99625a97e93f2b05c.jpg" alt="Candidate" class="w-full h-full object-cover">
+</div>
+<div class="ml-4 text-left">
+<p class="font-semibold text-gray-900">Michael Chen</p>
+<p class="text-sm text-gray-600">Software Engineer Position</p>
+<p class="text-sm text-gray-600">ID: INT-2025-0320</p>
+</div>
+</div>
+</div>
+<div class="bg-gray-50 p-6 rounded animate-fade-in">
+<p class="text-center text-gray-600">Thank you for completing the interview. Your results have been submitted successfully and will be reviewed by our HR team. We will contact you with feedback and next steps soon.</p>
+</div>
+<div class="space-y-4 animate-fade-in">
+<a href="/" data-readdy="true">
+  <button class="w-full bg-primary text-white py-3 !rounded-button font-medium hover:bg-primary/90 transition-colors cursor-pointer">
+    Return to Homepage
+  </button>
+</a>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job Management - HireIn</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#15B8A6',
+secondary: '#6366F1'
+},
+borderRadius: {
+'none': '0px',
+'sm': '4px',
+DEFAULT: '8px',
+'md': '12px',
+'lg': '16px',
+'xl': '20px',
+'2xl': '24px',
+'3xl': '32px',
+'full': '9999px',
+'button': '8px'
+}
+}
+}
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+.job-card:hover { transform: translateY(-2px); transition: all 0.2s; }
+.filter-dropdown { max-height: 0; overflow: hidden; transition: max-height 0.2s ease-out; }
+.filter-dropdown.show { max-height: 300px; }
+.toast { animation: slideIn 0.3s ease-out; }
+@keyframes slideIn {
+from { transform: translateX(100%); }
+to { transform: translateX(0); }
+}
+</style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <nav class="bg-white shadow-sm fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between items-center h-16">
+        <div class="flex items-center space-x-8">
+        <a href="#" class="text-2xl font-['Pacifico'] text-primary">logo</a>
+        <div class="hidden md:flex space-x-4">
+            <a href="/pages/Recruitment-Dashboard-Overview.html" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
+            <a href="/pages/Published-Jobs-Management.html" data-readdy="true" class="text-primary px-3 py-2 rounded-md text-sm font-medium">Jobs</a>
+            <a href="/pages/Candidates-Management.html" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Candidates</a>
+            <a href="/pages/AI-Recruitment-Tools.html" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">AI Tools</a>
+        </div>
+        </div>
+        <div class="flex items-center space-x-4">
+        <div class="relative">
+        <button onclick="toggleNotificationMenu()" class="relative w-8 h-8 flex items-center justify-center">
+        <i class="ri-notification-3-line text-gray-600 text-xl"></i>
+        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center" id="notificationCount">5</span>
+        </button>
+        <div id="notificationMenu" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg py-2 z-50">
+        <div class="px-4 py-2 border-b border-gray-100">
+        <div class="flex justify-between items-center">
+        <h3 class="text-sm font-semibold text-gray-900">Notifications</h3>
+        <button onclick="markAllAsRead()" class="text-xs text-primary hover:underline">Mark all as read</button>
+        </div>
+        </div>
+        <div class="max-h-96 overflow-y-auto" id="notificationList">
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer" onclick="markAsRead(this, 1)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-primary rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">New candidate application for Senior Product Designer position</p>
+        <span class="text-xs text-gray-500">10 minutes ago</span>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer" onclick="markAsRead(this, 2)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-primary rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">Interview scheduled with Michael Chen</p>
+        <span class="text-xs text-gray-500">1 hour ago</span>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer" onclick="markAsRead(this, 3)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-primary rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">Jessica Parker accepted the job offer</p>
+        <span class="text-xs text-gray-500">2 hours ago</span>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer opacity-60" onclick="markAsRead(this, 4)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-gray-300 rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">New job posting is now live</p>
+        <span class="text-xs text-gray-500">3 hours ago</span>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer opacity-60" onclick="markAsRead(this, 5)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-gray-300 rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">Monthly recruitment report is ready</p>
+        <span class="text-xs text-gray-500">1 day ago</span>
+        </div>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-2 border-t border-gray-100">
+        <a href="/pages/Full-Notifications-List.html" data-readdy="true" class="block text-center text-sm text-primary hover:underline">View all notifications</a>
+        </div>
+        </div>
+        </div>
+        <script>
+        function toggleNotificationMenu() {
+        const menu = document.getElementById('notificationMenu');
+        menu.classList.toggle('hidden');
+        }
+        function markAsRead(element, id) {
+        const dot = element.querySelector('.bg-primary');
+        if (dot) {
+        dot.classList.remove('bg-primary');
+        dot.classList.add('bg-gray-300');
+        element.classList.add('opacity-60');
+        updateNotificationCount();
+        }
+        }
+        function markAllAsRead() {
+        const unreadDots = document.querySelectorAll('.bg-primary');
+        unreadDots.forEach(dot => {
+        dot.classList.remove('bg-primary');
+        dot.classList.add('bg-gray-300');
+        dot.closest('.px-4').classList.add('opacity-60');
+        });
+        updateNotificationCount();
+        }
+        function updateNotificationCount() {
+        const unreadCount = document.querySelectorAll('.bg-primary').length;
+        const countElement = document.getElementById('notificationCount');
+        countElement.textContent = unreadCount;
+        if (unreadCount === 0) {
+        countElement.classList.add('hidden');
+        }
+        }
+        document.addEventListener('click', function(e) {
+        const notificationMenu = document.getElementById('notificationMenu');
+        const notificationButton = document.querySelector('[onclick="toggleNotificationMenu()"]');
+        if (!notificationMenu.contains(e.target) && !notificationButton.contains(e.target)) {
+        notificationMenu.classList.add('hidden');
+        }
+        });
+        </script>
+        <div class="relative">
+        <button onclick="toggleUserMenu()" class="flex items-center space-x-2">
+        <img src="https://public.readdy.ai/ai/img_res/1d1eb4e9788f1b1aef21d1c880e0cf51.jpg" class="w-8 h-8 rounded-full object-cover">
+        <span class="text-gray-700 text-sm font-medium">Emily Johnson</span>
+        <i class="ri-arrow-down-s-line text-gray-600"></i>
+        </button>
+        <div id="userMenu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg z-20 py-1 border border-gray-100">
+            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+            <i class="ri-user-line mr-2 text-gray-400"></i>
+            My Profile
+            </a>
+            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+            <i class="ri-settings-3-line mr-2 text-gray-400"></i>
+            Account Settings
+            </a>
+            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+            <i class="ri-equalizer-line mr-2 text-gray-400"></i>
+            Preferences
+            </a>
+            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+            <i class="ri-question-line mr-2 text-gray-400"></i>
+            Help & Support
+            </a>
+            <hr class="my-1 border-gray-100">
+            <a href="/" class="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+            <i class="ri-logout-box-line mr-2"></i>
+            Sign Out
+            </a>
+            </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </nav>
+
+<main class="max-w-7xl mx-auto px-4 py-20">
+<div class="flex justify-between items-center mb-8">
+<h1 class="text-2xl font-bold text-gray-900">Job Management</h1>
+<a href="/pages/AI-Assisted-Job-Posting-Form.html" data-readdy="true" class="px-4 py-2 bg-primary text-white !rounded-button hover:bg-opacity-90 flex items-center cursor-pointer whitespace-nowrap">
+<i class="ri-add-line mr-2"></i>
+Create New Job
+</a>
+</div>
+
+<div class="bg-white rounded-lg shadow-sm p-4 mb-6">
+<div class="flex items-center space-x-4">
+<div class="flex-1 relative">
+<i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+<input type="text" placeholder="Search jobs..." class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-primary text-sm">
+</div>
+<div class="relative">
+<button onclick="toggleFilter('status')" class="px-4 py-2 border border-gray-200 rounded-lg flex items-center space-x-2 hover:bg-gray-50 text-sm">
+<span>Status</span>
+<i class="ri-arrow-down-s-line"></i>
+</button>
+<div id="statusFilter" class="filter-dropdown absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-10">
+<label class="flex items-center px-4 py-2 hover:bg-gray-50 cursor-pointer">
+<input type="checkbox" class="form-checkbox text-primary rounded mr-3">
+<span class="text-sm text-gray-700">Active</span>
+</label>
+<label class="flex items-center px-4 py-2 hover:bg-gray-50 cursor-pointer">
+<input type="checkbox" class="form-checkbox text-primary rounded mr-3">
+<span class="text-sm text-gray-700">Closed</span>
+</label>
+<label class="flex items-center px-4 py-2 hover:bg-gray-50 cursor-pointer">
+<input type="checkbox" class="form-checkbox text-primary rounded mr-3">
+<span class="text-sm text-gray-700">Draft</span>
+</label>
+</div>
+</div>
+<div class="relative">
+<button onclick="toggleFilter('department')" class="px-4 py-2 border border-gray-200 rounded-lg flex items-center space-x-2 hover:bg-gray-50 text-sm">
+<span>Department</span>
+<i class="ri-arrow-down-s-line"></i>
+</button>
+<div id="departmentFilter" class="filter-dropdown absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-10">
+<label class="flex items-center px-4 py-2 hover:bg-gray-50 cursor-pointer">
+<input type="checkbox" class="form-checkbox text-primary rounded mr-3">
+<span class="text-sm text-gray-700">Engineering</span>
+</label>
+<label class="flex items-center px-4 py-2 hover:bg-gray-50 cursor-pointer">
+<input type="checkbox" class="form-checkbox text-primary rounded mr-3">
+<span class="text-sm text-gray-700">Design</span>
+</label>
+<label class="flex items-center px-4 py-2 hover:bg-gray-50 cursor-pointer">
+<input type="checkbox" class="form-checkbox text-primary rounded mr-3">
+<span class="text-sm text-gray-700">Marketing</span>
+</label>
+</div>
+</div>
+<div class="relative">
+<button onclick="toggleFilter('location')" class="px-4 py-2 border border-gray-200 rounded-lg flex items-center space-x-2 hover:bg-gray-50 text-sm">
+<span>Location</span>
+<i class="ri-arrow-down-s-line"></i>
+</button>
+<div id="locationFilter" class="filter-dropdown absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-10">
+<label class="flex items-center px-4 py-2 hover:bg-gray-50 cursor-pointer">
+<input type="checkbox" class="form-checkbox text-primary rounded mr-3">
+<span class="text-sm text-gray-700">Remote</span>
+</label>
+<label class="flex items-center px-4 py-2 hover:bg-gray-50 cursor-pointer">
+<input type="checkbox" class="form-checkbox text-primary rounded mr-3">
+<span class="text-sm text-gray-700">San Francisco</span>
+</label>
+<label class="flex items-center px-4 py-2 hover:bg-gray-50 cursor-pointer">
+<input type="checkbox" class="form-checkbox text-primary rounded mr-3">
+<span class="text-sm text-gray-700">New York</span>
+</label>
+</div>
+</div>
+<button onclick="clearFilters()" class="px-4 py-2 text-gray-600 hover:text-gray-900 text-sm">
+Clear Filters
+</button>
+</div>
+</div>
+
+<div class="grid grid-cols-1 gap-4">
+<div class="job-card bg-white rounded-lg shadow-sm p-6 transition-all">
+<div class="flex items-start justify-between mb-4">
+<a href="https://readdy.ai/home/c1ab65b2-3f7a-433a-ad12-465e225e1630/db643ba3-90f3-4435-a6c8-da36200abc55" data-readdy="true" class="group">
+<h3 class="text-lg font-semibold text-gray-900 group-hover:text-primary">Senior Frontend Developer</h3>
+<div class="text-sm text-gray-500">Engineering • San Francisco</div>
+</a>
+<div class="flex items-center space-x-2">
+<span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-700 rounded-full">Active</span>
+<div class="relative">
+<button onclick="toggleJobMenu(this)" class="p-1 hover:bg-gray-100 rounded-full">
+<i class="ri-more-2-fill text-gray-400"></i>
+</button>
+<div class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-10">
+<button onclick="editJob()" class="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100">Edit</button>
+<button onclick="duplicateJob()" class="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100">Duplicate</button>
+<button onclick="closeJob()" class="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100">Close</button>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between text-sm">
+<div class="flex items-center space-x-6">
+<div class="flex items-center space-x-2">
+<i class="ri-user-line text-gray-400"></i>
+<span class="text-gray-600">42 Applicants</span>
+</div>
+<div class="flex items-center space-x-2">
+<i class="ri-time-line text-gray-400"></i>
+<span class="text-gray-600">Posted Mar 15, 2025</span>
+</div>
+</div>
+<div class="flex items-center space-x-2 text-gray-500">
+<i class="ri-edit-line"></i>
+<span>Last modified 2 days ago</span>
+</div>
+</div>
+</div>
+
+<div class="job-card bg-white rounded-lg shadow-sm p-6 transition-all">
+<div class="flex items-start justify-between mb-4">
+<a href="https://readdy.ai/home/c1ab65b2-3f7a-433a-ad12-465e225e1630/db643ba3-90f3-4435-a6c8-da36200abc55" data-readdy="true" class="group">
+<h3 class="text-lg font-semibold text-gray-900 group-hover:text-primary">Product Designer</h3>
+<div class="text-sm text-gray-500">Design • Remote</div>
+</a>
+<div class="flex items-center space-x-2">
+<span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-700 rounded-full">Active</span>
+<div class="relative">
+<button onclick="toggleJobMenu(this)" class="p-1 hover:bg-gray-100 rounded-full">
+<i class="ri-more-2-fill text-gray-400"></i>
+</button>
+<div class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-10">
+<button onclick="editJob()" class="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100">Edit</button>
+<button onclick="duplicateJob()" class="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100">Duplicate</button>
+<button onclick="closeJob()" class="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100">Close</button>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between text-sm">
+<div class="flex items-center space-x-6">
+<div class="flex items-center space-x-2">
+<i class="ri-user-line text-gray-400"></i>
+<span class="text-gray-600">28 Applicants</span>
+</div>
+<div class="flex items-center space-x-2">
+<i class="ri-time-line text-gray-400"></i>
+<span class="text-gray-600">Posted Mar 18, 2025</span>
+</div>
+</div>
+<div class="flex items-center space-x-2 text-gray-500">
+<i class="ri-edit-line"></i>
+<span>Last modified 1 day ago</span>
+</div>
+</div>
+</div>
+
+<div class="job-card bg-white rounded-lg shadow-sm p-6 transition-all">
+<div class="flex items-start justify-between mb-4">
+<a href="https://readdy.ai/home/c1ab65b2-3f7a-433a-ad12-465e225e1630/db643ba3-90f3-4435-a6c8-da36200abc55" data-readdy="true" class="group">
+<h3 class="text-lg font-semibold text-gray-900 group-hover:text-primary">Marketing Manager</h3>
+<div class="text-sm text-gray-500">Marketing • New York</div>
+</a>
+<div class="flex items-center space-x-2">
+<span class="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-700 rounded-full">Closed</span>
+<div class="relative">
+<button onclick="toggleJobMenu(this)" class="p-1 hover:bg-gray-100 rounded-full">
+<i class="ri-more-2-fill text-gray-400"></i>
+</button>
+<div class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-10">
+<button onclick="editJob()" class="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100">Edit</button>
+<button onclick="duplicateJob()" class="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100">Duplicate</button>
+<button onclick="reopenJob()" class="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100">Reopen</button>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between text-sm">
+<div class="flex items-center space-x-6">
+<div class="flex items-center space-x-2">
+<i class="ri-user-line text-gray-400"></i>
+<span class="text-gray-600">35 Applicants</span>
+</div>
+<div class="flex items-center space-x-2">
+<i class="ri-time-line text-gray-400"></i>
+<span class="text-gray-600">Posted Mar 10, 2025</span>
+</div>
+</div>
+<div class="flex items-center space-x-2 text-gray-500">
+<i class="ri-edit-line"></i>
+<span>Closed 1 day ago</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+
+<script>
+function toggleFilter(type) {
+const filter = document.getElementById(type + 'Filter');
+const allFilters = document.querySelectorAll('.filter-dropdown');
+allFilters.forEach(f => {
+if (f !== filter) f.classList.remove('show');
+});
+filter.classList.toggle('show');
+}
+
+function clearFilters() {
+const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+checkboxes.forEach(checkbox => checkbox.checked = false);
+showToast('Filters cleared');
+}
+
+function toggleJobMenu(button) {
+const menu = button.nextElementSibling;
+const allMenus = document.querySelectorAll('.job-card .relative > div');
+allMenus.forEach(m => {
+if (m !== menu) m.classList.add('hidden');
+});
+menu.classList.toggle('hidden');
+}
+
+function editJob() {
+window.location.href = '/pages/Senior-Frontend-Developer-Details.html';
+}
+
+function duplicateJob() {
+showToast('Job duplicated successfully');
+}
+
+function closeJob() {
+showToast('Job closed successfully');
+}
+
+function reopenJob() {
+showToast('Job reopened successfully');
+}
+
+function showToast(message) {
+const toast = document.createElement('div');
+toast.className = 'toast fixed bottom-4 right-4 bg-gray-900 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+toast.textContent = message;
+document.body.appendChild(toast);
+setTimeout(() => toast.remove(), 3000);
+}
+
+function toggleUserMenu() {
+const dropdown = document.getElementById('userDropdown');
+dropdown.classList.toggle('hidden');
+}
+
+</script>
+</body>
+</html>

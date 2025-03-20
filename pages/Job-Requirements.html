@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create Job Posting - Requirements - HireIn</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#15B8A6',
+secondary: '#6366F1'
+},
+borderRadius: {
+'none': '0px',
+'sm': '4px',
+DEFAULT: '8px',
+'md': '12px',
+'lg': '16px',
+'xl': '20px',
+'2xl': '24px',
+'3xl': '32px',
+'full': '9999px',
+'button': '8px'
+}
+}
+}
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+.step-active { border-color: #15B8A6; background-color: #15B8A6; color: white; }
+.step-active ~ .step-line { background-color: #E5E7EB; }
+.step-line { height: 2px; background-color: #15B8A6; flex: 1; }
+.step-completed { border-color: #15B8A6; background-color: white; color: #15B8A6; }
+.tag-input:focus { outline: none; }
+.skill-tag { animation: tagSlideIn 0.3s ease-out; }
+@keyframes tagSlideIn {
+from { transform: translateX(-10px); opacity: 0; }
+to { transform: translateX(0); opacity: 1; }
+}
+.proficiency-level { transition: all 0.3s ease; }
+.proficiency-level.selected {
+background-color: #15B8A6;
+color: white;
+}
+</style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <nav class="bg-white shadow-sm fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between items-center h-16">
+        <div class="flex items-center space-x-8">
+        <a href="#" class="text-2xl font-['Pacifico'] text-primary">logo</a>
+        <div class="hidden md:flex space-x-4">
+        <a href="#" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
+        <a href="#" data-readdy="true" class="text-primary px-3 py-2 rounded-md text-sm font-medium">Jobs</a>
+        <a href="#" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Candidates</a>
+        <a href="#" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">AI Tools</a>
+        </div>
+        </div>
+        <div class="flex items-center space-x-4">
+        <div class="relative">
+        <button onclick="toggleNotificationMenu()" class="relative w-8 h-8 flex items-center justify-center">
+        <i class="ri-notification-3-line text-gray-600 text-xl"></i>
+        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center" id="notificationCount">5</span>
+        </button>
+        <div id="notificationMenu" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg py-2 z-50">
+        <div class="px-4 py-2 border-b border-gray-100">
+        <div class="flex justify-between items-center">
+        <h3 class="text-sm font-semibold text-gray-900">Notifications</h3>
+        <button onclick="markAllAsRead()" class="text-xs text-primary hover:underline">Mark all as read</button>
+        </div>
+        </div>
+        <div class="max-h-96 overflow-y-auto" id="notificationList">
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer" onclick="markAsRead(this, 1)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-primary rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">New candidate application for Senior Product Designer position</p>
+        <span class="text-xs text-gray-500">10 minutes ago</span>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer" onclick="markAsRead(this, 2)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-primary rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">Interview scheduled with Michael Chen</p>
+        <span class="text-xs text-gray-500">1 hour ago</span>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer" onclick="markAsRead(this, 3)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-primary rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">Jessica Parker accepted the job offer</p>
+        <span class="text-xs text-gray-500">2 hours ago</span>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer opacity-60" onclick="markAsRead(this, 4)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-gray-300 rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">New job posting is now live</p>
+        <span class="text-xs text-gray-500">3 hours ago</span>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer opacity-60" onclick="markAsRead(this, 5)">
+        <div class="flex items-start space-x-2">
+        <div class="w-2 h-2 mt-2 bg-gray-300 rounded-full"></div>
+        <div class="flex-1">
+        <p class="text-sm text-gray-900">Monthly recruitment report is ready</p>
+        <span class="text-xs text-gray-500">1 day ago</span>
+        </div>
+        </div>
+        </div>
+        </div>
+        <div class="px-4 py-2 border-t border-gray-100">
+        <a href="/pages/Full-Notifications-List.html" data-readdy="true" class="block text-center text-sm text-primary hover:underline">View all notifications</a>
+        </div>
+        </div>
+        </div>
+        <script>
+        function toggleNotificationMenu() {
+        const menu = document.getElementById('notificationMenu');
+        menu.classList.toggle('hidden');
+        }
+        function markAsRead(element, id) {
+        const dot = element.querySelector('.bg-primary');
+        if (dot) {
+        dot.classList.remove('bg-primary');
+        dot.classList.add('bg-gray-300');
+        element.classList.add('opacity-60');
+        updateNotificationCount();
+        }
+        }
+        function markAllAsRead() {
+        const unreadDots = document.querySelectorAll('.bg-primary');
+        unreadDots.forEach(dot => {
+        dot.classList.remove('bg-primary');
+        dot.classList.add('bg-gray-300');
+        dot.closest('.px-4').classList.add('opacity-60');
+        });
+        updateNotificationCount();
+        }
+        function updateNotificationCount() {
+        const unreadCount = document.querySelectorAll('.bg-primary').length;
+        const countElement = document.getElementById('notificationCount');
+        countElement.textContent = unreadCount;
+        if (unreadCount === 0) {
+        countElement.classList.add('hidden');
+        }
+        }
+        document.addEventListener('click', function(e) {
+        const notificationMenu = document.getElementById('notificationMenu');
+        const notificationButton = document.querySelector('[onclick="toggleNotificationMenu()"]');
+        if (!notificationMenu.contains(e.target) && !notificationButton.contains(e.target)) {
+        notificationMenu.classList.add('hidden');
+        }
+        });
+        </script>
+        <div class="relative">
+        <button onclick="toggleUserMenu()" class="flex items-center space-x-2">
+        <img src="https://public.readdy.ai/ai/img_res/1d1eb4e9788f1b1aef21d1c880e0cf51.jpg" class="w-8 h-8 rounded-full object-cover">
+        <span class="text-gray-700 text-sm font-medium">Emily Johnson</span>
+        <i class="ri-arrow-down-s-line text-gray-600"></i>
+        </button>
+        <div id="userMenu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg z-20 py-1 border border-gray-100">
+            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+            <i class="ri-user-line mr-2 text-gray-400"></i>
+            My Profile
+            </a>
+            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+            <i class="ri-settings-3-line mr-2 text-gray-400"></i>
+            Account Settings
+            </a>
+            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+            <i class="ri-equalizer-line mr-2 text-gray-400"></i>
+            Preferences
+            </a>
+            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+            <i class="ri-question-line mr-2 text-gray-400"></i>
+            Help & Support
+            </a>
+            <hr class="my-1 border-gray-100">
+            <a href="/" class="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+            <i class="ri-logout-box-line mr-2"></i>
+            Sign Out
+            </a>
+            </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </nav>
+<main class="max-w-7xl mx-auto px-4 py-20">
+<div class="flex items-center mb-6">
+<a href="/pages/Job-Details-Entry.html" data-readdy="true" class="flex items-center text-gray-600 hover:text-gray-900">
+<i class="ri-arrow-left-line mr-2"></i>
+Back to Job Details
+</a>
+</div>
+<div class="flex items-center justify-between mb-8">
+<h1 class="text-2xl font-bold text-gray-900">Create New Job Posting</h1>
+<button id="saveDraft" class="px-4 py-2 text-gray-700 bg-white border border-gray-200 !rounded-button hover:bg-gray-50 cursor-pointer whitespace-nowrap">Save as Draft</button>
+</div>
+<div class="flex items-center mb-8">
+<div class="flex items-center">
+<div class="w-8 h-8 border-2 rounded-full flex items-center justify-center step-completed">
+<i class="ri-check-line text-primary"></i>
+</div>
+<span class="ml-2 text-sm font-medium text-gray-900">Basic Info</span>
+</div>
+<div class="step-line mx-4"></div>
+<div class="flex items-center">
+<div class="w-8 h-8 border-2 rounded-full flex items-center justify-center step-completed">
+<i class="ri-check-line text-primary"></i>
+</div>
+<span class="ml-2 text-sm font-medium text-gray-900">Job Details</span>
+</div>
+<div class="step-line mx-4"></div>
+<div class="flex items-center">
+<div class="w-8 h-8 border-2 rounded-full flex items-center justify-center step-active">3</div>
+<span class="ml-2 text-sm font-medium text-gray-900">Requirements</span>
+</div>
+<div class="step-line mx-4"></div>
+<div class="flex items-center">
+<div class="w-8 h-8 border-2 rounded-full flex items-center justify-center">4</div>
+<span class="ml-2 text-sm font-medium text-gray-600">Review & Publish</span>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-6">
+<div class="col-span-2">
+<div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+<h2 class="text-lg font-semibold text-gray-900 mb-6">Job Requirements</h2>
+<div class="space-y-6">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Required Skills</label>
+<div class="relative">
+<div class="flex items-center border border-gray-200 rounded-lg overflow-hidden">
+<div class="flex-1 flex flex-wrap gap-2 p-2" id="selectedSkills">
+</div>
+<input type="text" id="skillInput" class="flex-1 px-4 py-2 tag-input border-none text-sm" placeholder="Type a skill and press Enter">
+</div>
+<div id="skillSuggestions" class="hidden absolute w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+</div>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Education Level</label>
+<div class="relative">
+<button onclick="toggleDropdown('education')" class="w-full px-4 py-2 bg-white border border-gray-200 rounded-lg text-left flex items-center justify-between">
+<span id="selectedEducation" class="text-gray-900">Bachelor's Degree</span>
+<i class="ri-arrow-down-s-line text-gray-400"></i>
+</button>
+<div id="educationDropdown" class="hidden absolute w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+<div class="py-1">
+<button onclick="selectEducation('High School')" class="w-full px-4 py-2 text-left text-gray-900 hover:bg-gray-50">High School</button>
+<button onclick="selectEducation('Associate\'s Degree')" class="w-full px-4 py-2 text-left text-gray-900 hover:bg-gray-50">Associate's Degree</button>
+<button onclick="selectEducation('Bachelor\'s Degree')" class="w-full px-4 py-2 text-left text-gray-900 hover:bg-gray-50">Bachelor's Degree</button>
+<button onclick="selectEducation('Master\'s Degree')" class="w-full px-4 py-2 text-left text-gray-900 hover:bg-gray-50">Master's Degree</button>
+<button onclick="selectEducation('Doctorate')" class="w-full px-4 py-2 text-left text-gray-900 hover:bg-gray-50">Doctorate</button>
+</div>
+</div>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Certifications</label>
+<div id="certificationsList" class="space-y-2">
+<div class="flex items-center space-x-2">
+<input type="text" class="flex-1 px-4 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary" placeholder="Add certification (optional)">
+<button onclick="addCertification()" class="p-2 text-primary hover:bg-primary/10 rounded-lg">
+<i class="ri-add-line"></i>
+</button>
+</div>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Languages</label>
+<div id="languagesList" class="space-y-4">
+<div class="flex items-center space-x-4">
+<div class="flex-1">
+<div class="relative">
+<button onclick="toggleDropdown('language')" class="w-full px-4 py-2 bg-white border border-gray-200 rounded-lg text-left flex items-center justify-between">
+<span id="selectedLanguage" class="text-gray-900">Select language</span>
+<i class="ri-arrow-down-s-line text-gray-400"></i>
+</button>
+<div id="languageDropdown" class="hidden absolute w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+<div class="py-1">
+<button onclick="selectLanguage('English')" class="w-full px-4 py-2 text-left text-gray-900 hover:bg-gray-50">English</button>
+<button onclick="selectLanguage('Spanish')" class="w-full px-4 py-2 text-left text-gray-900 hover:bg-gray-50">Spanish</button>
+<button onclick="selectLanguage('Mandarin')" class="w-full px-4 py-2 text-left text-gray-900 hover:bg-gray-50">Mandarin</button>
+<button onclick="selectLanguage('French')" class="w-full px-4 py-2 text-left text-gray-900 hover:bg-gray-50">French</button>
+<button onclick="selectLanguage('German')" class="w-full px-4 py-2 text-left text-gray-900 hover:bg-gray-50">German</button>
+</div>
+</div>
+</div>
+</div>
+<div class="flex space-x-2">
+<button class="proficiency-level px-3 py-1 text-sm border border-gray-200 rounded-full hover:border-primary hover:text-primary" onclick="selectProficiency(this, 'Basic')">Basic</button>
+<button class="proficiency-level px-3 py-1 text-sm border border-gray-200 rounded-full hover:border-primary hover:text-primary" onclick="selectProficiency(this, 'Intermediate')">Intermediate</button>
+<button class="proficiency-level px-3 py-1 text-sm border border-gray-200 rounded-full hover:border-primary hover:text-primary" onclick="selectProficiency(this, 'Fluent')">Fluent</button>
+</div>
+<button onclick="addLanguage()" class="p-2 text-primary hover:bg-primary/10 rounded-lg">
+<i class="ri-add-line"></i>
+</button>
+</div>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Soft Skills</label>
+<div class="grid grid-cols-2 gap-4">
+<button onclick="toggleSoftSkill(this)" class="px-4 py-2 border border-gray-200 rounded-lg text-left hover:border-primary hover:bg-primary/5 flex items-center justify-between">
+<span>Communication</span>
+<i class="ri-check-line text-primary hidden"></i>
+</button>
+<button onclick="toggleSoftSkill(this)" class="px-4 py-2 border border-gray-200 rounded-lg text-left hover:border-primary hover:bg-primary/5 flex items-center justify-between">
+<span>Problem Solving</span>
+<i class="ri-check-line text-primary hidden"></i>
+</button>
+<button onclick="toggleSoftSkill(this)" class="px-4 py-2 border border-gray-200 rounded-lg text-left hover:border-primary hover:bg-primary/5 flex items-center justify-between">
+<span>Leadership</span>
+<i class="ri-check-line text-primary hidden"></i>
+</button>
+<button onclick="toggleSoftSkill(this)" class="px-4 py-2 border border-gray-200 rounded-lg text-left hover:border-primary hover:bg-primary/5 flex items-center justify-between">
+<span>Teamwork</span>
+<i class="ri-check-line text-primary hidden"></i>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="flex justify-between space-x-4">
+<a href="/pages/Job-Details-Entry.html" data-readdy="true" class="px-6 py-2 bg-white border border-gray-200 text-gray-700 !rounded-button hover:bg-gray-50 cursor-pointer whitespace-nowrap">Previous</a>
+<a href="/pages/Review-&-Publish-Job.html" data-readdy="true" class="px-6 py-2 bg-primary text-white !rounded-button hover:bg-opacity-90 cursor-pointer whitespace-nowrap inline-block">Next Step</a>
+</div>
+</div>
+<div class="col-span-1">
+<div class="bg-white rounded-lg shadow-sm p-6 sticky top-24">
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center">
+<div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center mr-3">
+<i class="ri-robot-line text-primary text-xl"></i>
+</div>
+<div>
+<h3 class="font-semibold text-gray-900">AI Assistant</h3>
+<p class="text-xs text-gray-500">Powered by HireIn AI</p>
+</div>
+</div>
+<button onclick="toggleAIPanel()" class="text-gray-400 hover:text-gray-600">
+<i class="ri-close-line text-xl"></i>
+</button>
+</div>
+<div class="space-y-6">
+<div class="relative">
+<div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+<i class="ri-search-line text-gray-400"></i>
+</div>
+<input type="text" placeholder="Ask AI for suggestions..." class="w-full pl-10 pr-4 py-2 bg-gray-50 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary/20">
+</div>
+<div class="bg-primary/5 rounded-lg p-4">
+<div class="flex items-center text-primary mb-3">
+<i class="ri-lightbulb-line mr-2"></i>
+<span class="font-medium">Suggested Requirements</span>
+</div>
+<div class="space-y-3" id="aiSuggestions">
+</div>
+</div>
+<div class="space-y-4">
+<div>
+<div class="flex items-center justify-between mb-3">
+<h4 class="text-sm font-medium text-gray-900">Similar Job Requirements</h4>
+<span class="text-xs text-primary cursor-pointer">View all</span>
+</div>
+<div class="space-y-2" id="similarRequirements">
+</div>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-gray-100">
+<div class="flex items-center text-xs text-gray-500">
+<i class="ri-time-line mr-1"></i>
+Last updated: Just now
+</div>
+<button onclick="refreshAISuggestions()" class="text-xs text-primary hover:text-primary/80">Refresh</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+const mockData = {
+skills: ['JavaScript', 'React', 'Node.js', 'TypeScript', 'Python', 'AWS', 'Docker', 'Kubernetes'],
+aiSuggestions: [
+{title: 'Technical Skills', desc: 'Add frontend development skills'},
+{title: 'Soft Skills', desc: 'Add collaboration skills'}
+],
+similarRequirements: [
+{role: 'Senior Frontend Developer at Google', requirements: '5+ years React • AWS • TypeScript'},
+{role: 'Frontend Team Lead at Meta', requirements: 'React Native • Node.js • Leadership'}
+]
+};
+function initializePage() {
+loadAISuggestions();
+loadSimilarRequirements();
+setupSkillInput();
+}
+function loadAISuggestions() {
+const container = document.getElementById('aiSuggestions');
+container.innerHTML = mockData.aiSuggestions.map(suggestion => `
+<div class="bg-white p-3 rounded border border-gray-100 hover:border-primary/20 cursor-pointer transition-colors">
+<div class="text-xs text-gray-500 mb-1">${suggestion.title}</div>
+<div class="text-gray-900 text-sm">${suggestion.desc}</div>
+</div>
+`).join('');
+}
+function loadSimilarRequirements() {
+const container = document.getElementById('similarRequirements');
+container.innerHTML = mockData.similarRequirements.map(req => `
+<div class="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 cursor-pointer transition-all">
+<div class="text-xs text-gray-500 mb-1">${req.role}</div>
+<div class="text-sm text-gray-900">${req.requirements}</div>
+</div>
+`).join('');
+}
+function setupSkillInput() {
+const input = document.getElementById('skillInput');
+const suggestions = document.getElementById('skillSuggestions');
+const selectedSkills = document.getElementById('selectedSkills');
+input.addEventListener('input', (e) => {
+const value = e.target.value.toLowerCase();
+if (value) {
+const filtered = mockData.skills.filter(skill =>
+skill.toLowerCase().includes(value)
+);
+showSkillSuggestions(filtered);
+} else {
+suggestions.classList.add('hidden');
+}
+});
+input.addEventListener('keydown', (e) => {
+if (e.key === 'Enter' && e.target.value) {
+addSkill(e.target.value);
+e.target.value = '';
+suggestions.classList.add('hidden');
+}
+});
+}
+function showSkillSuggestions(skills) {
+const suggestions = document.getElementById('skillSuggestions');
+suggestions.innerHTML = skills.map(skill => `
+<button onclick="addSkill('${skill}')" class="w-full px-4 py-2 text-left text-gray-900 hover:bg-gray-50">
+${skill}
+</button>
+`).join('');
+suggestions.classList.remove('hidden');
+}
+function addSkill(skill) {
+const container = document.getElementById('selectedSkills');
+const tag = document.createElement('div');
+tag.className = 'skill-tag inline-flex items-center space-x-1 px-2 py-1 bg-primary/10 text-primary rounded-full text-sm';
+tag.innerHTML = `
+<span>${skill}</span>
+<button onclick="this.parentElement.remove()" class="w-4 h-4 flex items-center justify-center hover:bg-primary/20 rounded-full">
+<i class="ri-close-line text-xs"></i>
+</button>
+`;
+container.appendChild(tag);
+document.getElementById('skillInput').value = '';
+}
+function toggleDropdown(id) {
+const dropdown = document.getElementById(id + 'Dropdown');
+const allDropdowns = document.querySelectorAll('[id$="Dropdown"]');
+allDropdowns.forEach(d => {
+if (d.id !== id + 'Dropdown') d.classList.add('hidden');
+});
+dropdown.classList.toggle('hidden');
+}
+function selectEducation(level) {
+document.getElementById('selectedEducation').textContent = level;
+toggleDropdown('education');
+}
+function selectLanguage(language) {
+document.getElementById('selectedLanguage').textContent = language;
+toggleDropdown('language');
+}
+function selectProficiency(btn, level) {
+const buttons = btn.parentElement.querySelectorAll('.proficiency-level');
+buttons.forEach(b => b.classList.remove('selected'));
+btn.classList.add('selected');
+}
+function addLanguage() {
+const language = document.getElementById('selectedLanguage').textContent;
+const proficiency = document.querySelector('.proficiency-level.selected')?.textContent;
+if (language === 'Select language' || !proficiency) return;
+const list = document.getElementById('languagesList');
+const languageItem = document.createElement('div');
+languageItem.className = 'flex items-center justify-between p-3 bg-gray-50 rounded-lg';
+languageItem.innerHTML = `
+<div>
+<div class="font-medium text-gray-900">${language}</div>
+<div class="text-sm text-gray-500">${proficiency}</div>
+</div>
+<button onclick="this.parentElement.remove()" class="text-gray-400 hover:text-gray-600">
+<i class="ri-delete-bin-line"></i>
+</button>
+`;
+list.insertBefore(languageItem, list.firstChild);
+document.getElementById('selectedLanguage').textContent = 'Select language';
+document.querySelectorAll('.proficiency-level').forEach(btn => btn.classList.remove('selected'));
+}
+function addCertification() {
+const input = document.querySelector('#certificationsList input');
+if (!input.value.trim()) return;
+const list = document.getElementById('certificationsList');
+const certItem = document.createElement('div');
+certItem.className = 'flex items-center justify-between p-3 bg-gray-50 rounded-lg';
+certItem.innerHTML = `
+<span class="text-gray-900">${input.value}</span>
+<button onclick="this.parentElement.remove()" class="text-gray-400 hover:text-gray-600">
+<i class="ri-delete-bin-line"></i>
+</button>
+`;
+list.insertBefore(certItem, list.firstChild);
+input.value = '';
+}
+function toggleSoftSkill(btn) {
+const checkIcon = btn.querySelector('.ri-check-line');
+btn.classList.toggle('border-primary');
+btn.classList.toggle('bg-primary/5');
+checkIcon.classList.toggle('hidden');
+}
+function toggleUserMenu() {
+const menu = document.getElementById('userMenu');
+menu.classList.toggle('hidden');
+}
+function refreshAISuggestions() {
+const refreshBtn = document.querySelector('button.text-xs.text-primary');
+refreshBtn.innerHTML = `<i class="ri-loader-4-line animate-spin"></i>`;
+refreshBtn.disabled = true;
+setTimeout(() => {
+const newSuggestions = [
+{title: 'Cloud Skills', desc: 'Add AWS certification requirements'},
+{title: 'Development Tools', desc: 'Add Git and CI/CD skills'}
+];
+const newRequirements = [
+{role: 'Frontend Developer at Amazon', requirements: 'React • AWS • 3+ years'},
+{role: 'UI Engineer at Microsoft', requirements: 'TypeScript • Azure • 4+ years'}
+];
+document.getElementById('aiSuggestions').innerHTML = newSuggestions.map(suggestion => `
+<div class="bg-white p-3 rounded border border-gray-100 hover:border-primary/20 cursor-pointer transition-colors opacity-0 ai-suggestion">
+<div class="text-xs text-gray-500 mb-1">${suggestion.title}</div>
+<div class="text-gray-900 text-sm">${suggestion.desc}</div>
+</div>
+`).join('');
+document.getElementById('similarRequirements').innerHTML = newRequirements.map(req => `
+<div class="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 cursor-pointer transition-all opacity-0 ai-suggestion">
+<div class="text-xs text-gray-500 mb-1">${req.role}</div>
+<div class="text-sm text-gray-900">${req.requirements}</div>
+</div>
+`).join('');
+document.querySelector('.text-gray-500 .ri-time-line').nextSibling.textContent = ' Just now';
+refreshBtn.innerHTML = 'Refresh';
+refreshBtn.disabled = false;
+document.querySelectorAll('.ai-suggestion').forEach((el, i) => {
+setTimeout(() => el.classList.remove('opacity-0'), i * 100);
+});
+}, 1000);
+}
+document.getElementById('saveDraft').addEventListener('click', function() {
+const toast = document.createElement('div');
+toast.className = 'fixed bottom-4 right-4 bg-gray-900 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+toast.textContent = 'Draft saved successfully';
+document.body.appendChild(toast);
+setTimeout(() => toast.remove(), 3000);
+});
+
+function toggleAIPanel() {
+const aiPanel = document.querySelector('.col-span-1');
+aiPanel.classList.toggle('hidden');
+}
+document.addEventListener('click', function(e) {
+const dropdowns = document.querySelectorAll('[id$="Dropdown"]');
+dropdowns.forEach(dropdown => {
+if (!e.target.closest(`#${dropdown.id}`) && !e.target.closest('button')) {
+dropdown.classList.add('hidden');
+}
+});
+});
+initializePage();
+</script>
+</body>
+</html>

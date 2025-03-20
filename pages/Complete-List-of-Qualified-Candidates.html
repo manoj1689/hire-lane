@@ -1,0 +1,2100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Qualified Candidates - Resume Screening Tool</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#15B8A6',
+secondary: '#6366F1'
+},
+borderRadius: {
+'none': '0px',
+'sm': '4px',
+DEFAULT: '8px',
+'md': '12px',
+'lg': '16px',
+'xl': '20px',
+'2xl': '24px',
+'3xl': '32px',
+'full': '9999px',
+'button': '8px'
+}
+}
+}
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+.custom-scrollbar::-webkit-scrollbar { width: 4px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: #F3F4F6; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 2px; }
+</style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+<nav class="bg-white shadow-sm fixed w-full z-10">
+<div class="max-w-7xl mx-auto px-4">
+<div class="flex justify-between items-center h-16">
+<div class="flex items-center space-x-8">
+<a href="#" class="text-2xl font-['Pacifico'] text-primary">logo</a>
+<div class="hidden md:flex space-x-4">
+<a href="#" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
+<a href="#" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Jobs</a>
+<a href="#" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Candidates</a>
+<a href="https://readdy.ai/home/c1ab65b2-3f7a-433a-ad12-465e225e1630/84208380-2cdb-482e-ac16-96c0816efe96" data-readdy="true" class="text-primary px-3 py-2 rounded-md text-sm font-medium">AI Tools</a>
+</div>
+</div>
+<div class="flex items-center space-x-4">
+<button class="relative w-8 h-8 flex items-center justify-center">
+<i class="ri-notification-3-line text-gray-600 text-xl"></i>
+<span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">2</span>
+</button>
+<div class="relative">
+<button class="flex items-center space-x-2">
+<img src="https://public.readdy.ai/ai/img_res/53593b29f5af594e74309b1c90165255.jpg" class="w-8 h-8 rounded-full object-cover">
+<span class="text-gray-700 text-sm font-medium">Emily Johnson</span>
+<i class="ri-arrow-down-s-line text-gray-600"></i>
+</button>
+</div>
+</div>
+</div>
+</div>
+</nav>
+<div class="pt-16">
+<div class="max-w-7xl mx-auto px-4 py-8">
+<nav class="flex mb-8" aria-label="Breadcrumb">
+<ol class="inline-flex items-center space-x-1 md:space-x-3">
+<li class="inline-flex items-center">
+<a href="https://readdy.ai/home/c1ab65b2-3f7a-433a-ad12-465e225e1630/84208380-2cdb-482e-ac16-96c0816efe96" data-readdy="true" class="text-gray-600 hover:text-primary text-sm">AI Tools</a>
+</li>
+<li>
+<div class="flex items-center">
+<i class="ri-arrow-right-s-line text-gray-400"></i>
+<a href="https://readdy.ai/home/c1ab65b2-3f7a-433a-ad12-465e225e1630/84208380-2cdb-482e-ac16-96c0816efe96" data-readdy="true" class="ml-1 text-gray-600 hover:text-primary text-sm">Resume Screening</a>
+</div>
+</li>
+<li>
+<div class="flex items-center">
+<i class="ri-arrow-right-s-line text-gray-400"></i>
+<span class="ml-1 text-primary text-sm">Qualified Candidates</span>
+</div>
+</li>
+</ol>
+</nav>
+<div class="bg-white rounded-lg shadow-sm p-6">
+<div class="flex items-center justify-between mb-6">
+<h1 class="text-xl font-semibold text-gray-900">Qualified Candidates</h1>
+<div class="flex items-center space-x-4">
+<div class="relative">
+<input type="text" placeholder="Search candidates..." class="w-64 bg-gray-50 pl-10 pr-4 py-2 !rounded-button text-sm border-none">
+<i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+</div>
+<button class="bg-gray-50 text-gray-600 px-4 py-2 !rounded-button text-sm font-medium hover:bg-gray-100 transition-colors whitespace-nowrap cursor-pointer flex items-center">
+<i class="ri-download-line mr-2"></i>Export
+</button>
+</div>
+</div>
+<div class="flex items-center space-x-4 mb-6">
+<div class="relative">
+<button id="matchScoreBtn" class="bg-gray-50 px-4 py-2 !rounded-button text-sm text-gray-700 flex items-center space-x-2">
+<i class="ri-percent-line"></i>
+<span>Match Score: All</span>
+<i class="ri-arrow-down-s-line ml-2"></i>
+</button>
+<div id="matchScoreDropdown" class="hidden absolute z-10 mt-1 w-48 bg-white rounded-lg shadow-lg border border-gray-100">
+<div class="p-2 space-y-1">
+<button class="w-full text-left px-3 py-2 rounded hover:bg-gray-50 text-sm text-gray-700">All Scores</button>
+<button class="w-full text-left px-3 py-2 rounded hover:bg-gray-50 text-sm text-gray-700">90% and above</button>
+<button class="w-full text-left px-3 py-2 rounded hover:bg-gray-50 text-sm text-gray-700">80% - 89%</button>
+<button class="w-full text-left px-3 py-2 rounded hover:bg-gray-50 text-sm text-gray-700">70% - 79%</button>
+<button class="w-full text-left px-3 py-2 rounded hover:bg-gray-50 text-sm text-gray-700">Below 70%</button>
+</div>
+</div>
+</div>
+<div class="relative">
+<button id="experienceBtn" class="bg-gray-50 px-4 py-2 !rounded-button text-sm text-gray-700 flex items-center space-x-2">
+<i class="ri-briefcase-line"></i>
+<span>Experience: All</span>
+<i class="ri-arrow-down-s-line ml-2"></i>
+</button>
+<div id="experienceDropdown" class="hidden absolute z-10 mt-1 w-48 bg-white rounded-lg shadow-lg border border-gray-100">
+<div class="p-2 space-y-1">
+<button class="w-full text-left px-3 py-2 rounded hover:bg-gray-50 text-sm text-gray-700">All Experience</button>
+<button class="w-full text-left px-3 py-2 rounded hover:bg-gray-50 text-sm text-gray-700">0-2 years</button>
+<button class="w-full text-left px-3 py-2 rounded hover:bg-gray-50 text-sm text-gray-700">3-5 years</button>
+<button class="w-full text-left px-3 py-2 rounded hover:bg-gray-50 text-sm text-gray-700">6-8 years</button>
+<button class="w-full text-left px-3 py-2 rounded hover:bg-gray-50 text-sm text-gray-700">9+ years</button>
+</div>
+</div>
+</div>
+<div class="relative">
+<button id="skillsBtn" class="bg-gray-50 px-4 py-2 !rounded-button text-sm text-gray-700 flex items-center space-x-2">
+<i class="ri-tools-line"></i>
+<span>Skills</span>
+<i class="ri-arrow-down-s-line ml-2"></i>
+</button>
+<div id="skillsDropdown" class="hidden absolute z-10 mt-1 w-64 bg-white rounded-lg shadow-lg border border-gray-100">
+<div class="p-3">
+<input type="text" placeholder="Search skills..." class="w-full bg-gray-50 px-3 py-2 !rounded-button text-sm border-none mb-2">
+<div class="space-y-2 max-h-48 overflow-y-auto custom-scrollbar">
+<label class="flex items-center">
+<input type="checkbox" class="form-checkbox text-primary rounded">
+<span class="ml-2 text-sm text-gray-700">React</span>
+</label>
+<label class="flex items-center">
+<input type="checkbox" class="form-checkbox text-primary rounded">
+<span class="ml-2 text-sm text-gray-700">TypeScript</span>
+</label>
+<label class="flex items-center">
+<input type="checkbox" class="form-checkbox text-primary rounded">
+<span class="ml-2 text-sm text-gray-700">Next.js</span>
+</label>
+<label class="flex items-center">
+<input type="checkbox" class="form-checkbox text-primary rounded">
+<span class="ml-2 text-sm text-gray-700">TailwindCSS</span>
+</label>
+<label class="flex items-center">
+<input type="checkbox" class="form-checkbox text-primary rounded">
+<span class="ml-2 text-sm text-gray-700">Redux</span>
+</label>
+<label class="flex items-center">
+<input type="checkbox" class="form-checkbox text-primary rounded">
+<span class="ml-2 text-sm text-gray-700">Node.js</span>
+</label>
+<label class="flex items-center">
+<input type="checkbox" class="form-checkbox text-primary rounded">
+<span class="ml-2 text-sm text-gray-700">GraphQL</span>
+</label>
+<label class="flex items-center">
+<input type="checkbox" class="form-checkbox text-primary rounded">
+<span class="ml-2 text-sm text-gray-700">Docker</span>
+</label>
+</div>
+</div>
+</div>
+</div>
+<div class="relative">
+<button id="sortBtn" class="bg-gray-50 px-4 py-2 !rounded-button text-sm text-gray-700 flex items-center space-x-2">
+<i class="ri-sort-desc"></i>
+<span>Sort by: Match Score</span>
+<i class="ri-arrow-down-s-line ml-2"></i>
+</button>
+<div id="sortDropdown" class="hidden absolute z-10 mt-1 w-48 bg-white rounded-lg shadow-lg border border-gray-100">
+<div class="p-2 space-y-1">
+<button class="w-full text-left px-3 py-2 rounded hover:bg-gray-50 text-sm text-gray-700">Match Score</button>
+<button class="w-full text-left px-3 py-2 rounded hover:bg-gray-50 text-sm text-gray-700">Experience</button>
+<button class="w-full text-left px-3 py-2 rounded hover:bg-gray-50 text-sm text-gray-700">Name</button>
+</div>
+</div>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full">
+<thead>
+<tr class="border-b border-gray-200">
+<th class="text-left py-4 px-4 text-sm font-medium text-gray-600">Candidate</th>
+<th class="text-left py-4 px-4 text-sm font-medium text-gray-600">Match Score</th>
+<th class="text-left py-4 px-4 text-sm font-medium text-gray-600">Experience</th>
+<th class="text-left py-4 px-4 text-sm font-medium text-gray-600">Key Skills</th>
+<th class="text-left py-4 px-4 text-sm font-medium text-gray-600">Qualified Jobs</th>
+<th class="text-left py-4 px-4 text-sm font-medium text-gray-600">Actions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-gray-100">
+<td class="py-4 px-4">
+<div class="flex items-center space-x-3">
+<img src="https://public.readdy.ai/ai/img_res/8d9bc249f8f4d5d6bcadd7338f847bcc.jpg" class="w-10 h-10 rounded-full object-cover">
+<div>
+<div class="text-sm font-medium text-gray-900">David Chen</div>
+<div class="text-xs text-gray-500">Senior Frontend Engineer at Meta</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex items-center space-x-2">
+<div class="w-8 h-8 flex items-center justify-center bg-primary/10 rounded-full">
+<span class="text-sm font-medium text-primary">95%</span>
+</div>
+<div class="text-xs text-gray-500">
+<div>Skills: 98%</div>
+<div>Experience: 92%</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<span class="text-sm text-gray-700">7 years</span>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-wrap gap-1">
+<span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">React</span>
+<span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">TypeScript</span>
+<span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">Next.js</span>
+<span class="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full">+4</span>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-wrap gap-1">
+<span class="bg-secondary/10 text-secondary text-xs px-2 py-0.5 rounded-full">Senior Frontend Engineer</span>
+<span class="bg-secondary/10 text-secondary text-xs px-2 py-0.5 rounded-full">Tech Lead</span>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex items-center space-x-2">
+<button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-yellow-400 transition-colors" title="Add to favorites">
+<i class="ri-star-line"></i>
+</button>
+<button onclick="openEmailModal(this)" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-primary transition-colors" title="Contact candidate">
+<i class="ri-mail-line"></i>
+</button>
+<div id="emailModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+<div class="bg-white rounded-lg w-[600px] max-h-[80vh] flex flex-col">
+<div class="flex items-center justify-between p-4 border-b">
+<h3 class="text-lg font-medium text-gray-900">Contact Candidate</h3>
+<button onclick="closeEmailModal()" class="text-gray-400 hover:text-gray-500">
+<i class="ri-close-line text-xl"></i>
+</button>
+</div>
+<div class="p-4 flex-1 overflow-y-auto">
+<div class="space-y-4">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">To</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-200 rounded-button text-sm" readonly>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">CC</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-200 rounded-button text-sm" placeholder="Add CC recipients">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">BCC</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-200 rounded-button text-sm" placeholder="Add BCC recipients">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-200 rounded-button text-sm" value="Job Opportunity at Our Company">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+<textarea class="w-full h-48 px-3 py-2 border border-gray-200 rounded-button text-sm resize-none" placeholder="Write your message here...">Dear [Candidate Name],
+I hope this email finds you well. I came across your profile and was impressed by your experience and skills. I would like to discuss an exciting job opportunity at our company that aligns well with your background.
+Would you be interested in having a conversation about this role? If so, please let me know your availability for a brief call.
+Best regards,
+[Your Name]</textarea>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Attachments</label>
+<div class="flex items-center space-x-2">
+<button class="flex items-center space-x-1 px-3 py-1.5 border border-gray-200 rounded-button text-sm hover:bg-gray-50">
+<i class="ri-attachment-2"></i>
+<span>Add Files</span>
+</button>
+<span class="text-xs text-gray-500">No files attached</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-end space-x-3 p-4 border-t">
+<button onclick="closeEmailModal()" class="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 !rounded-button">Cancel</button>
+<button onclick="sendEmail()" class="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 !rounded-button">Send Email</button>
+</div>
+</div>
+</div>
+<script>
+function openEmailModal(btn) {
+const row = btn.closest('tr');
+const name = row.querySelector('.text-sm.font-medium').textContent;
+const modal = document.getElementById('emailModal');
+const toInput = modal.querySelector('input[readonly]');
+const textarea = modal.querySelector('textarea');
+toInput.value = name + ' <candidate@example.com>';
+textarea.value = textarea.value.replace('[Candidate Name]', name);
+modal.classList.remove('hidden');
+document.body.style.overflow = 'hidden';
+}
+function closeEmailModal() {
+const modal = document.getElementById('emailModal');
+modal.classList.add('hidden');
+document.body.style.overflow = '';
+}
+function sendEmail() {
+// Here you would typically handle the email sending logic
+const modal = document.getElementById('emailModal');
+const successToast = document.createElement('div');
+successToast.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+successToast.textContent = 'Email sent successfully!';
+document.body.appendChild(successToast);
+closeEmailModal();
+setTimeout(() => {
+successToast.remove();
+}, 3000);
+}
+// Close modal when clicking outside
+document.getElementById('emailModal').addEventListener('click', (e) => {
+if (e.target === e.currentTarget) {
+closeEmailModal();
+}
+});
+</script>
+<button onclick="openAIInterviewModal(this)" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-secondary transition-colors" title="Start AI interview">
+<i class="ri-robot-line"></i>
+</button>
+<div id="aiInterviewModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+<div class="bg-white rounded-lg w-[600px] max-h-[80vh] flex flex-col">
+<div class="flex items-center justify-between p-4 border-b">
+<h3 class="text-lg font-medium text-gray-900">Start AI Interview</h3>
+<button onclick="closeAIInterviewModal()" class="text-gray-400 hover:text-gray-500">
+<i class="ri-close-line text-xl"></i>
+</button>
+</div>
+<div class="p-4 flex-1 overflow-y-auto">
+<div class="space-y-6">
+<div class="space-y-4">
+<h4 class="text-sm font-medium text-gray-700">Interview Type</h4>
+<div class="grid grid-cols-3 gap-4">
+<button class="flex flex-col items-center p-4 border border-gray-200 rounded-lg hover:border-primary hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors group">
+<i class="ri-video-line text-2xl text-gray-400 group-hover:text-primary mb-2"></i>
+<span class="text-sm font-medium text-gray-700 group-hover:text-primary">Video Interview</span>
+<span class="text-xs text-gray-500 text-center mt-1">Schedule automated video interview</span>
+</button>
+<button class="flex flex-col items-center p-4 border border-gray-200 rounded-lg hover:border-primary hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors group">
+<i class="ri-message-3-line text-2xl text-gray-400 group-hover:text-primary mb-2"></i>
+<span class="text-sm font-medium text-gray-700 group-hover:text-primary">Chat Interview</span>
+<span class="text-xs text-gray-500 text-center mt-1">Start instant chat interview</span>
+</button>
+<button class="flex flex-col items-center p-4 border border-gray-200 rounded-lg hover:border-primary hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors group">
+<i class="ri-questionnaire-line text-2xl text-gray-400 group-hover:text-primary mb-2"></i>
+<span class="text-sm font-medium text-gray-700 group-hover:text-primary">Pre-screening</span>
+<span class="text-xs text-gray-500 text-center mt-1">Send screening questions</span>
+</button>
+</div>
+</div>
+<div class="space-y-4">
+<h4 class="text-sm font-medium text-gray-700">Interview Template</h4>
+<div class="relative">
+<button class="w-full flex items-center justify-between px-3 py-2 border border-gray-200 rounded-lg text-sm text-gray-700 hover:border-gray-300">
+<span>Frontend Developer Interview</span>
+<i class="ri-arrow-down-s-line text-gray-400"></i>
+</button>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<h4 class="text-sm font-medium text-gray-700">Questions</h4>
+<button class="text-sm text-primary hover:text-primary/90">+ Add Question</button>
+</div>
+<div class="space-y-3">
+<div class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg">
+<i class="ri-drag-move-line text-gray-400"></i>
+<input type="text" class="flex-1 text-sm border-none" value="Tell us about your experience with React and modern frontend frameworks.">
+<button class="text-gray-400 hover:text-gray-600">
+<i class="ri-delete-bin-line"></i>
+</button>
+</div>
+<div class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg">
+<i class="ri-drag-move-line text-gray-400"></i>
+<input type="text" class="flex-1 text-sm border-none" value="How do you approach component design and reusability?">
+<button class="text-gray-400 hover:text-gray-600">
+<i class="ri-delete-bin-line"></i>
+</button>
+</div>
+<div class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg">
+<i class="ri-drag-move-line text-gray-400"></i>
+<input type="text" class="flex-1 text-sm border-none" value="Describe a challenging technical problem you've solved recently.">
+<button class="text-gray-400 hover:text-gray-600">
+<i class="ri-delete-bin-line"></i>
+</button>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<h4 class="text-sm font-medium text-gray-700">Schedule</h4>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block text-xs text-gray-500 mb-1">Date</label>
+<input type="date" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm">
+</div>
+<div>
+<label class="block text-xs text-gray-500 mb-1">Time</label>
+<input type="time" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-end space-x-3 p-4 border-t">
+<button onclick="closeAIInterviewModal()" class="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 !rounded-button">Cancel</button>
+<button onclick="startInterview()" class="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 !rounded-button">Start Interview</button>
+</div>
+</div>
+</div>
+<script>
+function openAIInterviewModal(btn) {
+const row = btn.closest('tr');
+const name = row.querySelector('.text-sm.font-medium').textContent;
+const modal = document.getElementById('aiInterviewModal');
+modal.classList.remove('hidden');
+document.body.style.overflow = 'hidden';
+}
+function closeAIInterviewModal() {
+const modal = document.getElementById('aiInterviewModal');
+modal.classList.add('hidden');
+document.body.style.overflow = '';
+}
+function startInterview() {
+const successToast = document.createElement('div');
+successToast.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+successToast.textContent = 'Interview scheduled successfully!';
+document.body.appendChild(successToast);
+closeAIInterviewModal();
+setTimeout(() => {
+successToast.remove();
+}, 3000);
+}
+document.getElementById('aiInterviewModal').addEventListener('click', (e) => {
+if (e.target === e.currentTarget) {
+closeAIInterviewModal();
+}
+});
+</script>
+<div class="relative">
+<button onclick="toggleMoreActions(this)" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors" title="More actions">
+<i class="ri-more-line"></i>
+</button>
+<div class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 z-10">
+<div class="py-1">
+<button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+<i class="ri-git-branch-line mr-2"></i>
+Add to Pipeline
+</button>
+<button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+<i class="ri-download-line mr-2"></i>
+Download Resume
+</button>
+<button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+<i class="ri-share-line mr-2"></i>
+Share Profile
+</button>
+<button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+<i class="ri-forbid-line mr-2"></i>
+Block Candidate
+</button>
+<hr class="my-1 border-gray-100">
+<button onclick="showDeleteConfirmation(this)" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center">
+<i class="ri-delete-bin-line mr-2"></i>
+Delete Candidate
+</button>
+</div>
+</div>
+</div>
+
+<div id="deleteConfirmationModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+<div class="bg-white rounded-lg w-[400px] max-h-[80vh] flex flex-col">
+<div class="p-6">
+<h3 class="text-lg font-medium text-gray-900 mb-4">Delete Candidate</h3>
+<p class="text-sm text-gray-600">Are you sure you want to delete this candidate? This action cannot be undone.</p>
+</div>
+<div class="flex items-center justify-end space-x-3 p-4 border-t bg-gray-50 rounded-b-lg">
+<button onclick="closeDeleteConfirmation()" class="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 !rounded-button">Cancel</button>
+<button onclick="deleteCandidate(this)" class="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 !rounded-button">Delete</button>
+</div>
+</div>
+</div>
+
+<script>
+function toggleMoreActions(btn) {
+const dropdown = btn.nextElementSibling;
+const isOpen = !dropdown.classList.contains('hidden');
+// Close all other dropdowns first
+document.querySelectorAll('.absolute.right-0.mt-2').forEach(el => {
+if (el !== dropdown) {
+el.classList.add('hidden');
+}
+});
+dropdown.classList.toggle('hidden', isOpen);
+}
+
+function showDeleteConfirmation(btn) {
+const modal = document.getElementById('deleteConfirmationModal');
+const row = btn.closest('tr');
+modal.dataset.targetRow = row.rowIndex;
+modal.classList.remove('hidden');
+document.body.style.overflow = 'hidden';
+}
+
+function closeDeleteConfirmation() {
+const modal = document.getElementById('deleteConfirmationModal');
+modal.classList.add('hidden');
+document.body.style.overflow = '';
+}
+
+function deleteCandidate() {
+const modal = document.getElementById('deleteConfirmationModal');
+const table = document.querySelector('table');
+const rowIndex = modal.dataset.targetRow;
+if (table && rowIndex) {
+table.deleteRow(rowIndex);
+}
+closeDeleteConfirmation();
+
+const successToast = document.createElement('div');
+successToast.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+successToast.textContent = 'Candidate deleted successfully';
+document.body.appendChild(successToast);
+setTimeout(() => {
+successToast.remove();
+}, 3000);
+}
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', (e) => {
+if (!e.target.closest('.relative')) {
+document.querySelectorAll('.absolute.right-0.mt-2').forEach(dropdown => {
+dropdown.classList.add('hidden');
+});
+}
+});
+
+// Close modal when clicking outside
+document.getElementById('deleteConfirmationModal').addEventListener('click', (e) => {
+if (e.target === e.currentTarget) {
+closeDeleteConfirmation();
+}
+});
+</script>
+</div>
+</td>
+</tr>
+<tr class="border-b border-gray-100">
+<td class="py-4 px-4">
+<div class="flex items-center space-x-3">
+<img src="https://public.readdy.ai/ai/img_res/8b93f61afdf6973de152e1faf5914909.jpg" class="w-10 h-10 rounded-full object-cover">
+<div>
+<div class="text-sm font-medium text-gray-900">Sarah Miller</div>
+<div class="text-xs text-gray-500">Frontend Lead at Google</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex items-center space-x-2">
+<div class="w-8 h-8 flex items-center justify-center bg-primary/10 rounded-full">
+<span class="text-sm font-medium text-primary">92%</span>
+</div>
+<div class="text-xs text-gray-500">
+<div>Skills: 94%</div>
+<div>Experience: 90%</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<span class="text-sm text-gray-700">6 years</span>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-wrap gap-1">
+<span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">React</span>
+<span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">TypeScript</span>
+<span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">Redux</span>
+<span class="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full">+3</span>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-wrap gap-1">
+<span class="bg-secondary/10 text-secondary text-xs px-2 py-0.5 rounded-full">Frontend Lead</span>
+<span class="bg-secondary/10 text-secondary text-xs px-2 py-0.5 rounded-full">Senior Frontend Engineer</span>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex items-center space-x-2">
+<button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-yellow-400 transition-colors" title="Add to favorites">
+<i class="ri-star-line"></i>
+</button>
+<button onclick="openEmailModal(this)" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-primary transition-colors" title="Contact candidate">
+<i class="ri-mail-line"></i>
+</button>
+<div id="emailModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+<div class="bg-white rounded-lg w-[600px] max-h-[80vh] flex flex-col">
+<div class="flex items-center justify-between p-4 border-b">
+<h3 class="text-lg font-medium text-gray-900">Contact Candidate</h3>
+<button onclick="closeEmailModal()" class="text-gray-400 hover:text-gray-500">
+<i class="ri-close-line text-xl"></i>
+</button>
+</div>
+<div class="p-4 flex-1 overflow-y-auto">
+<div class="space-y-4">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">To</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-200 rounded-button text-sm" readonly>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">CC</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-200 rounded-button text-sm" placeholder="Add CC recipients">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">BCC</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-200 rounded-button text-sm" placeholder="Add BCC recipients">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-200 rounded-button text-sm" value="Job Opportunity at Our Company">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+<textarea class="w-full h-48 px-3 py-2 border border-gray-200 rounded-button text-sm resize-none" placeholder="Write your message here...">Dear [Candidate Name],
+I hope this email finds you well. I came across your profile and was impressed by your experience and skills. I would like to discuss an exciting job opportunity at our company that aligns well with your background.
+Would you be interested in having a conversation about this role? If so, please let me know your availability for a brief call.
+Best regards,
+[Your Name]</textarea>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Attachments</label>
+<div class="flex items-center space-x-2">
+<button class="flex items-center space-x-1 px-3 py-1.5 border border-gray-200 rounded-button text-sm hover:bg-gray-50">
+<i class="ri-attachment-2"></i>
+<span>Add Files</span>
+</button>
+<span class="text-xs text-gray-500">No files attached</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-end space-x-3 p-4 border-t">
+<button onclick="closeEmailModal()" class="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 !rounded-button">Cancel</button>
+<button onclick="sendEmail()" class="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 !rounded-button">Send Email</button>
+</div>
+</div>
+</div>
+<script>
+function openEmailModal(btn) {
+const row = btn.closest('tr');
+const name = row.querySelector('.text-sm.font-medium').textContent;
+const modal = document.getElementById('emailModal');
+const toInput = modal.querySelector('input[readonly]');
+const textarea = modal.querySelector('textarea');
+toInput.value = name + ' <candidate@example.com>';
+textarea.value = textarea.value.replace('[Candidate Name]', name);
+modal.classList.remove('hidden');
+document.body.style.overflow = 'hidden';
+}
+function closeEmailModal() {
+const modal = document.getElementById('emailModal');
+modal.classList.add('hidden');
+document.body.style.overflow = '';
+}
+function sendEmail() {
+// Here you would typically handle the email sending logic
+const modal = document.getElementById('emailModal');
+const successToast = document.createElement('div');
+successToast.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+successToast.textContent = 'Email sent successfully!';
+document.body.appendChild(successToast);
+closeEmailModal();
+setTimeout(() => {
+successToast.remove();
+}, 3000);
+}
+// Close modal when clicking outside
+document.getElementById('emailModal').addEventListener('click', (e) => {
+if (e.target === e.currentTarget) {
+closeEmailModal();
+}
+});
+</script>
+<button onclick="openAIInterviewModal(this)" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-secondary transition-colors" title="Start AI interview">
+<i class="ri-robot-line"></i>
+</button>
+<div id="aiInterviewModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+<div class="bg-white rounded-lg w-[600px] max-h-[80vh] flex flex-col">
+<div class="flex items-center justify-between p-4 border-b">
+<h3 class="text-lg font-medium text-gray-900">Start AI Interview</h3>
+<button onclick="closeAIInterviewModal()" class="text-gray-400 hover:text-gray-500">
+<i class="ri-close-line text-xl"></i>
+</button>
+</div>
+<div class="p-4 flex-1 overflow-y-auto">
+<div class="space-y-6">
+<div class="space-y-4">
+<h4 class="text-sm font-medium text-gray-700">Interview Type</h4>
+<div class="grid grid-cols-3 gap-4">
+<button class="flex flex-col items-center p-4 border border-gray-200 rounded-lg hover:border-primary hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors group">
+<i class="ri-video-line text-2xl text-gray-400 group-hover:text-primary mb-2"></i>
+<span class="text-sm font-medium text-gray-700 group-hover:text-primary">Video Interview</span>
+<span class="text-xs text-gray-500 text-center mt-1">Schedule automated video interview</span>
+</button>
+<button class="flex flex-col items-center p-4 border border-gray-200 rounded-lg hover:border-primary hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors group">
+<i class="ri-message-3-line text-2xl text-gray-400 group-hover:text-primary mb-2"></i>
+<span class="text-sm font-medium text-gray-700 group-hover:text-primary">Chat Interview</span>
+<span class="text-xs text-gray-500 text-center mt-1">Start instant chat interview</span>
+</button>
+<button class="flex flex-col items-center p-4 border border-gray-200 rounded-lg hover:border-primary hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors group">
+<i class="ri-questionnaire-line text-2xl text-gray-400 group-hover:text-primary mb-2"></i>
+<span class="text-sm font-medium text-gray-700 group-hover:text-primary">Pre-screening</span>
+<span class="text-xs text-gray-500 text-center mt-1">Send screening questions</span>
+</button>
+</div>
+</div>
+<div class="space-y-4">
+<h4 class="text-sm font-medium text-gray-700">Interview Template</h4>
+<div class="relative">
+<button class="w-full flex items-center justify-between px-3 py-2 border border-gray-200 rounded-lg text-sm text-gray-700 hover:border-gray-300">
+<span>Frontend Developer Interview</span>
+<i class="ri-arrow-down-s-line text-gray-400"></i>
+</button>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<h4 class="text-sm font-medium text-gray-700">Questions</h4>
+<button class="text-sm text-primary hover:text-primary/90">+ Add Question</button>
+</div>
+<div class="space-y-3">
+<div class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg">
+<i class="ri-drag-move-line text-gray-400"></i>
+<input type="text" class="flex-1 text-sm border-none" value="Tell us about your experience with React and modern frontend frameworks.">
+<button class="text-gray-400 hover:text-gray-600">
+<i class="ri-delete-bin-line"></i>
+</button>
+</div>
+<div class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg">
+<i class="ri-drag-move-line text-gray-400"></i>
+<input type="text" class="flex-1 text-sm border-none" value="How do you approach component design and reusability?">
+<button class="text-gray-400 hover:text-gray-600">
+<i class="ri-delete-bin-line"></i>
+</button>
+</div>
+<div class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg">
+<i class="ri-drag-move-line text-gray-400"></i>
+<input type="text" class="flex-1 text-sm border-none" value="Describe a challenging technical problem you've solved recently.">
+<button class="text-gray-400 hover:text-gray-600">
+<i class="ri-delete-bin-line"></i>
+</button>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<h4 class="text-sm font-medium text-gray-700">Schedule</h4>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block text-xs text-gray-500 mb-1">Date</label>
+<input type="date" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm">
+</div>
+<div>
+<label class="block text-xs text-gray-500 mb-1">Time</label>
+<input type="time" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-end space-x-3 p-4 border-t">
+<button onclick="closeAIInterviewModal()" class="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 !rounded-button">Cancel</button>
+<button onclick="startInterview()" class="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 !rounded-button">Start Interview</button>
+</div>
+</div>
+</div>
+<script>
+function openAIInterviewModal(btn) {
+const row = btn.closest('tr');
+const name = row.querySelector('.text-sm.font-medium').textContent;
+const modal = document.getElementById('aiInterviewModal');
+modal.classList.remove('hidden');
+document.body.style.overflow = 'hidden';
+}
+function closeAIInterviewModal() {
+const modal = document.getElementById('aiInterviewModal');
+modal.classList.add('hidden');
+document.body.style.overflow = '';
+}
+function startInterview() {
+const successToast = document.createElement('div');
+successToast.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+successToast.textContent = 'Interview scheduled successfully!';
+document.body.appendChild(successToast);
+closeAIInterviewModal();
+setTimeout(() => {
+successToast.remove();
+}, 3000);
+}
+document.getElementById('aiInterviewModal').addEventListener('click', (e) => {
+if (e.target === e.currentTarget) {
+closeAIInterviewModal();
+}
+});
+</script>
+<div class="relative">
+<button onclick="toggleMoreActions(this)" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors" title="More actions">
+<i class="ri-more-line"></i>
+</button>
+<div class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 z-10">
+<div class="py-1">
+<button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+<i class="ri-git-branch-line mr-2"></i>
+Add to Pipeline
+</button>
+<button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+<i class="ri-download-line mr-2"></i>
+Download Resume
+</button>
+<button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+<i class="ri-share-line mr-2"></i>
+Share Profile
+</button>
+<button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+<i class="ri-forbid-line mr-2"></i>
+Block Candidate
+</button>
+<hr class="my-1 border-gray-100">
+<button onclick="showDeleteConfirmation(this)" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center">
+<i class="ri-delete-bin-line mr-2"></i>
+Delete Candidate
+</button>
+</div>
+</div>
+</div>
+
+<div id="deleteConfirmationModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+<div class="bg-white rounded-lg w-[400px] max-h-[80vh] flex flex-col">
+<div class="p-6">
+<h3 class="text-lg font-medium text-gray-900 mb-4">Delete Candidate</h3>
+<p class="text-sm text-gray-600">Are you sure you want to delete this candidate? This action cannot be undone.</p>
+</div>
+<div class="flex items-center justify-end space-x-3 p-4 border-t bg-gray-50 rounded-b-lg">
+<button onclick="closeDeleteConfirmation()" class="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 !rounded-button">Cancel</button>
+<button onclick="deleteCandidate(this)" class="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 !rounded-button">Delete</button>
+</div>
+</div>
+</div>
+
+<script>
+function toggleMoreActions(btn) {
+const dropdown = btn.nextElementSibling;
+const isOpen = !dropdown.classList.contains('hidden');
+// Close all other dropdowns first
+document.querySelectorAll('.absolute.right-0.mt-2').forEach(el => {
+if (el !== dropdown) {
+el.classList.add('hidden');
+}
+});
+dropdown.classList.toggle('hidden', isOpen);
+}
+
+function showDeleteConfirmation(btn) {
+const modal = document.getElementById('deleteConfirmationModal');
+const row = btn.closest('tr');
+modal.dataset.targetRow = row.rowIndex;
+modal.classList.remove('hidden');
+document.body.style.overflow = 'hidden';
+}
+
+function closeDeleteConfirmation() {
+const modal = document.getElementById('deleteConfirmationModal');
+modal.classList.add('hidden');
+document.body.style.overflow = '';
+}
+
+function deleteCandidate() {
+const modal = document.getElementById('deleteConfirmationModal');
+const table = document.querySelector('table');
+const rowIndex = modal.dataset.targetRow;
+if (table && rowIndex) {
+table.deleteRow(rowIndex);
+}
+closeDeleteConfirmation();
+
+const successToast = document.createElement('div');
+successToast.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+successToast.textContent = 'Candidate deleted successfully';
+document.body.appendChild(successToast);
+setTimeout(() => {
+successToast.remove();
+}, 3000);
+}
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', (e) => {
+if (!e.target.closest('.relative')) {
+document.querySelectorAll('.absolute.right-0.mt-2').forEach(dropdown => {
+dropdown.classList.add('hidden');
+});
+}
+});
+
+// Close modal when clicking outside
+document.getElementById('deleteConfirmationModal').addEventListener('click', (e) => {
+if (e.target === e.currentTarget) {
+closeDeleteConfirmation();
+}
+});
+</script>
+</div>
+</td>
+</tr>
+<tr class="border-b border-gray-100">
+<td class="py-4 px-4">
+<div class="flex items-center space-x-3">
+<img src="https://public.readdy.ai/ai/img_res/ddf494d9d2e07f99e3628c9a0805931f.jpg" class="w-10 h-10 rounded-full object-cover">
+<div>
+<div class="text-sm font-medium text-gray-900">Michael Thompson</div>
+<div class="text-xs text-gray-500">Senior Developer at Amazon</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex items-center space-x-2">
+<div class="w-8 h-8 flex items-center justify-center bg-primary/10 rounded-full">
+<span class="text-sm font-medium text-primary">89%</span>
+</div>
+<div class="text-xs text-gray-500">
+<div>Skills: 91%</div>
+<div>Experience: 87%</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<span class="text-sm text-gray-700">5 years</span>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-wrap gap-1">
+<span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">React</span>
+<span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">Node.js</span>
+<span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">GraphQL</span>
+<span class="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full">+3</span>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-wrap gap-1">
+<span class="bg-secondary/10 text-secondary text-xs px-2 py-0.5 rounded-full">Senior Frontend Engineer</span>
+<span class="bg-secondary/10 text-secondary text-xs px-2 py-0.5 rounded-full">Full Stack Developer</span>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex items-center space-x-2">
+<button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-yellow-400 transition-colors" title="Add to favorites">
+<i class="ri-star-line"></i>
+</button>
+<button onclick="openEmailModal(this)" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-primary transition-colors" title="Contact candidate">
+<i class="ri-mail-line"></i>
+</button>
+<div id="emailModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+<div class="bg-white rounded-lg w-[600px] max-h-[80vh] flex flex-col">
+<div class="flex items-center justify-between p-4 border-b">
+<h3 class="text-lg font-medium text-gray-900">Contact Candidate</h3>
+<button onclick="closeEmailModal()" class="text-gray-400 hover:text-gray-500">
+<i class="ri-close-line text-xl"></i>
+</button>
+</div>
+<div class="p-4 flex-1 overflow-y-auto">
+<div class="space-y-4">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">To</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-200 rounded-button text-sm" readonly>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">CC</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-200 rounded-button text-sm" placeholder="Add CC recipients">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">BCC</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-200 rounded-button text-sm" placeholder="Add BCC recipients">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-200 rounded-button text-sm" value="Job Opportunity at Our Company">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+<textarea class="w-full h-48 px-3 py-2 border border-gray-200 rounded-button text-sm resize-none" placeholder="Write your message here...">Dear [Candidate Name],
+I hope this email finds you well. I came across your profile and was impressed by your experience and skills. I would like to discuss an exciting job opportunity at our company that aligns well with your background.
+Would you be interested in having a conversation about this role? If so, please let me know your availability for a brief call.
+Best regards,
+[Your Name]</textarea>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Attachments</label>
+<div class="flex items-center space-x-2">
+<button class="flex items-center space-x-1 px-3 py-1.5 border border-gray-200 rounded-button text-sm hover:bg-gray-50">
+<i class="ri-attachment-2"></i>
+<span>Add Files</span>
+</button>
+<span class="text-xs text-gray-500">No files attached</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-end space-x-3 p-4 border-t">
+<button onclick="closeEmailModal()" class="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 !rounded-button">Cancel</button>
+<button onclick="sendEmail()" class="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 !rounded-button">Send Email</button>
+</div>
+</div>
+</div>
+<script>
+function openEmailModal(btn) {
+const row = btn.closest('tr');
+const name = row.querySelector('.text-sm.font-medium').textContent;
+const modal = document.getElementById('emailModal');
+const toInput = modal.querySelector('input[readonly]');
+const textarea = modal.querySelector('textarea');
+toInput.value = name + ' <candidate@example.com>';
+textarea.value = textarea.value.replace('[Candidate Name]', name);
+modal.classList.remove('hidden');
+document.body.style.overflow = 'hidden';
+}
+function closeEmailModal() {
+const modal = document.getElementById('emailModal');
+modal.classList.add('hidden');
+document.body.style.overflow = '';
+}
+function sendEmail() {
+// Here you would typically handle the email sending logic
+const modal = document.getElementById('emailModal');
+const successToast = document.createElement('div');
+successToast.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+successToast.textContent = 'Email sent successfully!';
+document.body.appendChild(successToast);
+closeEmailModal();
+setTimeout(() => {
+successToast.remove();
+}, 3000);
+}
+// Close modal when clicking outside
+document.getElementById('emailModal').addEventListener('click', (e) => {
+if (e.target === e.currentTarget) {
+closeEmailModal();
+}
+});
+</script>
+<button onclick="openAIInterviewModal(this)" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-secondary transition-colors" title="Start AI interview">
+<i class="ri-robot-line"></i>
+</button>
+<div id="aiInterviewModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+<div class="bg-white rounded-lg w-[600px] max-h-[80vh] flex flex-col">
+<div class="flex items-center justify-between p-4 border-b">
+<h3 class="text-lg font-medium text-gray-900">Start AI Interview</h3>
+<button onclick="closeAIInterviewModal()" class="text-gray-400 hover:text-gray-500">
+<i class="ri-close-line text-xl"></i>
+</button>
+</div>
+<div class="p-4 flex-1 overflow-y-auto">
+<div class="space-y-6">
+<div class="space-y-4">
+<h4 class="text-sm font-medium text-gray-700">Interview Type</h4>
+<div class="grid grid-cols-3 gap-4">
+<button class="flex flex-col items-center p-4 border border-gray-200 rounded-lg hover:border-primary hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors group">
+<i class="ri-video-line text-2xl text-gray-400 group-hover:text-primary mb-2"></i>
+<span class="text-sm font-medium text-gray-700 group-hover:text-primary">Video Interview</span>
+<span class="text-xs text-gray-500 text-center mt-1">Schedule automated video interview</span>
+</button>
+<button class="flex flex-col items-center p-4 border border-gray-200 rounded-lg hover:border-primary hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors group">
+<i class="ri-message-3-line text-2xl text-gray-400 group-hover:text-primary mb-2"></i>
+<span class="text-sm font-medium text-gray-700 group-hover:text-primary">Chat Interview</span>
+<span class="text-xs text-gray-500 text-center mt-1">Start instant chat interview</span>
+</button>
+<button class="flex flex-col items-center p-4 border border-gray-200 rounded-lg hover:border-primary hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors group">
+<i class="ri-questionnaire-line text-2xl text-gray-400 group-hover:text-primary mb-2"></i>
+<span class="text-sm font-medium text-gray-700 group-hover:text-primary">Pre-screening</span>
+<span class="text-xs text-gray-500 text-center mt-1">Send screening questions</span>
+</button>
+</div>
+</div>
+<div class="space-y-4">
+<h4 class="text-sm font-medium text-gray-700">Interview Template</h4>
+<div class="relative">
+<button class="w-full flex items-center justify-between px-3 py-2 border border-gray-200 rounded-lg text-sm text-gray-700 hover:border-gray-300">
+<span>Frontend Developer Interview</span>
+<i class="ri-arrow-down-s-line text-gray-400"></i>
+</button>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<h4 class="text-sm font-medium text-gray-700">Questions</h4>
+<button class="text-sm text-primary hover:text-primary/90">+ Add Question</button>
+</div>
+<div class="space-y-3">
+<div class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg">
+<i class="ri-drag-move-line text-gray-400"></i>
+<input type="text" class="flex-1 text-sm border-none" value="Tell us about your experience with React and modern frontend frameworks.">
+<button class="text-gray-400 hover:text-gray-600">
+<i class="ri-delete-bin-line"></i>
+</button>
+</div>
+<div class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg">
+<i class="ri-drag-move-line text-gray-400"></i>
+<input type="text" class="flex-1 text-sm border-none" value="How do you approach component design and reusability?">
+<button class="text-gray-400 hover:text-gray-600">
+<i class="ri-delete-bin-line"></i>
+</button>
+</div>
+<div class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg">
+<i class="ri-drag-move-line text-gray-400"></i>
+<input type="text" class="flex-1 text-sm border-none" value="Describe a challenging technical problem you've solved recently.">
+<button class="text-gray-400 hover:text-gray-600">
+<i class="ri-delete-bin-line"></i>
+</button>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<h4 class="text-sm font-medium text-gray-700">Schedule</h4>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block text-xs text-gray-500 mb-1">Date</label>
+<input type="date" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm">
+</div>
+<div>
+<label class="block text-xs text-gray-500 mb-1">Time</label>
+<input type="time" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-end space-x-3 p-4 border-t">
+<button onclick="closeAIInterviewModal()" class="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 !rounded-button">Cancel</button>
+<button onclick="startInterview()" class="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 !rounded-button">Start Interview</button>
+</div>
+</div>
+</div>
+<script>
+function openAIInterviewModal(btn) {
+const row = btn.closest('tr');
+const name = row.querySelector('.text-sm.font-medium').textContent;
+const modal = document.getElementById('aiInterviewModal');
+modal.classList.remove('hidden');
+document.body.style.overflow = 'hidden';
+}
+function closeAIInterviewModal() {
+const modal = document.getElementById('aiInterviewModal');
+modal.classList.add('hidden');
+document.body.style.overflow = '';
+}
+function startInterview() {
+const successToast = document.createElement('div');
+successToast.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+successToast.textContent = 'Interview scheduled successfully!';
+document.body.appendChild(successToast);
+closeAIInterviewModal();
+setTimeout(() => {
+successToast.remove();
+}, 3000);
+}
+document.getElementById('aiInterviewModal').addEventListener('click', (e) => {
+if (e.target === e.currentTarget) {
+closeAIInterviewModal();
+}
+});
+</script>
+<div class="relative">
+<button onclick="toggleMoreActions(this)" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors" title="More actions">
+<i class="ri-more-line"></i>
+</button>
+<div class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 z-10">
+<div class="py-1">
+<button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+<i class="ri-git-branch-line mr-2"></i>
+Add to Pipeline
+</button>
+<button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+<i class="ri-download-line mr-2"></i>
+Download Resume
+</button>
+<button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+<i class="ri-share-line mr-2"></i>
+Share Profile
+</button>
+<button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+<i class="ri-forbid-line mr-2"></i>
+Block Candidate
+</button>
+<hr class="my-1 border-gray-100">
+<button onclick="showDeleteConfirmation(this)" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center">
+<i class="ri-delete-bin-line mr-2"></i>
+Delete Candidate
+</button>
+</div>
+</div>
+</div>
+
+<div id="deleteConfirmationModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+<div class="bg-white rounded-lg w-[400px] max-h-[80vh] flex flex-col">
+<div class="p-6">
+<h3 class="text-lg font-medium text-gray-900 mb-4">Delete Candidate</h3>
+<p class="text-sm text-gray-600">Are you sure you want to delete this candidate? This action cannot be undone.</p>
+</div>
+<div class="flex items-center justify-end space-x-3 p-4 border-t bg-gray-50 rounded-b-lg">
+<button onclick="closeDeleteConfirmation()" class="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 !rounded-button">Cancel</button>
+<button onclick="deleteCandidate(this)" class="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 !rounded-button">Delete</button>
+</div>
+</div>
+</div>
+
+<script>
+function toggleMoreActions(btn) {
+const dropdown = btn.nextElementSibling;
+const isOpen = !dropdown.classList.contains('hidden');
+// Close all other dropdowns first
+document.querySelectorAll('.absolute.right-0.mt-2').forEach(el => {
+if (el !== dropdown) {
+el.classList.add('hidden');
+}
+});
+dropdown.classList.toggle('hidden', isOpen);
+}
+
+function showDeleteConfirmation(btn) {
+const modal = document.getElementById('deleteConfirmationModal');
+const row = btn.closest('tr');
+modal.dataset.targetRow = row.rowIndex;
+modal.classList.remove('hidden');
+document.body.style.overflow = 'hidden';
+}
+
+function closeDeleteConfirmation() {
+const modal = document.getElementById('deleteConfirmationModal');
+modal.classList.add('hidden');
+document.body.style.overflow = '';
+}
+
+function deleteCandidate() {
+const modal = document.getElementById('deleteConfirmationModal');
+const table = document.querySelector('table');
+const rowIndex = modal.dataset.targetRow;
+if (table && rowIndex) {
+table.deleteRow(rowIndex);
+}
+closeDeleteConfirmation();
+
+const successToast = document.createElement('div');
+successToast.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+successToast.textContent = 'Candidate deleted successfully';
+document.body.appendChild(successToast);
+setTimeout(() => {
+successToast.remove();
+}, 3000);
+}
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', (e) => {
+if (!e.target.closest('.relative')) {
+document.querySelectorAll('.absolute.right-0.mt-2').forEach(dropdown => {
+dropdown.classList.add('hidden');
+});
+}
+});
+
+// Close modal when clicking outside
+document.getElementById('deleteConfirmationModal').addEventListener('click', (e) => {
+if (e.target === e.currentTarget) {
+closeDeleteConfirmation();
+}
+});
+</script>
+</div>
+</td>
+</tr>
+<tr class="border-b border-gray-100">
+<td class="py-4 px-4">
+<div class="flex items-center space-x-3">
+<img src="https://public.readdy.ai/ai/img_res/dc9c68c468c74f2e1030a9da5f5ad129.jpg" class="w-10 h-10 rounded-full object-cover">
+<div>
+<div class="text-sm font-medium text-gray-900">Jennifer Zhang</div>
+<div class="text-xs text-gray-500">Frontend Developer at Apple</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex items-center space-x-2">
+<div class="w-8 h-8 flex items-center justify-center bg-primary/10 rounded-full">
+<span class="text-sm font-medium text-primary">87%</span>
+</div>
+<div class="text-xs text-gray-500">
+<div>Skills: 89%</div>
+<div>Experience: 85%</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<span class="text-sm text-gray-700">4 years</span>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-wrap gap-1">
+<span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">React</span>
+<span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">Vue.js</span>
+<span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">CSS</span>
+<span class="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full">+2</span>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-wrap gap-1">
+<span class="bg-secondary/10 text-secondary text-xs px-2 py-0.5 rounded-full">Frontend Developer</span>
+<span class="bg-secondary/10 text-secondary text-xs px-2 py-0.5 rounded-full">UI Engineer</span>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex items-center space-x-2">
+<button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-yellow-400 transition-colors" title="Add to favorites">
+<i class="ri-star-line"></i>
+</button>
+<button onclick="openEmailModal(this)" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-primary transition-colors" title="Contact candidate">
+<i class="ri-mail-line"></i>
+</button>
+<div id="emailModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+<div class="bg-white rounded-lg w-[600px] max-h-[80vh] flex flex-col">
+<div class="flex items-center justify-between p-4 border-b">
+<h3 class="text-lg font-medium text-gray-900">Contact Candidate</h3>
+<button onclick="closeEmailModal()" class="text-gray-400 hover:text-gray-500">
+<i class="ri-close-line text-xl"></i>
+</button>
+</div>
+<div class="p-4 flex-1 overflow-y-auto">
+<div class="space-y-4">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">To</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-200 rounded-button text-sm" readonly>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">CC</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-200 rounded-button text-sm" placeholder="Add CC recipients">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">BCC</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-200 rounded-button text-sm" placeholder="Add BCC recipients">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-200 rounded-button text-sm" value="Job Opportunity at Our Company">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+<textarea class="w-full h-48 px-3 py-2 border border-gray-200 rounded-button text-sm resize-none" placeholder="Write your message here...">Dear [Candidate Name],
+I hope this email finds you well. I came across your profile and was impressed by your experience and skills. I would like to discuss an exciting job opportunity at our company that aligns well with your background.
+Would you be interested in having a conversation about this role? If so, please let me know your availability for a brief call.
+Best regards,
+[Your Name]</textarea>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Attachments</label>
+<div class="flex items-center space-x-2">
+<button class="flex items-center space-x-1 px-3 py-1.5 border border-gray-200 rounded-button text-sm hover:bg-gray-50">
+<i class="ri-attachment-2"></i>
+<span>Add Files</span>
+</button>
+<span class="text-xs text-gray-500">No files attached</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-end space-x-3 p-4 border-t">
+<button onclick="closeEmailModal()" class="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 !rounded-button">Cancel</button>
+<button onclick="sendEmail()" class="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 !rounded-button">Send Email</button>
+</div>
+</div>
+</div>
+<script>
+function openEmailModal(btn) {
+const row = btn.closest('tr');
+const name = row.querySelector('.text-sm.font-medium').textContent;
+const modal = document.getElementById('emailModal');
+const toInput = modal.querySelector('input[readonly]');
+const textarea = modal.querySelector('textarea');
+toInput.value = name + ' <candidate@example.com>';
+textarea.value = textarea.value.replace('[Candidate Name]', name);
+modal.classList.remove('hidden');
+document.body.style.overflow = 'hidden';
+}
+function closeEmailModal() {
+const modal = document.getElementById('emailModal');
+modal.classList.add('hidden');
+document.body.style.overflow = '';
+}
+function sendEmail() {
+// Here you would typically handle the email sending logic
+const modal = document.getElementById('emailModal');
+const successToast = document.createElement('div');
+successToast.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+successToast.textContent = 'Email sent successfully!';
+document.body.appendChild(successToast);
+closeEmailModal();
+setTimeout(() => {
+successToast.remove();
+}, 3000);
+}
+// Close modal when clicking outside
+document.getElementById('emailModal').addEventListener('click', (e) => {
+if (e.target === e.currentTarget) {
+closeEmailModal();
+}
+});
+</script>
+<button onclick="openAIInterviewModal(this)" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-secondary transition-colors" title="Start AI interview">
+<i class="ri-robot-line"></i>
+</button>
+<div id="aiInterviewModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+<div class="bg-white rounded-lg w-[600px] max-h-[80vh] flex flex-col">
+<div class="flex items-center justify-between p-4 border-b">
+<h3 class="text-lg font-medium text-gray-900">Start AI Interview</h3>
+<button onclick="closeAIInterviewModal()" class="text-gray-400 hover:text-gray-500">
+<i class="ri-close-line text-xl"></i>
+</button>
+</div>
+<div class="p-4 flex-1 overflow-y-auto">
+<div class="space-y-6">
+<div class="space-y-4">
+<h4 class="text-sm font-medium text-gray-700">Interview Type</h4>
+<div class="grid grid-cols-3 gap-4">
+<button class="flex flex-col items-center p-4 border border-gray-200 rounded-lg hover:border-primary hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors group">
+<i class="ri-video-line text-2xl text-gray-400 group-hover:text-primary mb-2"></i>
+<span class="text-sm font-medium text-gray-700 group-hover:text-primary">Video Interview</span>
+<span class="text-xs text-gray-500 text-center mt-1">Schedule automated video interview</span>
+</button>
+<button class="flex flex-col items-center p-4 border border-gray-200 rounded-lg hover:border-primary hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors group">
+<i class="ri-message-3-line text-2xl text-gray-400 group-hover:text-primary mb-2"></i>
+<span class="text-sm font-medium text-gray-700 group-hover:text-primary">Chat Interview</span>
+<span class="text-xs text-gray-500 text-center mt-1">Start instant chat interview</span>
+</button>
+<button class="flex flex-col items-center p-4 border border-gray-200 rounded-lg hover:border-primary hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors group">
+<i class="ri-questionnaire-line text-2xl text-gray-400 group-hover:text-primary mb-2"></i>
+<span class="text-sm font-medium text-gray-700 group-hover:text-primary">Pre-screening</span>
+<span class="text-xs text-gray-500 text-center mt-1">Send screening questions</span>
+</button>
+</div>
+</div>
+<div class="space-y-4">
+<h4 class="text-sm font-medium text-gray-700">Interview Template</h4>
+<div class="relative">
+<button class="w-full flex items-center justify-between px-3 py-2 border border-gray-200 rounded-lg text-sm text-gray-700 hover:border-gray-300">
+<span>Frontend Developer Interview</span>
+<i class="ri-arrow-down-s-line text-gray-400"></i>
+</button>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<h4 class="text-sm font-medium text-gray-700">Questions</h4>
+<button class="text-sm text-primary hover:text-primary/90">+ Add Question</button>
+</div>
+<div class="space-y-3">
+<div class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg">
+<i class="ri-drag-move-line text-gray-400"></i>
+<input type="text" class="flex-1 text-sm border-none" value="Tell us about your experience with React and modern frontend frameworks.">
+<button class="text-gray-400 hover:text-gray-600">
+<i class="ri-delete-bin-line"></i>
+</button>
+</div>
+<div class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg">
+<i class="ri-drag-move-line text-gray-400"></i>
+<input type="text" class="flex-1 text-sm border-none" value="How do you approach component design and reusability?">
+<button class="text-gray-400 hover:text-gray-600">
+<i class="ri-delete-bin-line"></i>
+</button>
+</div>
+<div class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg">
+<i class="ri-drag-move-line text-gray-400"></i>
+<input type="text" class="flex-1 text-sm border-none" value="Describe a challenging technical problem you've solved recently.">
+<button class="text-gray-400 hover:text-gray-600">
+<i class="ri-delete-bin-line"></i>
+</button>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<h4 class="text-sm font-medium text-gray-700">Schedule</h4>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block text-xs text-gray-500 mb-1">Date</label>
+<input type="date" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm">
+</div>
+<div>
+<label class="block text-xs text-gray-500 mb-1">Time</label>
+<input type="time" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-end space-x-3 p-4 border-t">
+<button onclick="closeAIInterviewModal()" class="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 !rounded-button">Cancel</button>
+<button onclick="startInterview()" class="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 !rounded-button">Start Interview</button>
+</div>
+</div>
+</div>
+<script>
+function openAIInterviewModal(btn) {
+const row = btn.closest('tr');
+const name = row.querySelector('.text-sm.font-medium').textContent;
+const modal = document.getElementById('aiInterviewModal');
+modal.classList.remove('hidden');
+document.body.style.overflow = 'hidden';
+}
+function closeAIInterviewModal() {
+const modal = document.getElementById('aiInterviewModal');
+modal.classList.add('hidden');
+document.body.style.overflow = '';
+}
+function startInterview() {
+const successToast = document.createElement('div');
+successToast.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+successToast.textContent = 'Interview scheduled successfully!';
+document.body.appendChild(successToast);
+closeAIInterviewModal();
+setTimeout(() => {
+successToast.remove();
+}, 3000);
+}
+document.getElementById('aiInterviewModal').addEventListener('click', (e) => {
+if (e.target === e.currentTarget) {
+closeAIInterviewModal();
+}
+});
+</script>
+<div class="relative">
+<button onclick="toggleMoreActions(this)" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors" title="More actions">
+<i class="ri-more-line"></i>
+</button>
+<div class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 z-10">
+<div class="py-1">
+<button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+<i class="ri-git-branch-line mr-2"></i>
+Add to Pipeline
+</button>
+<button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+<i class="ri-download-line mr-2"></i>
+Download Resume
+</button>
+<button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+<i class="ri-share-line mr-2"></i>
+Share Profile
+</button>
+<button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+<i class="ri-forbid-line mr-2"></i>
+Block Candidate
+</button>
+<hr class="my-1 border-gray-100">
+<button onclick="showDeleteConfirmation(this)" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center">
+<i class="ri-delete-bin-line mr-2"></i>
+Delete Candidate
+</button>
+</div>
+</div>
+</div>
+
+<div id="deleteConfirmationModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+<div class="bg-white rounded-lg w-[400px] max-h-[80vh] flex flex-col">
+<div class="p-6">
+<h3 class="text-lg font-medium text-gray-900 mb-4">Delete Candidate</h3>
+<p class="text-sm text-gray-600">Are you sure you want to delete this candidate? This action cannot be undone.</p>
+</div>
+<div class="flex items-center justify-end space-x-3 p-4 border-t bg-gray-50 rounded-b-lg">
+<button onclick="closeDeleteConfirmation()" class="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 !rounded-button">Cancel</button>
+<button onclick="deleteCandidate(this)" class="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 !rounded-button">Delete</button>
+</div>
+</div>
+</div>
+
+<script>
+function toggleMoreActions(btn) {
+const dropdown = btn.nextElementSibling;
+const isOpen = !dropdown.classList.contains('hidden');
+// Close all other dropdowns first
+document.querySelectorAll('.absolute.right-0.mt-2').forEach(el => {
+if (el !== dropdown) {
+el.classList.add('hidden');
+}
+});
+dropdown.classList.toggle('hidden', isOpen);
+}
+
+function showDeleteConfirmation(btn) {
+const modal = document.getElementById('deleteConfirmationModal');
+const row = btn.closest('tr');
+modal.dataset.targetRow = row.rowIndex;
+modal.classList.remove('hidden');
+document.body.style.overflow = 'hidden';
+}
+
+function closeDeleteConfirmation() {
+const modal = document.getElementById('deleteConfirmationModal');
+modal.classList.add('hidden');
+document.body.style.overflow = '';
+}
+
+function deleteCandidate() {
+const modal = document.getElementById('deleteConfirmationModal');
+const table = document.querySelector('table');
+const rowIndex = modal.dataset.targetRow;
+if (table && rowIndex) {
+table.deleteRow(rowIndex);
+}
+closeDeleteConfirmation();
+
+const successToast = document.createElement('div');
+successToast.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+successToast.textContent = 'Candidate deleted successfully';
+document.body.appendChild(successToast);
+setTimeout(() => {
+successToast.remove();
+}, 3000);
+}
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', (e) => {
+if (!e.target.closest('.relative')) {
+document.querySelectorAll('.absolute.right-0.mt-2').forEach(dropdown => {
+dropdown.classList.add('hidden');
+});
+}
+});
+
+// Close modal when clicking outside
+document.getElementById('deleteConfirmationModal').addEventListener('click', (e) => {
+if (e.target === e.currentTarget) {
+closeDeleteConfirmation();
+}
+});
+</script>
+</div>
+</td>
+</tr>
+<tr class="border-b border-gray-100">
+<td class="py-4 px-4">
+<div class="flex items-center space-x-3">
+<img src="https://public.readdy.ai/ai/img_res/6cefa98ccea9d28345ef81b78d32ca14.jpg" class="w-10 h-10 rounded-full object-cover">
+<div>
+<div class="text-sm font-medium text-gray-900">Alex Rodriguez</div>
+<div class="text-xs text-gray-500">Senior Frontend Developer at Microsoft</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex items-center space-x-2">
+<div class="w-8 h-8 flex items-center justify-center bg-primary/10 rounded-full">
+<span class="text-sm font-medium text-primary">85%</span>
+</div>
+<div class="text-xs text-gray-500">
+<div>Skills: 87%</div>
+<div>Experience: 83%</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<span class="text-sm text-gray-700">5 years</span>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-wrap gap-1">
+<span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">React</span>
+<span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">Angular</span>
+<span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">TypeScript</span>
+<span class="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full">+3</span>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-wrap gap-1">
+<span class="bg-secondary/10 text-secondary text-xs px-2 py-0.5 rounded-full">Senior Frontend Developer</span>
+<span class="bg-secondary/10 text-secondary text-xs px-2 py-0.5 rounded-full">Frontend Architect</span>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex items-center space-x-2">
+<button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-yellow-400 transition-colors" title="Add to favorites">
+<i class="ri-star-line"></i>
+</button>
+<button onclick="openEmailModal(this)" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-primary transition-colors" title="Contact candidate">
+<i class="ri-mail-line"></i>
+</button>
+<div id="emailModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+<div class="bg-white rounded-lg w-[600px] max-h-[80vh] flex flex-col">
+<div class="flex items-center justify-between p-4 border-b">
+<h3 class="text-lg font-medium text-gray-900">Contact Candidate</h3>
+<button onclick="closeEmailModal()" class="text-gray-400 hover:text-gray-500">
+<i class="ri-close-line text-xl"></i>
+</button>
+</div>
+<div class="p-4 flex-1 overflow-y-auto">
+<div class="space-y-4">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">To</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-200 rounded-button text-sm" readonly>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">CC</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-200 rounded-button text-sm" placeholder="Add CC recipients">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">BCC</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-200 rounded-button text-sm" placeholder="Add BCC recipients">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-200 rounded-button text-sm" value="Job Opportunity at Our Company">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+<textarea class="w-full h-48 px-3 py-2 border border-gray-200 rounded-button text-sm resize-none" placeholder="Write your message here...">Dear [Candidate Name],
+I hope this email finds you well. I came across your profile and was impressed by your experience and skills. I would like to discuss an exciting job opportunity at our company that aligns well with your background.
+Would you be interested in having a conversation about this role? If so, please let me know your availability for a brief call.
+Best regards,
+[Your Name]</textarea>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Attachments</label>
+<div class="flex items-center space-x-2">
+<button class="flex items-center space-x-1 px-3 py-1.5 border border-gray-200 rounded-button text-sm hover:bg-gray-50">
+<i class="ri-attachment-2"></i>
+<span>Add Files</span>
+</button>
+<span class="text-xs text-gray-500">No files attached</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-end space-x-3 p-4 border-t">
+<button onclick="closeEmailModal()" class="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 !rounded-button">Cancel</button>
+<button onclick="sendEmail()" class="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 !rounded-button">Send Email</button>
+</div>
+</div>
+</div>
+<script>
+function openEmailModal(btn) {
+const row = btn.closest('tr');
+const name = row.querySelector('.text-sm.font-medium').textContent;
+const modal = document.getElementById('emailModal');
+const toInput = modal.querySelector('input[readonly]');
+const textarea = modal.querySelector('textarea');
+toInput.value = name + ' <candidate@example.com>';
+textarea.value = textarea.value.replace('[Candidate Name]', name);
+modal.classList.remove('hidden');
+document.body.style.overflow = 'hidden';
+}
+function closeEmailModal() {
+const modal = document.getElementById('emailModal');
+modal.classList.add('hidden');
+document.body.style.overflow = '';
+}
+function sendEmail() {
+// Here you would typically handle the email sending logic
+const modal = document.getElementById('emailModal');
+const successToast = document.createElement('div');
+successToast.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+successToast.textContent = 'Email sent successfully!';
+document.body.appendChild(successToast);
+closeEmailModal();
+setTimeout(() => {
+successToast.remove();
+}, 3000);
+}
+// Close modal when clicking outside
+document.getElementById('emailModal').addEventListener('click', (e) => {
+if (e.target === e.currentTarget) {
+closeEmailModal();
+}
+});
+</script>
+<button onclick="openAIInterviewModal(this)" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-secondary transition-colors" title="Start AI interview">
+<i class="ri-robot-line"></i>
+</button>
+<div id="aiInterviewModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+<div class="bg-white rounded-lg w-[600px] max-h-[80vh] flex flex-col">
+<div class="flex items-center justify-between p-4 border-b">
+<h3 class="text-lg font-medium text-gray-900">Start AI Interview</h3>
+<button onclick="closeAIInterviewModal()" class="text-gray-400 hover:text-gray-500">
+<i class="ri-close-line text-xl"></i>
+</button>
+</div>
+<div class="p-4 flex-1 overflow-y-auto">
+<div class="space-y-6">
+<div class="space-y-4">
+<h4 class="text-sm font-medium text-gray-700">Interview Type</h4>
+<div class="grid grid-cols-3 gap-4">
+<button class="flex flex-col items-center p-4 border border-gray-200 rounded-lg hover:border-primary hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors group">
+<i class="ri-video-line text-2xl text-gray-400 group-hover:text-primary mb-2"></i>
+<span class="text-sm font-medium text-gray-700 group-hover:text-primary">Video Interview</span>
+<span class="text-xs text-gray-500 text-center mt-1">Schedule automated video interview</span>
+</button>
+<button class="flex flex-col items-center p-4 border border-gray-200 rounded-lg hover:border-primary hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors group">
+<i class="ri-message-3-line text-2xl text-gray-400 group-hover:text-primary mb-2"></i>
+<span class="text-sm font-medium text-gray-700 group-hover:text-primary">Chat Interview</span>
+<span class="text-xs text-gray-500 text-center mt-1">Start instant chat interview</span>
+</button>
+<button class="flex flex-col items-center p-4 border border-gray-200 rounded-lg hover:border-primary hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors group">
+<i class="ri-questionnaire-line text-2xl text-gray-400 group-hover:text-primary mb-2"></i>
+<span class="text-sm font-medium text-gray-700 group-hover:text-primary">Pre-screening</span>
+<span class="text-xs text-gray-500 text-center mt-1">Send screening questions</span>
+</button>
+</div>
+</div>
+<div class="space-y-4">
+<h4 class="text-sm font-medium text-gray-700">Interview Template</h4>
+<div class="relative">
+<button class="w-full flex items-center justify-between px-3 py-2 border border-gray-200 rounded-lg text-sm text-gray-700 hover:border-gray-300">
+<span>Frontend Developer Interview</span>
+<i class="ri-arrow-down-s-line text-gray-400"></i>
+</button>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<h4 class="text-sm font-medium text-gray-700">Questions</h4>
+<button class="text-sm text-primary hover:text-primary/90">+ Add Question</button>
+</div>
+<div class="space-y-3">
+<div class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg">
+<i class="ri-drag-move-line text-gray-400"></i>
+<input type="text" class="flex-1 text-sm border-none" value="Tell us about your experience with React and modern frontend frameworks.">
+<button class="text-gray-400 hover:text-gray-600">
+<i class="ri-delete-bin-line"></i>
+</button>
+</div>
+<div class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg">
+<i class="ri-drag-move-line text-gray-400"></i>
+<input type="text" class="flex-1 text-sm border-none" value="How do you approach component design and reusability?">
+<button class="text-gray-400 hover:text-gray-600">
+<i class="ri-delete-bin-line"></i>
+</button>
+</div>
+<div class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg">
+<i class="ri-drag-move-line text-gray-400"></i>
+<input type="text" class="flex-1 text-sm border-none" value="Describe a challenging technical problem you've solved recently.">
+<button class="text-gray-400 hover:text-gray-600">
+<i class="ri-delete-bin-line"></i>
+</button>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<h4 class="text-sm font-medium text-gray-700">Schedule</h4>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block text-xs text-gray-500 mb-1">Date</label>
+<input type="date" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm">
+</div>
+<div>
+<label class="block text-xs text-gray-500 mb-1">Time</label>
+<input type="time" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-end space-x-3 p-4 border-t">
+<button onclick="closeAIInterviewModal()" class="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 !rounded-button">Cancel</button>
+<button onclick="startInterview()" class="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 !rounded-button">Start Interview</button>
+</div>
+</div>
+</div>
+<script>
+function openAIInterviewModal(btn) {
+const row = btn.closest('tr');
+const name = row.querySelector('.text-sm.font-medium').textContent;
+const modal = document.getElementById('aiInterviewModal');
+modal.classList.remove('hidden');
+document.body.style.overflow = 'hidden';
+}
+function closeAIInterviewModal() {
+const modal = document.getElementById('aiInterviewModal');
+modal.classList.add('hidden');
+document.body.style.overflow = '';
+}
+function startInterview() {
+const successToast = document.createElement('div');
+successToast.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+successToast.textContent = 'Interview scheduled successfully!';
+document.body.appendChild(successToast);
+closeAIInterviewModal();
+setTimeout(() => {
+successToast.remove();
+}, 3000);
+}
+document.getElementById('aiInterviewModal').addEventListener('click', (e) => {
+if (e.target === e.currentTarget) {
+closeAIInterviewModal();
+}
+});
+</script>
+<div class="relative">
+<button onclick="toggleMoreActions(this)" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors" title="More actions">
+<i class="ri-more-line"></i>
+</button>
+<div class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 z-10">
+<div class="py-1">
+<button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+<i class="ri-git-branch-line mr-2"></i>
+Add to Pipeline
+</button>
+<button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+<i class="ri-download-line mr-2"></i>
+Download Resume
+</button>
+<button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+<i class="ri-share-line mr-2"></i>
+Share Profile
+</button>
+<button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+<i class="ri-forbid-line mr-2"></i>
+Block Candidate
+</button>
+<hr class="my-1 border-gray-100">
+<button onclick="showDeleteConfirmation(this)" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center">
+<i class="ri-delete-bin-line mr-2"></i>
+Delete Candidate
+</button>
+</div>
+</div>
+</div>
+
+<div id="deleteConfirmationModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+<div class="bg-white rounded-lg w-[400px] max-h-[80vh] flex flex-col">
+<div class="p-6">
+<h3 class="text-lg font-medium text-gray-900 mb-4">Delete Candidate</h3>
+<p class="text-sm text-gray-600">Are you sure you want to delete this candidate? This action cannot be undone.</p>
+</div>
+<div class="flex items-center justify-end space-x-3 p-4 border-t bg-gray-50 rounded-b-lg">
+<button onclick="closeDeleteConfirmation()" class="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 !rounded-button">Cancel</button>
+<button onclick="deleteCandidate(this)" class="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 !rounded-button">Delete</button>
+</div>
+</div>
+</div>
+
+<script>
+function toggleMoreActions(btn) {
+const dropdown = btn.nextElementSibling;
+const isOpen = !dropdown.classList.contains('hidden');
+// Close all other dropdowns first
+document.querySelectorAll('.absolute.right-0.mt-2').forEach(el => {
+if (el !== dropdown) {
+el.classList.add('hidden');
+}
+});
+dropdown.classList.toggle('hidden', isOpen);
+}
+
+function showDeleteConfirmation(btn) {
+const modal = document.getElementById('deleteConfirmationModal');
+const row = btn.closest('tr');
+modal.dataset.targetRow = row.rowIndex;
+modal.classList.remove('hidden');
+document.body.style.overflow = 'hidden';
+}
+
+function closeDeleteConfirmation() {
+const modal = document.getElementById('deleteConfirmationModal');
+modal.classList.add('hidden');
+document.body.style.overflow = '';
+}
+
+function deleteCandidate() {
+const modal = document.getElementById('deleteConfirmationModal');
+const table = document.querySelector('table');
+const rowIndex = modal.dataset.targetRow;
+if (table && rowIndex) {
+table.deleteRow(rowIndex);
+}
+closeDeleteConfirmation();
+
+const successToast = document.createElement('div');
+successToast.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+successToast.textContent = 'Candidate deleted successfully';
+document.body.appendChild(successToast);
+setTimeout(() => {
+successToast.remove();
+}, 3000);
+}
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', (e) => {
+if (!e.target.closest('.relative')) {
+document.querySelectorAll('.absolute.right-0.mt-2').forEach(dropdown => {
+dropdown.classList.add('hidden');
+});
+}
+});
+
+// Close modal when clicking outside
+document.getElementById('deleteConfirmationModal').addEventListener('click', (e) => {
+if (e.target === e.currentTarget) {
+closeDeleteConfirmation();
+}
+});
+</script>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="flex items-center justify-between mt-6">
+<div class="text-sm text-gray-600">
+Showing <span class="font-medium">1</span> to <span class="font-medium">5</span> of <span class="font-medium">8</span> candidates
+</div>
+<div class="flex items-center space-x-2">
+<button class="bg-gray-50 text-gray-600 px-4 py-2 !rounded-button text-sm font-medium hover:bg-gray-100 transition-colors whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+Previous
+</button>
+<button class="bg-primary text-white px-4 py-2 !rounded-button text-sm font-medium hover:bg-primary/90 transition-colors whitespace-nowrap">
+1
+</button>
+<button class="bg-gray-50 text-gray-600 px-4 py-2 !rounded-button text-sm font-medium hover:bg-gray-100 transition-colors whitespace-nowrap">
+2
+</button>
+<button class="bg-gray-50 text-gray-600 px-4 py-2 !rounded-button text-sm font-medium hover:bg-gray-100 transition-colors whitespace-nowrap">
+Next
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+const dropdowns = [
+{ btn: 'matchScoreBtn', dropdown: 'matchScoreDropdown' },
+{ btn: 'experienceBtn', dropdown: 'experienceDropdown' },
+{ btn: 'skillsBtn', dropdown: 'skillsDropdown' },
+{ btn: 'sortBtn', dropdown: 'sortDropdown' }
+];
+dropdowns.forEach(({ btn, dropdown }) => {
+const button = document.getElementById(btn);
+const dropdownEl = document.getElementById(dropdown);
+let isOpen = false;
+button.addEventListener('click', (e) => {
+e.stopPropagation();
+isOpen = !isOpen;
+dropdownEl.classList.toggle('hidden', !isOpen);
+dropdowns.forEach(({ dropdown: otherDropdown }) => {
+if (otherDropdown !== dropdown) {
+document.getElementById(otherDropdown).classList.add('hidden');
+}
+});
+});
+dropdownEl.addEventListener('click', (e) => {
+e.stopPropagation();
+});
+});
+document.addEventListener('click', () => {
+dropdowns.forEach(({ dropdown }) => {
+document.getElementById(dropdown).classList.add('hidden');
+});
+});
+const starButtons = document.querySelectorAll('.ri-star-line');
+starButtons.forEach(button => {
+button.addEventListener('click', function() {
+const isStarred = this.classList.contains('ri-star-fill');
+if (isStarred) {
+this.classList.remove('ri-star-fill', 'text-yellow-400');
+this.classList.add('ri-star-line', 'text-gray-400');
+} else {
+this.classList.remove('ri-star-line', 'text-gray-400');
+this.classList.add('ri-star-fill', 'text-yellow-400');
+}
+});
+});
+});
+</script>
+</body>
+</html>

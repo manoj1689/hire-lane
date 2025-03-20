@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interview Question Generator Analytics</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#15B8A6',
+secondary: '#6366F1'
+},
+borderRadius: {
+'none': '0px',
+'sm': '4px',
+DEFAULT: '8px',
+'md': '12px',
+'lg': '16px',
+'xl': '20px',
+'2xl': '24px',
+'3xl': '32px',
+'full': '9999px',
+'button': '8px'
+}
+}
+}
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+.dropdown-content {
+display: none;
+position: absolute;
+background-color: white;
+min-width: 160px;
+box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+z-index: 1;
+border-radius: 8px;
+}
+.dropdown:hover .dropdown-content {
+display: block;
+}
+</style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+<nav class="bg-white shadow-sm fixed w-full z-10">
+<div class="max-w-7xl mx-auto px-4">
+<div class="flex justify-between items-center h-16">
+<div class="flex items-center space-x-8">
+<a href="#" class="text-2xl font-['Pacifico'] text-primary">logo</a>
+<div class="hidden md:flex space-x-4">
+<a href="#" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
+<a href="#" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Jobs</a>
+<a href="#" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Candidates</a>
+<a href="#" class="text-primary px-3 py-2 rounded-md text-sm font-medium">AI Tools</a>
+</div>
+</div>
+<div class="flex items-center space-x-4">
+<button class="relative w-8 h-8 flex items-center justify-center">
+<i class="ri-notification-3-line text-gray-600 text-xl"></i>
+<span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">3</span>
+</button>
+<div class="relative dropdown">
+<button class="flex items-center space-x-2">
+<img src="https://public.readdy.ai/ai/img_res/7d4f906d36bbac94f714528971b8d61e.jpg" class="w-8 h-8 rounded-full object-cover">
+<span class="text-gray-700 text-sm font-medium">Emily Johnson</span>
+<i class="ri-arrow-down-s-line text-gray-600"></i>
+</button>
+<div id="userMenu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg z-20 py-1 border border-gray-100">
+    <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+    <i class="ri-user-line mr-2 text-gray-400"></i>
+    My Profile
+    </a>
+    <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+    <i class="ri-settings-3-line mr-2 text-gray-400"></i>
+    Account Settings
+    </a>
+    <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+    <i class="ri-equalizer-line mr-2 text-gray-400"></i>
+    Preferences
+    </a>
+    <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+    <i class="ri-question-line mr-2 text-gray-400"></i>
+    Help & Support
+    </a>
+    <hr class="my-1 border-gray-100">
+    <a href="/" class="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+    <i class="ri-logout-box-line mr-2"></i>
+    Sign Out
+    </a>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+<div class="pt-16">
+<div class="max-w-7xl mx-auto px-4 py-8">
+<nav class="flex mb-8" aria-label="Breadcrumb">
+<ol class="inline-flex items-center space-x-1 md:space-x-3">
+<li class="inline-flex items-center">
+<a href="#" class="text-gray-600 hover:text-primary text-sm">Dashboard</a>
+</li>
+<li>
+<div class="flex items-center">
+<i class="ri-arrow-right-s-line text-gray-400"></i>
+<a href="#" class="ml-1 text-gray-600 hover:text-primary text-sm">AI Tools</a>
+</div>
+</li>
+<li>
+<div class="flex items-center">
+<i class="ri-arrow-right-s-line text-gray-400"></i>
+<span class="ml-1 text-gray-600 text-sm">Interview Question Generator Analytics</span>
+</div>
+</li>
+</ol>
+</nav>
+<div class="flex justify-between items-center mb-8">
+<div>
+<h1 class="text-3xl font-bold text-gray-900 mb-2">Interview Question Generator Analytics</h1>
+<p class="text-gray-600">Detailed performance metrics and insights</p>
+</div>
+<a href="https://readdy.ai/home/c1ab65b2-3f7a-433a-ad12-465e225e1630/6c84f3e0-dd66-4574-86ae-dbdfcc0c97ab" data-readdy="true" class="flex items-center text-primary hover:text-primary/80">
+<i class="ri-arrow-left-line mr-2"></i>
+<span>Back to Tools</span>
+</a>
+</div>
+<div class="flex space-x-4 mb-8">
+<div class="relative">
+<button id="timeFilter" class="flex items-center space-x-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-700 hover:border-primary">
+<i class="ri-calendar-line"></i>
+<span>Last 30 days</span>
+<i class="ri-arrow-down-s-line"></i>
+</button>
+<div id="timeFilterDropdown" class="hidden absolute left-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+<div class="py-1">
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Last 7 days</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Last 30 days</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Last 3 months</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Custom range</a>
+</div>
+</div>
+</div>
+<div class="relative">
+<button id="typeFilter" class="flex items-center space-x-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-700 hover:border-primary">
+<i class="ri-filter-line"></i>
+<span>All Questions</span>
+<i class="ri-arrow-down-s-line"></i>
+</button>
+<div id="typeFilterDropdown" class="hidden absolute left-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+<div class="py-1">
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">All Questions</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Technical</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Behavioral</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Role-specific</a>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-4 gap-6 mb-8">
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-sm font-medium text-gray-500">Total Questions</h3>
+<span class="text-green-500 text-sm font-medium">+12%</span>
+</div>
+<div class="flex items-end space-x-2">
+<span class="text-2xl font-bold text-gray-900">2.4k</span>
+<div class="flex-1 h-8" id="totalQuestionsChart"></div>
+</div>
+</div>
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-sm font-medium text-gray-500">Average Rating</h3>
+<span class="text-green-500 text-sm font-medium">+0.2</span>
+</div>
+<div class="flex items-end space-x-2">
+<span class="text-2xl font-bold text-gray-900">4.8/5</span>
+<div class="flex-1 h-8" id="avgRatingChart"></div>
+</div>
+</div>
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-sm font-medium text-gray-500">Usage Frequency</h3>
+<span class="text-green-500 text-sm font-medium">+8%</span>
+</div>
+<div class="flex items-end space-x-2">
+<span class="text-2xl font-bold text-gray-900">156/week</span>
+<div class="flex-1 h-8" id="usageChart"></div>
+</div>
+</div>
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-sm font-medium text-gray-500">User Satisfaction</h3>
+<span class="text-green-500 text-sm font-medium">+3%</span>
+</div>
+<div class="flex items-end space-x-2">
+<span class="text-2xl font-bold text-gray-900">96%</span>
+<div class="flex-1 h-8" id="satisfactionChart"></div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-6 mb-8">
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<h3 class="text-lg font-semibold text-gray-900 mb-4">Generation Trends</h3>
+<div class="h-80" id="trendChart"></div>
+</div>
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<h3 class="text-lg font-semibold text-gray-900 mb-4">Category Distribution</h3>
+<div class="h-80" id="categoryChart"></div>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-6 mb-8">
+<div class="col-span-2 bg-white p-6 rounded-lg shadow-sm">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-lg font-semibold text-gray-900">Most Used Questions</h3>
+<button class="text-primary hover:text-primary/80 text-sm font-medium">View All</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full">
+<thead>
+<tr class="text-left text-sm text-gray-500">
+<th class="pb-4">Question</th>
+<th class="pb-4">Category</th>
+<th class="pb-4">Usage</th>
+<th class="pb-4">Rating</th>
+</tr>
+</thead>
+<tbody class="text-sm">
+<tr class="border-t">
+<td class="py-4 pr-4">What is your approach to problem-solving?</td>
+<td class="py-4">Behavioral</td>
+<td class="py-4">324</td>
+<td class="py-4">4.9/5</td>
+</tr>
+<tr class="border-t">
+<td class="py-4 pr-4">Describe your experience with agile methodologies</td>
+<td class="py-4">Technical</td>
+<td class="py-4">287</td>
+<td class="py-4">4.8/5</td>
+</tr>
+<tr class="border-t">
+<td class="py-4 pr-4">How do you handle conflicting priorities?</td>
+<td class="py-4">Behavioral</td>
+<td class="py-4">256</td>
+<td class="py-4">4.7/5</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<h3 class="text-lg font-semibold text-gray-900 mb-4">User Feedback</h3>
+<div class="space-y-4">
+<div class="p-4 bg-gray-50 rounded-lg">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center">
+<img src="https://public.readdy.ai/ai/img_res/69e4c1d5f9677b5a40c2967575f5e11e.jpg" class="w-8 h-8 rounded-full mr-2">
+<span class="text-sm font-medium text-gray-900">Michael Chen</span>
+</div>
+<div class="flex text-yellow-400">
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+</div>
+</div>
+<p class="text-sm text-gray-600">Questions are well-tailored and help identify key competencies effectively.</p>
+</div>
+<div class="p-4 bg-gray-50 rounded-lg">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center">
+<img src="https://public.readdy.ai/ai/img_res/4ac12b305602665ca6d47497c17d1735.jpg" class="w-8 h-8 rounded-full mr-2">
+<span class="text-sm font-medium text-gray-900">Sarah Wilson</span>
+</div>
+<div class="flex text-yellow-400">
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+</div>
+</div>
+<p class="text-sm text-gray-600">Saves significant time in interview preparation. Very comprehensive.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="flex space-x-4">
+<button class="flex items-center space-x-2 px-4 py-2 bg-primary text-white rounded-button hover:bg-primary/90">
+<i class="ri-download-line"></i>
+<span>Export Report</span>
+</button>
+<button class="flex items-center space-x-2 px-4 py-2 border border-primary text-primary rounded-button hover:bg-primary/10">
+<i class="ri-share-line"></i>
+<span>Share Analytics</span>
+</button>
+</div>
+</div>
+</div>
+<script>
+const mockData = {
+trends: {
+dates: ['2025-03-13', '2025-03-14', '2025-03-15', '2025-03-16', '2025-03-17', '2025-03-18', '2025-03-19', '2025-03-20'],
+questions: [85, 92, 78, 94, 88, 96, 91, 89],
+ratings: [4.7, 4.8, 4.7, 4.9, 4.8, 4.8, 4.9, 4.8]
+},
+categories: [
+{name: 'Technical', value: 35},
+{name: 'Behavioral', value: 30},
+{name: 'Role-specific', value: 25},
+{name: 'Situational', value: 10}
+],
+smallCharts: {
+totalQuestions: [2100, 2200, 2250, 2300, 2350, 2400],
+avgRating: [4.5, 4.6, 4.6, 4.7, 4.7, 4.8],
+usageFrequency: [130, 135, 142, 145, 150, 156],
+satisfaction: [91, 92, 93, 94, 95, 96]
+}
+};
+function initCharts() {
+const smallChartConfig = {
+animation: false,
+grid: { top: 0, right: 0, bottom: 0, left: 0 },
+xAxis: { show: false, type: 'category' },
+yAxis: { show: false },
+series: [{
+type: 'line',
+smooth: true,
+symbol: 'none',
+lineStyle: { color: '#57B5E7' },
+areaStyle: {
+color: {
+type: 'linear',
+x: 0, y: 0, x2: 0, y2: 1,
+colorStops: [{
+offset: 0,
+color: 'rgba(87, 181, 231, 0.1)'
+}, {
+offset: 1,
+color: 'rgba(87, 181, 231, 0.02)'
+}]
+}
+}
+}]
+};
+
+function createSmallChart(elementId, data) {
+const chart = echarts.init(document.getElementById(elementId));
+const option = {...smallChartConfig};
+option.series[0].data = data;
+chart.setOption(option);
+window.addEventListener('resize', () => chart.resize());
+}
+
+const trendChart = echarts.init(document.getElementById('trendChart'));
+const categoryChart = echarts.init(document.getElementById('categoryChart'));
+
+const trendOption = {
+    animation: false,
+    grid: {
+        top: 40,
+        right: 20,
+        bottom: 40,
+        left: 50
+    },
+    tooltip: {
+        trigger: 'axis',
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+        borderColor: '#eee',
+        borderWidth: 1,
+        textStyle: {
+            color: '#1f2937'
+        }
+    },
+    xAxis: {
+        type: 'category',
+        data: mockData.trends.dates,
+        axisLabel: {
+            color: '#6B7280'
+        }
+    },
+    yAxis: [
+        {
+            type: 'value',
+            name: 'Questions',
+            axisLabel: {
+                color: '#6B7280'
+            }
+        },
+        {
+            type: 'value',
+            name: 'Rating',
+            min: 4,
+            max: 5,
+            axisLabel: {
+                color: '#6B7280'
+            }
+        }
+    ],
+    series: [
+        {
+            name: 'Questions Generated',
+            type: 'line',
+            smooth: true,
+            data: mockData.trends.questions,
+            lineStyle: {
+                color: '#57B5E7'
+            },
+            areaStyle: {
+                color: {
+                    type: 'linear',
+                    x: 0,
+                    y: 0,
+                    x2: 0,
+                    y2: 1,
+                    colorStops: [{
+                        offset: 0,
+                        color: 'rgba(87, 181, 231, 0.1)'
+                    }, {
+                        offset: 1,
+                        color: 'rgba(87, 181, 231, 0.02)'
+                    }]
+                }
+            }
+        },
+        {
+            name: 'Average Rating',
+            type: 'line',
+            smooth: true,
+            yAxisIndex: 1,
+            data: mockData.trends.ratings,
+            lineStyle: {
+                color: '#8DD3C7'
+            }
+        }
+    ]
+};
+
+const categoryOption = {
+    animation: false,
+    tooltip: {
+        trigger: 'item',
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+        borderColor: '#eee',
+        borderWidth: 1,
+        textStyle: {
+            color: '#1f2937'
+        }
+    },
+    series: [
+        {
+            type: 'pie',
+            radius: ['40%', '70%'],
+            itemStyle: {
+                borderRadius: 8
+            },
+            label: {
+                show: true,
+                formatter: '{b}: {d}%'
+            },
+            data: mockData.categories.map((item, index) => ({
+                name: item.name,
+                value: item.value,
+                itemStyle: {
+                    color: [
+                        'rgba(87, 181, 231, 1)',
+                        'rgba(141, 211, 199, 1)',
+                        'rgba(251, 191, 114, 1)',
+                        'rgba(252, 141, 98, 1)'
+                    ][index]
+                }
+            }))
+        }
+    ]
+};
+
+trendChart.setOption(trendOption);
+categoryChart.setOption(categoryOption);
+
+window.addEventListener('resize', () => {
+    trendChart.resize();
+    categoryChart.resize();
+});
+const chartConfigs = {
+trend: {
+dom: document.getElementById('trendChart'),
+option: {
+animation: false,
+grid: {
+top: 40,
+right: 20,
+bottom: 40,
+left: 50
+},
+tooltip: {
+trigger: 'axis',
+backgroundColor: 'rgba(255, 255, 255, 0.9)',
+borderColor: '#eee',
+borderWidth: 1,
+textStyle: {
+color: '#1f2937'
+}
+},
+xAxis: {
+type: 'category',
+data: mockData.trends.dates,
+axisLabel: {
+color: '#6B7280'
+}
+},
+yAxis: [
+{
+type: 'value',
+name: 'Questions',
+axisLabel: {
+color: '#6B7280'
+}
+},
+{
+type: 'value',
+name: 'Rating',
+min: 4,
+max: 5,
+axisLabel: {
+color: '#6B7280'
+}
+}
+],
+series: [
+{
+name: 'Questions Generated',
+type: 'line',
+smooth: true,
+data: mockData.trends.questions,
+lineStyle: {
+color: '#57B5E7'
+},
+areaStyle: {
+color: {
+type: 'linear',
+x: 0,
+y: 0,
+x2: 0,
+y2: 1,
+colorStops: [{
+offset: 0,
+color: 'rgba(87, 181, 231, 0.1)'
+}, {
+offset: 1,
+color: 'rgba(87, 181, 231, 0.02)'
+}]
+}
+}
+},
+{
+name: 'Average Rating',
+type: 'line',
+smooth: true,
+yAxisIndex: 1,
+data: mockData.trends.ratings,
+lineStyle: {
+color: '#8DD3C7'
+}
+}
+]
+}
+},
+category: {
+dom: document.getElementById('categoryChart'),
+option: {
+animation: false,
+tooltip: {
+trigger: 'item',
+backgroundColor: 'rgba(255, 255, 255, 0.9)',
+borderColor: '#eee',
+borderWidth: 1,
+textStyle: {
+color: '#1f2937'
+}
+},
+series: [
+{
+type: 'pie',
+radius: ['40%', '70%'],
+itemStyle: {
+borderRadius: 8
+},
+label: {
+show: true,
+formatter: '{b}: {d}%'
+},
+data: mockData.categories.map((item, index) => ({
+name: item.name,
+value: item.value,
+itemStyle: {
+color: [
+'rgba(87, 181, 231, 1)',
+'rgba(141, 211, 199, 1)',
+'rgba(251, 191, 114, 1)',
+'rgba(252, 141, 98, 1)'
+][index]
+}
+}))
+}
+]
+}
+}
+};
+Object.entries(chartConfigs).forEach(([key, config]) => {
+const chart = echarts.init(config.dom);
+chart.setOption(config.option);
+window.addEventListener('resize', () => chart.resize());
+});
+}
+document.addEventListener('DOMContentLoaded', () => {
+setTimeout(() => {
+    initCharts();
+    createSmallChart('totalQuestionsChart', mockData.smallCharts.totalQuestions);
+    createSmallChart('avgRatingChart', mockData.smallCharts.avgRating);
+    createSmallChart('usageChart', mockData.smallCharts.usageFrequency);
+    createSmallChart('satisfactionChart', mockData.smallCharts.satisfaction);
+}, 100);
+const timeFilter = document.getElementById('timeFilter');
+const timeFilterDropdown = document.getElementById('timeFilterDropdown');
+const typeFilter = document.getElementById('typeFilter');
+const typeFilterDropdown = document.getElementById('typeFilterDropdown');
+[
+[timeFilter, timeFilterDropdown],
+[typeFilter, typeFilterDropdown]
+].forEach(([button, dropdown]) => {
+button.addEventListener('click', (e) => {
+e.stopPropagation();
+dropdown.classList.toggle('hidden');
+});
+});
+document.addEventListener('click', () => {
+timeFilterDropdown.classList.add('hidden');
+typeFilterDropdown.classList.add('hidden');
+});
+});
+</script>
+</body>
+</html>
